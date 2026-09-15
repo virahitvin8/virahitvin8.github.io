@@ -8,6 +8,7 @@
     "build": "node scripts/sync-certificates.mjs && vite build",
     "preview": "vite preview",
     "certs": "node scripts/sync-certificates.mjs",
+    "certs:optimise": "python3 scripts/optimise-certificates.py",
     "format": "oxfmt"
   },
   "dependencies": {

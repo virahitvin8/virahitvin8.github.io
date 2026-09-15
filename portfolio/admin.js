@@ -3,35 +3,94 @@
 //  Protected Owner Mode for N. Akshit Vinay
 // ══════════════════════════════════════════════════════════
 
-(function () {
-  'use strict';
-
-  const STORAGE_KEY = 'portfolio_custom_data';
-  const PHOTO_STORAGE_KEY = 'portfolio_custom_photo';
-  const PIN_STORAGE_KEY = 'portfolio_admin_pin';
-  const CERTS_STORAGE_KEY = 'portfolio_certs';            // live certificate grid
-  const CERTS_PRISTINE_KEY = 'portfolio_certs_pristine';  // untouched originals
+;(function () {
+  "use strict" // live certificate grid // untouched originals
   // Kept identical to the React build's DEFAULT_PIN (and documented in
   // certificates/README.md) so the owner has one PIN for the whole site instead of
   // having to remember which build serves which page.
-  const DEFAULT_PIN = '2080';
-
-  let currentPhotoDataUrl = null;
 
   // ─── Initialize on DOM Load ───
-  document.addEventListener('DOMContentLoaded', () => {
-    buildAdminUI();
-    loadSavedData();
-    loadCertSnapshot();
-    setupKeyboardShortcut();
-  });
 
   // ─── Build All Admin DOM Elements ───
+  // 1. Auth Modal
+
+  // 2. Floating Admin Bar
+
+  // 3. Admin Editor Drawer
+
+  // 4. Toast Notification
+
+  // Setup Tab Events
+
+  // Setup Photo Upload Events
+
+  // Check if session was already authenticated
+
+  // ─── Setup Photo Upload & Drag/Drop ───
+
+  // ─── Keyboard Shortcut: Ctrl + Shift + A ───
+
+  // ─── Show Toast ───
+
+  // ─── Load Saved Custom Data ───
+  // 1. Photo
+
+  // 2. Content Data
+
+  /* ══════════════════════════════════════════════════════════
+     CERTIFICATE PERSISTENCE
+     The grid is snapshotted to localStorage after every add or
+     remove, so drawer edits survive a reload instead of vanishing.
+     A pristine copy of the original six is kept as a safety net.
+  ══════════════════════════════════════════════════════════ */
+
+  /* read the live grid back into plain records */
+
+  /* rebuild one card from a record, mirroring the original markup exactly */
+  /* .reveal is observed by futurist.js, which runs after this script */
+
+  /* keep one untouched copy of the original six, on first ever run */ /* storage unavailable — snapshots simply stay off */
+
+  // ─── Public API ───
+  // Prepopulate current values if empty
+
+  /* created after futurist.js set up its observer, so reveal it at once */
+
+  // Clear input fields
+
+  /* rebuild the grid from the untouched copy taken on the first visit */
+
+  // ─── Export HTML: Serializes the current live page into a clean downloadable file ───
+
+  // Clone current document
+
+  // Remove admin injected UI elements from the export so visitor code stays ultra-clean
+
+  // Construct clean HTML string
+
+  // Trigger download
+
+  // Helper alias for footer button
+
+  const STORAGE_KEY = "portfolio_custom_data"
+  const PHOTO_STORAGE_KEY = "portfolio_custom_photo"
+  const PIN_STORAGE_KEY = "portfolio_admin_pin"
+  const REACT_PIN_STORAGE_KEY = "portfolio_pin_v1"
+  const CERTS_STORAGE_KEY = "portfolio_certs"
+  const CERTS_PRISTINE_KEY = "portfolio_certs_pristine"
+  const DEFAULT_PIN = "2080"
+
+  let currentPhotoDataUrl = null
+  document.addEventListener("DOMContentLoaded", () => {
+    buildAdminUI()
+    loadSavedData()
+    loadCertSnapshot()
+    setupKeyboardShortcut()
+  })
   function buildAdminUI() {
-    // 1. Auth Modal
-    const authOverlay = document.createElement('div');
-    authOverlay.id = 'adminAuthModal';
-    authOverlay.className = 'admin-auth-overlay';
+    const authOverlay = document.createElement("div")
+    authOverlay.id = "adminAuthModal"
+    authOverlay.className = "admin-auth-overlay"
     authOverlay.innerHTML = `
       <div class="admin-auth-box">
         <div class="admin-auth-icon"><i class="fas fa-lock"></i></div>
@@ -46,13 +105,11 @@
           <button class="admin-btn-primary" onclick="window.portfolioAdmin.verifyAuth()">Unlock Editor</button>
         </div>
       </div>
-    `;
-    document.body.appendChild(authOverlay);
-
-    // 2. Floating Admin Bar
-    const adminBar = document.createElement('div');
-    adminBar.id = 'adminBar';
-    adminBar.className = 'admin-bar';
+    `
+    document.body.appendChild(authOverlay)
+    const adminBar = document.createElement("div")
+    adminBar.id = "adminBar"
+    adminBar.className = "admin-bar"
     adminBar.innerHTML = `
       <div class="admin-badge">
         <span class="admin-badge-dot"></span>
@@ -67,13 +124,11 @@
       <button class="admin-action-btn logout-btn" onclick="window.portfolioAdmin.logout()">
         <i class="fas fa-sign-out-alt"></i> Exit
       </button>
-    `;
-    document.body.appendChild(adminBar);
-
-    // 3. Admin Editor Drawer
-    const adminDrawer = document.createElement('div');
-    adminDrawer.id = 'adminDrawer';
-    adminDrawer.className = 'admin-drawer';
+    `
+    document.body.appendChild(adminBar)
+    const adminDrawer = document.createElement("div")
+    adminDrawer.id = "adminDrawer"
+    adminDrawer.className = "admin-drawer"
     adminDrawer.innerHTML = `
       <div class="admin-drawer-header">
         <div class="admin-drawer-title">
@@ -227,443 +282,536 @@
           <i class="fas fa-download"></i> Download Updated index.html
         </button>
       </div>
-    `;
-    document.body.appendChild(adminDrawer);
-
-    // 4. Toast Notification
-    const toast = document.createElement('div');
-    toast.id = 'adminToast';
-    toast.className = 'admin-toast';
-    toast.innerHTML = `<i class="fas fa-check-circle"></i> <span id="adminToastMsg">Success</span>`;
-    document.body.appendChild(toast);
-
-    // Setup Tab Events
-    document.querySelectorAll('.admin-tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.admin-tab-content').forEach(c => c.classList.remove('active'));
-        tab.classList.add('active');
-        const targetId = tab.getAttribute('data-tab');
-        const targetContent = document.getElementById(targetId);
-        if (targetContent) targetContent.classList.add('active');
-      });
-    });
-
-    // Setup Photo Upload Events
-    setupPhotoUpload();
-
-    // Check if session was already authenticated
-    if (sessionStorage.getItem('portfolio_admin_auth') === 'true') {
-      adminBar.classList.add('active');
+    `
+    document.body.appendChild(adminDrawer)
+    const toast = document.createElement("div")
+    toast.id = "adminToast"
+    toast.className = "admin-toast"
+    toast.innerHTML = `<i class="fas fa-check-circle"></i> <span id="adminToastMsg">Success</span>`
+    document.body.appendChild(toast)
+    document.querySelectorAll(".admin-tab").forEach((tab) => {
+      tab.addEventListener("click", () => {
+        document
+          .querySelectorAll(".admin-tab")
+          .forEach((t) => t.classList.remove("active"))
+        document
+          .querySelectorAll(".admin-tab-content")
+          .forEach((c) => c.classList.remove("active"))
+        tab.classList.add("active")
+        const targetId = tab.getAttribute("data-tab")
+        const targetContent = document.getElementById(targetId)
+        if (targetContent) targetContent.classList.add("active")
+      })
+    })
+    setupPhotoUpload()
+    if (
+      sessionStorage.getItem("portfolio_admin_auth") ===
+      "true"
+    ) {
+      adminBar.classList.add("active")
     }
   }
-
-  // ─── Setup Photo Upload & Drag/Drop ───
   function setupPhotoUpload() {
-    const dropzone = document.getElementById('adminPhotoDropzone');
-    const fileInput = document.getElementById('adminPhotoFileInput');
-    if (!dropzone || !fileInput) return;
+    const dropzone = document.getElementById("adminPhotoDropzone")
+    const fileInput = document.getElementById("adminPhotoFileInput")
+    if (!dropzone || !fileInput) return
 
-    dropzone.addEventListener('click', () => fileInput.click());
+    dropzone.addEventListener("click", () => fileInput.click())
 
-    fileInput.addEventListener('change', (e) => {
-      const file = e.target.files[0];
-      if (file) handlePhotoFile(file);
-    });
+    fileInput.addEventListener("change", (e) => {
+      const file = e.target.files[0]
+      if (file) handlePhotoFile(file)
+    })
 
-    dropzone.addEventListener('dragover', (e) => {
-      e.preventDefault();
-      dropzone.style.borderColor = '#c9a84c';
-    });
-    dropzone.addEventListener('dragleave', () => {
-      dropzone.style.borderColor = '';
-    });
-    dropzone.addEventListener('drop', (e) => {
-      e.preventDefault();
-      dropzone.style.borderColor = '';
+    dropzone.addEventListener("dragover", (e) => {
+      e.preventDefault()
+      dropzone.style.borderColor = "#c9a84c"
+    })
+    dropzone.addEventListener("dragleave", () => {
+      dropzone.style.borderColor = ""
+    })
+    dropzone.addEventListener("drop", (e) => {
+      e.preventDefault()
+      dropzone.style.borderColor = ""
       if (e.dataTransfer.files.length) {
-        handlePhotoFile(e.dataTransfer.files[0]);
+        handlePhotoFile(e.dataTransfer.files[0])
       }
-    });
+    })
   }
 
   function handlePhotoFile(file) {
-    if (!file.type.startsWith('image/')) {
-      showToast('Please select an image file (PNG, JPG, WEBP)');
-      return;
+    if (!file.type.startsWith("image/")) {
+      showToast("Please select an image file (PNG, JPG, WEBP)")
+      return
     }
-    const reader = new FileReader();
+    const reader = new FileReader()
     reader.onload = (event) => {
-      currentPhotoDataUrl = event.target.result;
-      updatePhotoDOM(currentPhotoDataUrl);
-      localStorage.setItem(PHOTO_STORAGE_KEY, currentPhotoDataUrl);
-      showToast('Profile photo updated live!');
-    };
-    reader.readAsDataURL(file);
+      currentPhotoDataUrl = event.target.result
+      updatePhotoDOM(currentPhotoDataUrl)
+      localStorage.setItem(PHOTO_STORAGE_KEY, currentPhotoDataUrl)
+      showToast("Profile photo updated live!")
+    }
+    reader.readAsDataURL(file)
   }
 
   function updatePhotoDOM(src) {
-    const preview = document.getElementById('adminPhotoPreview');
-    const heroPhoto = document.getElementById('heroPhoto') || document.querySelector('.hero-photo');
-    const navAvatar = document.querySelector('.nav-avatar');
+    const preview = document.getElementById("adminPhotoPreview")
+    const heroPhoto =
+      document.getElementById("heroPhoto") ||
+      document.querySelector(".hero-photo")
+    const navAvatar = document.querySelector(".nav-avatar")
 
-    if (preview) preview.src = src;
-    if (heroPhoto) heroPhoto.src = src;
-    if (navAvatar) navAvatar.src = src;
+    if (preview) preview.src = src
+    if (heroPhoto) heroPhoto.src = src
+    if (navAvatar) navAvatar.src = src
   }
-
-  // ─── Keyboard Shortcut: Ctrl + Shift + A ───
   function setupKeyboardShortcut() {
-    document.addEventListener('keydown', (e) => {
-      if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
-        e.preventDefault();
-        window.portfolioAdmin.openAuth();
+    document.addEventListener("keydown", (e) => {
+      if (
+        (e.ctrlKey || e.metaKey) &&
+        e.shiftKey &&
+        (e.key ===
+          "A" ||
+          e.key ===
+            "a")
+      ) {
+        e.preventDefault()
+        window.portfolioAdmin.openAuth()
       }
-      if (e.key === 'Escape') {
-        window.portfolioAdmin.closeAuth();
-        window.portfolioAdmin.closeDrawer();
+      if (
+        e.key ===
+        "Escape"
+      ) {
+        window.portfolioAdmin.closeAuth()
+        window.portfolioAdmin.closeDrawer()
       }
-    });
+    })
 
-    const pinInput = document.getElementById('adminPinInput');
+    const pinInput = document.getElementById("adminPinInput")
     if (pinInput) {
-      pinInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') window.portfolioAdmin.verifyAuth();
-      });
+      pinInput.addEventListener("keydown", (e) => {
+        if (
+          e.key ===
+          "Enter"
+        )
+          window.portfolioAdmin.verifyAuth()
+      })
     }
   }
-
-  // ─── Show Toast ───
   function showToast(msg) {
-    const toast = document.getElementById('adminToast');
-    const toastMsg = document.getElementById('adminToastMsg');
+    const toast = document.getElementById("adminToast")
+    const toastMsg = document.getElementById("adminToastMsg")
     if (toast && toastMsg) {
-      toastMsg.textContent = msg;
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 3500);
+      toastMsg.textContent = msg
+      toast.classList.add("show")
+      setTimeout(() => toast.classList.remove("show"), 3500)
     }
   }
-
-  // ─── Load Saved Custom Data ───
   function loadSavedData() {
-    // 1. Photo
-    const savedPhoto = localStorage.getItem(PHOTO_STORAGE_KEY);
+    const savedPhoto = localStorage.getItem(PHOTO_STORAGE_KEY)
     if (savedPhoto) {
-      currentPhotoDataUrl = savedPhoto;
-      updatePhotoDOM(savedPhoto);
+      currentPhotoDataUrl = savedPhoto
+      updatePhotoDOM(savedPhoto)
     }
-
-    // 2. Content Data
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return;
+    const raw = localStorage.getItem(STORAGE_KEY)
+    if (!raw) return
 
     try {
-      const data = JSON.parse(raw);
-      applyDataToDOM(data);
-      populateDrawerFields(data);
+      const data = JSON.parse(raw)
+      applyDataToDOM(data)
+      populateDrawerFields(data)
     } catch (e) {
-      console.warn('Could not parse portfolio custom data', e);
+      console.warn("Could not parse portfolio custom data", e)
     }
   }
 
   function applyDataToDOM(data) {
     if (data.name) {
-      document.querySelectorAll('.hero-name').forEach(el => el.textContent = data.name);
-      document.querySelectorAll('.logo-text').forEach(el => el.textContent = data.name);
-      document.title = `${data.name} | Remote Sensing & GIS | Agriculturist`;
+      document
+        .querySelectorAll(".hero-name")
+        .forEach((el) => (el.textContent = data.name))
+      document
+        .querySelectorAll(".logo-text")
+        .forEach((el) => (el.textContent = data.name))
+      document.title = `${data.name} | Remote Sensing & GIS | Agriculturist`
     }
     if (data.greeting) {
-      const g = document.querySelector('.hero-greeting');
-      if (g) g.textContent = data.greeting;
+      const g = document.querySelector(".hero-greeting")
+      if (g) g.textContent = data.greeting
     }
     if (data.tagline) {
-      const t = document.querySelector('.hero-tagline');
-      if (t) t.textContent = data.tagline;
+      const t = document.querySelector(".hero-tagline")
+      if (t) t.textContent = data.tagline
     }
     if (data.location) {
-      document.querySelectorAll('.contact-card .contact-value').forEach(el => {
-        if (el.textContent.includes('Pradesh') || el.textContent.includes('India')) el.textContent = data.location;
-      });
+      document
+        .querySelectorAll(".contact-card .contact-value")
+        .forEach((el) => {
+          if (
+            el.textContent.includes("Pradesh") ||
+            el.textContent.includes("India")
+          )
+            el.textContent = data.location
+        })
     }
     if (data.email) {
-      document.querySelectorAll('a[href^="mailto:"]').forEach(a => {
-        a.href = `mailto:${data.email}`;
-        if (a.textContent.includes('@')) a.textContent = data.email;
-      });
+      document.querySelectorAll('a[href^="mailto:"]').forEach((a) => {
+        a.href = `mailto:${data.email}`
+        if (a.textContent.includes("@")) a.textContent = data.email
+      })
     }
     if (data.phone) {
-      document.querySelectorAll('a[href^="tel:"]').forEach(a => {
-        a.href = `tel:${data.phone}`;
-        if (a.textContent.includes('+') || a.textContent.includes('739')) a.textContent = data.phone;
-      });
+      document.querySelectorAll('a[href^="tel:"]').forEach((a) => {
+        a.href = `tel:${data.phone}`
+        if (a.textContent.includes("+") || a.textContent.includes("739"))
+          a.textContent = data.phone
+      })
     }
     if (data.cgpaMsc) {
-      const mscStat = document.querySelectorAll('.stat-item')[2];
+      const mscStat = document.querySelectorAll(".stat-item")[2]
       if (mscStat) {
-        const num = mscStat.querySelector('.stat-number');
-        if (num) num.textContent = data.cgpaMsc;
+        const num = mscStat.querySelector(".stat-number")
+        if (num) num.textContent = data.cgpaMsc
       }
     }
   }
 
   function populateDrawerFields(data) {
-    if (data.name && document.getElementById('editName')) document.getElementById('editName').value = data.name;
-    if (data.greeting && document.getElementById('editGreeting')) document.getElementById('editGreeting').value = data.greeting;
-    if (data.tagline && document.getElementById('editTagline')) document.getElementById('editTagline').value = data.tagline;
-    if (data.location && document.getElementById('editLocation')) document.getElementById('editLocation').value = data.location;
-    if (data.email && document.getElementById('editEmail')) document.getElementById('editEmail').value = data.email;
-    if (data.phone && document.getElementById('editPhone')) document.getElementById('editPhone').value = data.phone;
-    if (data.cgpaMsc && document.getElementById('editCgpaMsc')) document.getElementById('editCgpaMsc').value = data.cgpaMsc;
+    if (data.name && document.getElementById("editName"))
+      document.getElementById("editName").value = data.name
+    if (data.greeting && document.getElementById("editGreeting"))
+      document.getElementById("editGreeting").value = data.greeting
+    if (data.tagline && document.getElementById("editTagline"))
+      document.getElementById("editTagline").value = data.tagline
+    if (data.location && document.getElementById("editLocation"))
+      document.getElementById("editLocation").value = data.location
+    if (data.email && document.getElementById("editEmail"))
+      document.getElementById("editEmail").value = data.email
+    if (data.phone && document.getElementById("editPhone"))
+      document.getElementById("editPhone").value = data.phone
+    if (data.cgpaMsc && document.getElementById("editCgpaMsc"))
+      document.getElementById("editCgpaMsc").value = data.cgpaMsc
   }
 
-  /* ══════════════════════════════════════════════════════════
-     CERTIFICATE PERSISTENCE
-     The grid is snapshotted to localStorage after every add or
-     remove, so drawer edits survive a reload instead of vanishing.
-     A pristine copy of the original six is kept as a safety net.
-  ══════════════════════════════════════════════════════════ */
-
-  const textEsc = (s) => String(s == null ? '' : s)
-    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-  const attrEsc = (s) => textEsc(s).replace(/"/g, '&quot;');
-
-  /* read the live grid back into plain records */
+  const textEsc = (s) =>
+    String(
+      s ==
+        null
+        ? ""
+        : s,
+    )
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+  const attrEsc = (s) => textEsc(s).replace(/"/g, "&quot;")
   function snapshotCertCards() {
-    return Array.from(document.querySelectorAll('.cert-card')).map((card) => {
-      const q = (sel) => card.querySelector(sel);
-      const iconWrap = q('.cert-icon-wrap');
-      const iconI = iconWrap ? iconWrap.querySelector('i') : null;
-      const issuerEl = q('.cert-issuer');
-      const dateEl = q('.cert-date span') || q('.cert-date');
-      const ribbonEl = q('.cert-ribbon');
-      const topEl = q('.cert-top');
-      const issuerIcon = issuerEl ? issuerEl.querySelector('i') : null;
+    return Array.from(document.querySelectorAll(".cert-card")).map((card) => {
+      const q = (sel) => card.querySelector(sel)
+      const iconWrap = q(".cert-icon-wrap")
+      const iconI = iconWrap ? iconWrap.querySelector("i") : null
+      const issuerEl = q(".cert-issuer")
+      const dateEl =
+        q(".cert-date span") ||
+        q(".cert-date")
+      const ribbonEl = q(".cert-ribbon")
+      const topEl = q(".cert-top")
+      const issuerIcon = issuerEl ? issuerEl.querySelector("i") : null
 
       return {
-        ribbon: ribbonEl ? ribbonEl.textContent.trim() : '',
-        ribbonStyle: ribbonEl ? (ribbonEl.getAttribute('style') || '') : '',
-        topStyle: topEl ? (topEl.getAttribute('style') || '') : '',
-        icon: iconI ? iconI.className : '',
-        iconText: iconI ? '' : (iconWrap ? iconWrap.textContent.trim() : ''),
-        iconStyle: iconWrap ? (iconWrap.getAttribute('style') || '') : '',
-        title: q('.cert-title') ? q('.cert-title').textContent.trim() : '',
-        issuer: issuerEl ? issuerEl.textContent.trim() : '',
-        issuerIcon: issuerIcon ? issuerIcon.className : 'fas fa-building',
-        date: dateEl ? dateEl.textContent.trim() : '',
-        skills: Array.from(card.querySelectorAll('.cert-skills span')).map((s) => s.textContent.trim())
-      };
-    });
+        ribbon: ribbonEl ? ribbonEl.textContent.trim() : "",
+        ribbonStyle: ribbonEl
+          ? ribbonEl.getAttribute("style") ||
+            ""
+          : "",
+        topStyle: topEl
+          ? topEl.getAttribute("style") ||
+            ""
+          : "",
+        icon: iconI ? iconI.className : "",
+        iconText: iconI ? "" : iconWrap ? iconWrap.textContent.trim() : "",
+        iconStyle: iconWrap
+          ? iconWrap.getAttribute("style") ||
+            ""
+          : "",
+        title: q(".cert-title") ? q(".cert-title").textContent.trim() : "",
+        issuer: issuerEl ? issuerEl.textContent.trim() : "",
+        issuerIcon: issuerIcon ? issuerIcon.className : "fas fa-building",
+        date: dateEl ? dateEl.textContent.trim() : "",
+        skills: Array.from(card.querySelectorAll(".cert-skills span")).map(
+          (s) => s.textContent.trim(),
+        ),
+      }
+    })
   }
-
-  /* rebuild one card from a record, mirroring the original markup exactly */
   function buildCertCard(rec, index) {
-    const card = document.createElement('div');
-    /* .reveal is observed by futurist.js, which runs after this script */
-    card.className = 'cert-card reveal';
+    const card = document.createElement("div")
+    card.className = "cert-card reveal"
 
-    const ribbonStyle = rec.ribbonStyle ? ` style="${attrEsc(rec.ribbonStyle)}"` : '';
-    const topStyle = rec.topStyle ? ` style="${attrEsc(rec.topStyle)}"` : '';
-    const iconStyle = rec.iconStyle ? ` style="${attrEsc(rec.iconStyle)}"` : '';
+    const ribbonStyle = rec.ribbonStyle
+      ? ` style="${attrEsc(rec.ribbonStyle)}"`
+      : ""
+    const topStyle = rec.topStyle ? ` style="${attrEsc(rec.topStyle)}"` : ""
+    const iconStyle = rec.iconStyle ? ` style="${attrEsc(rec.iconStyle)}"` : ""
     const iconInner = rec.icon
       ? `<i class="${attrEsc(rec.icon)}"></i>`
-      : textEsc(rec.iconText);
-    const skillsHtml = (rec.skills || []).map((s) => `<span>${textEsc(s)}</span>`).join('');
+      : textEsc(rec.iconText)
+    const skillsHtml = (
+      rec.skills ||
+      []
+    )
+      .map((s) => `<span>${textEsc(s)}</span>`)
+      .join("")
 
     card.innerHTML = `
-      ${rec.ribbon ? `<div class="cert-ribbon"${ribbonStyle}>${textEsc(rec.ribbon)}</div>` : ''}
+      ${
+        rec.ribbon
+          ? `<div class="cert-ribbon"${ribbonStyle}>${textEsc(rec.ribbon)}</div>`
+          : ""
+      }
       <div class="cert-top"${topStyle}>
         <div class="cert-icon-wrap"${iconStyle}>${iconInner}</div>
         <div class="cert-glow"></div>
       </div>
       <div class="cert-body">
         <h3 class="cert-title">${textEsc(rec.title)}</h3>
-        <p class="cert-issuer"><i class="${attrEsc(rec.issuerIcon || 'fas fa-building')}"></i> ${textEsc(rec.issuer)}</p>
-        <div class="cert-date"><i class="far fa-calendar-alt"></i><span>${textEsc(rec.date || 'Recent')}</span></div>
+        <p class="cert-issuer"><i class="${attrEsc(
+          rec.issuerIcon ||
+            "fas fa-building",
+        )}"></i> ${textEsc(rec.issuer)}</p>
+        <div class="cert-date"><i class="far fa-calendar-alt"></i><span>${textEsc(
+          rec.date ||
+            "Recent",
+        )}</span></div>
         <div class="cert-skills">${skillsHtml}</div>
         <a href="#" class="cert-btn" onclick="showCertModal(&quot;${attrEsc(rec.title)}&quot;, &quot;${attrEsc(rec.issuer)}&quot;, &quot;${attrEsc(rec.date)}&quot;); return false;">
           <i class="fas fa-external-link-alt"></i> View Certificate
         </a>
       </div>
-    `;
+    `
 
-    card.style.setProperty('--delay', (0.1 * (index + 1)).toFixed(1) + 's');
-    return card;
+    card.style.setProperty(
+      "--delay",
+      (0.1 * (index + 1)).toFixed(1) +
+        "s",
+    )
+    return card
   }
 
   function renderCertGrid(records) {
-    const grid = document.querySelector('.cert-grid');
-    if (!grid) return;
-    grid.innerHTML = '';
-    records.forEach((rec, i) => grid.appendChild(buildCertCard(rec, i)));
+    const grid = document.querySelector(".cert-grid")
+    if (!grid) return
+    grid.innerHTML = ""
+    records.forEach((rec, i) => grid.appendChild(buildCertCard(rec, i)))
   }
 
   function saveCertSnapshot() {
     try {
-      localStorage.setItem(CERTS_STORAGE_KEY, JSON.stringify(snapshotCertCards()));
+      localStorage.setItem(
+        CERTS_STORAGE_KEY,
+        JSON.stringify(snapshotCertCards()),
+      )
     } catch (e) {
-      console.warn('Could not save certificate snapshot', e);
+      console.warn("Could not save certificate snapshot", e)
     }
   }
 
   function loadCertSnapshot() {
-    const grid = document.querySelector('.cert-grid');
-    if (!grid) return;
-
-    /* keep one untouched copy of the original six, on first ever run */
+    const grid = document.querySelector(".cert-grid")
+    if (!grid) return
     try {
       if (!localStorage.getItem(CERTS_PRISTINE_KEY)) {
-        localStorage.setItem(CERTS_PRISTINE_KEY, grid.innerHTML);
+        localStorage.setItem(CERTS_PRISTINE_KEY, grid.innerHTML)
       }
-    } catch (e) { /* storage unavailable — snapshots simply stay off */ }
+    } catch (e) {}
 
-    let records = null;
+    let records = null
     try {
-      const raw = localStorage.getItem(CERTS_STORAGE_KEY);
-      if (raw) records = JSON.parse(raw);
-    } catch (e) { records = null; }
-
-    if (!Array.isArray(records)) return;
-    if (!records.length) {
-      grid.innerHTML = '<p class="admin-help-text">No certificates in the grid. Use the button below to restore the originals.</p>';
-      return;
+      const raw = localStorage.getItem(CERTS_STORAGE_KEY)
+      if (raw) records = JSON.parse(raw)
+    } catch (e) {
+      records = null
     }
-    renderCertGrid(records);
-  }
 
-  // ─── Public API ───
+    if (!Array.isArray(records)) return
+    if (!records.length) {
+      grid.innerHTML =
+        '<p class="admin-help-text">No certificates in the grid. Use the button below to restore the originals.</p>'
+      return
+    }
+    renderCertGrid(records)
+  }
   window.portfolioAdmin = {
     openAuth() {
-      const modal = document.getElementById('adminAuthModal');
-      const err = document.getElementById('adminAuthError');
-      const pinInput = document.getElementById('adminPinInput');
-      if (err) err.classList.remove('show');
-      if (modal) modal.classList.add('active');
-      if (pinInput) { pinInput.value = ''; setTimeout(() => pinInput.focus(), 150); }
+      const modal = document.getElementById("adminAuthModal")
+      const err = document.getElementById("adminAuthError")
+      const pinInput = document.getElementById("adminPinInput")
+      if (err) err.classList.remove("show")
+      if (modal) modal.classList.add("active")
+      if (pinInput) {
+        pinInput.value = ""
+        setTimeout(() => pinInput.focus(), 150)
+      }
     },
 
     closeAuth() {
-      const modal = document.getElementById('adminAuthModal');
-      if (modal) modal.classList.remove('active');
+      const modal = document.getElementById("adminAuthModal")
+      if (modal) modal.classList.remove("active")
     },
 
     verifyAuth() {
-      const pinInput = document.getElementById('adminPinInput');
-      const err = document.getElementById('adminAuthError');
-      const correctPin = localStorage.getItem(PIN_STORAGE_KEY) || DEFAULT_PIN;
+      const pinInput = document.getElementById("adminPinInput")
+      const err = document.getElementById("adminAuthError")
+      const correctPin =
+        localStorage.getItem(PIN_STORAGE_KEY) ||
+        localStorage.getItem(REACT_PIN_STORAGE_KEY) ||
+        DEFAULT_PIN
 
-      if (pinInput && pinInput.value.trim() === correctPin) {
-        sessionStorage.setItem('portfolio_admin_auth', 'true');
-        this.closeAuth();
-        const bar = document.getElementById('adminBar');
-        if (bar) bar.classList.add('active');
-        this.openDrawer();
-        showToast('Welcome back, Akshit! Admin mode active.');
+      if (
+        pinInput &&
+        pinInput.value.trim() ===
+          correctPin
+      ) {
+        sessionStorage.setItem("portfolio_admin_auth", "true")
+        this.closeAuth()
+        const bar = document.getElementById("adminBar")
+        if (bar) bar.classList.add("active")
+        this.openDrawer()
+        showToast("Welcome back, Akshit! Admin mode active.")
       } else {
-        if (err) err.classList.add('show');
+        if (err) err.classList.add("show")
         if (pinInput) {
-          pinInput.style.borderColor = '#ff6b6b';
-          setTimeout(() => pinInput.style.borderColor = '', 1000);
+          pinInput.style.borderColor = "#ff6b6b"
+          setTimeout(() => (pinInput.style.borderColor = ""), 1000)
         }
       }
     },
 
     logout() {
-      sessionStorage.removeItem('portfolio_admin_auth');
-      const bar = document.getElementById('adminBar');
-      if (bar) bar.classList.remove('active');
-      this.closeDrawer();
-      showToast('Exited Admin mode.');
+      sessionStorage.removeItem("portfolio_admin_auth")
+      const bar = document.getElementById("adminBar")
+      if (bar) bar.classList.remove("active")
+      this.closeDrawer()
+      showToast("Exited Admin mode.")
     },
 
     openDrawer() {
-      const drawer = document.getElementById('adminDrawer');
+      const drawer = document.getElementById("adminDrawer")
       if (drawer) {
-        // Prepopulate current values if empty
-        const taglineEl = document.querySelector('.hero-tagline');
-        const editTagline = document.getElementById('editTagline');
+        const taglineEl = document.querySelector(".hero-tagline")
+        const editTagline = document.getElementById("editTagline")
         if (taglineEl && editTagline && !editTagline.value) {
-          editTagline.value = taglineEl.textContent.trim();
+          editTagline.value = taglineEl.textContent.trim()
         }
-        this.renderCertManagerList();
-        drawer.classList.add('open');
+        this.renderCertManagerList()
+        drawer.classList.add("open")
       }
     },
 
     closeDrawer() {
-      const drawer = document.getElementById('adminDrawer');
-      if (drawer) drawer.classList.remove('open');
+      const drawer = document.getElementById("adminDrawer")
+      if (drawer) drawer.classList.remove("open")
     },
 
     saveChanges() {
-      const name = document.getElementById('editName')?.value.trim() || 'N. Akshit Vinay';
-      const greeting = document.getElementById('editGreeting')?.value.trim() || 'Hello, I am';
-      const tagline = document.getElementById('editTagline')?.value.trim() || '';
-      const location = document.getElementById('editLocation')?.value.trim() || '';
-      const email = document.getElementById('editEmail')?.value.trim() || '';
-      const phone = document.getElementById('editPhone')?.value.trim() || '';
-      const cgpaMsc = document.getElementById('editCgpaMsc')?.value.trim() || '10.0';
+      const name =
+        document.getElementById("editName")?.value.trim() ||
+        "N. Akshit Vinay"
+      const greeting =
+        document.getElementById("editGreeting")?.value.trim() ||
+        "Hello, I am"
+      const tagline =
+        document.getElementById("editTagline")?.value.trim() ||
+        ""
+      const location =
+        document.getElementById("editLocation")?.value.trim() ||
+        ""
+      const email =
+        document.getElementById("editEmail")?.value.trim() ||
+        ""
+      const phone =
+        document.getElementById("editPhone")?.value.trim() ||
+        ""
+      const cgpaMsc =
+        document.getElementById("editCgpaMsc")?.value.trim() ||
+        "10.0"
 
-      const data = { name, greeting, tagline, location, email, phone, cgpaMsc };
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-      applyDataToDOM(data);
-      showToast('Changes applied live & saved!');
+      const data = { name, greeting, tagline, location, email, phone, cgpaMsc }
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
+      applyDataToDOM(data)
+      showToast("Changes applied live & saved!")
     },
 
     addNewCert() {
-      const title = document.getElementById('newCertTitle')?.value.trim();
-      const issuer = document.getElementById('newCertIssuer')?.value.trim();
-      const date = document.getElementById('newCertDate')?.value.trim();
-      const ribbon = document.getElementById('newCertRibbon')?.value.trim() || 'Certified';
-      const skillsRaw = document.getElementById('newCertSkills')?.value.trim() || '';
+      const title = document.getElementById("newCertTitle")?.value.trim()
+      const issuer = document.getElementById("newCertIssuer")?.value.trim()
+      const date = document.getElementById("newCertDate")?.value.trim()
+      const ribbon =
+        document.getElementById("newCertRibbon")?.value.trim() ||
+        "Certified"
+      const skillsRaw =
+        document.getElementById("newCertSkills")?.value.trim() ||
+        ""
 
       if (!title || !issuer) {
-        showToast('Please enter both Certificate Title and Issuer');
-        return;
+        showToast("Please enter both Certificate Title and Issuer")
+        return
       }
 
-      const certGrid = document.querySelector('.cert-grid');
+      const certGrid = document.querySelector(".cert-grid")
 
       if (certGrid) {
-        const card = buildCertCard({
-          ribbon: ribbon,
-          ribbonStyle: 'background: var(--accent); color: var(--primary);',
-          topStyle: 'background: linear-gradient(135deg, #0d3b2e 0%, #1b5e47 50%, #38a37f 100%);',
-          icon: 'fas fa-certificate',
-          iconText: '',
-          iconStyle: '',
-          title: title,
-          issuer: issuer,
-          issuerIcon: 'fas fa-building',
-          date: date || 'Recent',
-          skills: skillsRaw.split(',').map(s => s.trim()).filter(Boolean)
-        }, 0);
+        const card = buildCertCard(
+          {
+            ribbon: ribbon,
+            ribbonStyle: "background: var(--accent); color: var(--primary);",
+            topStyle:
+              "background: linear-gradient(135deg, #0d3b2e 0%, #1b5e47 50%, #38a37f 100%);",
+            icon: "fas fa-certificate",
+            iconText: "",
+            iconStyle: "",
+            title: title,
+            issuer: issuer,
+            issuerIcon: "fas fa-building",
+            date:
+              date ||
+              "Recent",
+            skills: skillsRaw
+              .split(",")
+              .map((s) => s.trim())
+              .filter(Boolean),
+          },
+          0,
+        )
+        card.classList.add("custom-cert", "in")
+        certGrid.insertBefore(card, certGrid.firstChild)
+        saveCertSnapshot()
+        showToast(`Certificate "${title}" added to grid!`)
+        document.getElementById("newCertTitle").value = ""
+        document.getElementById("newCertIssuer").value = ""
+        document.getElementById("newCertDate").value = ""
+        document.getElementById("newCertSkills").value = ""
 
-        /* created after futurist.js set up its observer, so reveal it at once */
-        card.classList.add('custom-cert', 'in');
-        certGrid.insertBefore(card, certGrid.firstChild);
-        saveCertSnapshot();
-        showToast(`Certificate "${title}" added to grid!`);
-
-        // Clear input fields
-        document.getElementById('newCertTitle').value = '';
-        document.getElementById('newCertIssuer').value = '';
-        document.getElementById('newCertDate').value = '';
-        document.getElementById('newCertSkills').value = '';
-
-        this.renderCertManagerList();
+        this.renderCertManagerList()
       }
     },
 
     renderCertManagerList() {
-      const container = document.getElementById('adminCertList');
-      if (!container) return;
-      const cards = document.querySelectorAll('.cert-card');
-      container.innerHTML = '';
+      const container = document.getElementById("adminCertList")
+      if (!container) return
+      const cards = document.querySelectorAll(".cert-card")
+      container.innerHTML = ""
       cards.forEach((card, index) => {
-        const title = card.querySelector('.cert-title')?.textContent || `Certificate ${index + 1}`;
-        const issuer = card.querySelector('.cert-issuer')?.textContent || '';
-        const item = document.createElement('div');
-        item.className = 'admin-cert-item';
+        const title =
+          card.querySelector(".cert-title")?.textContent ||
+          `Certificate ${
+            index +
+            1
+          }`
+        const issuer =
+          card.querySelector(".cert-issuer")?.textContent ||
+          ""
+        const item = document.createElement("div")
+        item.className = "admin-cert-item"
         item.innerHTML = `
           <div class="admin-cert-info">
             <h4>${title}</h4>
@@ -672,95 +820,109 @@
           <button class="admin-cert-delete" title="Remove Certificate" onclick="window.portfolioAdmin.removeCert(${index})">
             <i class="fas fa-trash"></i>
           </button>
-        `;
-        container.appendChild(item);
-      });
+        `
+        container.appendChild(item)
+      })
     },
 
     removeCert(index) {
-      const cards = document.querySelectorAll('.cert-card');
+      const cards = document.querySelectorAll(".cert-card")
       if (cards[index]) {
-        cards[index].remove();
-        saveCertSnapshot();
-        this.renderCertManagerList();
-        showToast('Certificate removed — saved for this device.');
+        cards[index].remove()
+        saveCertSnapshot()
+        this.renderCertManagerList()
+        showToast("Certificate removed — saved for this device.")
       }
     },
-
-    /* rebuild the grid from the untouched copy taken on the first visit */
     restoreDefaultCerts() {
-      let pristine = null;
-      try { pristine = localStorage.getItem(CERTS_PRISTINE_KEY); } catch (e) {}
-      const grid = document.querySelector('.cert-grid');
+      let pristine = null
+      try {
+        pristine = localStorage.getItem(CERTS_PRISTINE_KEY)
+      } catch (e) {}
+      const grid = document.querySelector(".cert-grid")
       if (!grid || !pristine) {
-        showToast('No original copy of the certificates is stored on this device.');
-        return;
+        showToast(
+          "No original copy of the certificates is stored on this device.",
+        )
+        return
       }
-      if (!confirm('Restore the original six certificates? This replaces the current grid.')) return;
+      if (
+        !confirm(
+          "Restore the original six certificates? This replaces the current grid.",
+        )
+      )
+        return
 
-      grid.innerHTML = pristine;
-      grid.querySelectorAll('.cert-card').forEach(card => card.classList.add('animated'));
-      localStorage.removeItem(CERTS_STORAGE_KEY);
-      saveCertSnapshot();
-      this.renderCertManagerList();
-      showToast('Original certificates restored.');
+      grid.innerHTML = pristine
+      grid
+        .querySelectorAll(".cert-card")
+        .forEach((card) => card.classList.add("animated"))
+      localStorage.removeItem(CERTS_STORAGE_KEY)
+      saveCertSnapshot()
+      this.renderCertManagerList()
+      showToast("Original certificates restored.")
     },
 
     changePin() {
-      const newPin = document.getElementById('newAdminPin')?.value.trim();
-      if (!newPin || newPin.length < 4) {
-        showToast('PIN must be at least 4 digits');
-        return;
+      const newPin = document.getElementById("newAdminPin")?.value.trim()
+      if (
+        !newPin ||
+        newPin.length <
+          4
+      ) {
+        showToast("PIN must be at least 4 digits")
+        return
       }
-      localStorage.setItem(PIN_STORAGE_KEY, newPin);
-      document.getElementById('newAdminPin').value = '';
-      showToast('Admin PIN updated successfully!');
+      localStorage.setItem(PIN_STORAGE_KEY, newPin)
+      localStorage.setItem(REACT_PIN_STORAGE_KEY, newPin)
+      document.getElementById("newAdminPin").value = ""
+      showToast("Admin PIN updated successfully!")
     },
 
     resetDefaults() {
-      if (confirm('Are you sure you want to reset all custom edits to original portfolio defaults?')) {
-        localStorage.removeItem(STORAGE_KEY);
-        localStorage.removeItem(PHOTO_STORAGE_KEY);
-        localStorage.removeItem(CERTS_STORAGE_KEY);
-        localStorage.removeItem(CERTS_PRISTINE_KEY);
-        sessionStorage.removeItem('portfolio_admin_auth');
-        location.reload();
+      if (
+        confirm(
+          "Are you sure you want to reset all custom edits to original portfolio defaults?",
+        )
+      ) {
+        localStorage.removeItem(STORAGE_KEY)
+        localStorage.removeItem(PHOTO_STORAGE_KEY)
+        localStorage.removeItem(CERTS_STORAGE_KEY)
+        localStorage.removeItem(CERTS_PRISTINE_KEY)
+        sessionStorage.removeItem("portfolio_admin_auth")
+        location.reload()
       }
     },
-
-    // ─── Export HTML: Serializes the current live page into a clean downloadable file ───
     exportHtml() {
-      this.saveChanges();
+      this.saveChanges()
+      const clone = document.documentElement.cloneNode(true)
+      const elIdsToRemove = [
+        "adminAuthModal",
+        "adminBar",
+        "adminDrawer",
+        "adminToast",
+      ]
+      elIdsToRemove.forEach((id) => {
+        const el = clone.querySelector(`#${id}`)
+        if (el) el.remove()
+      })
+      const htmlContent =
+        "<!DOCTYPE html>\n" +
+        clone.outerHTML
+      const blob = new Blob([htmlContent], { type: "text/html;charset=utf-8" })
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement("a")
+      a.href = url
+      a.download = "index.html"
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      URL.revokeObjectURL(url)
 
-      // Clone current document
-      const clone = document.documentElement.cloneNode(true);
-
-      // Remove admin injected UI elements from the export so visitor code stays ultra-clean
-      const elIdsToRemove = ['adminAuthModal', 'adminBar', 'adminDrawer', 'adminToast'];
-      elIdsToRemove.forEach(id => {
-        const el = clone.querySelector(`#${id}`);
-        if (el) el.remove();
-      });
-
-      // Construct clean HTML string
-      const htmlContent = '<!DOCTYPE html>\n' + clone.outerHTML;
-
-      // Trigger download
-      const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'index.html';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-
-      showToast('📥 index.html downloaded! Replace your file to make it permanent.');
-    }
-  };
-
-  // Helper alias for footer button
-  window.openAdminAuth = () => window.portfolioAdmin.openAuth();
-
-})();
+      showToast(
+        "📥 index.html downloaded! Replace your file to make it permanent.",
+      )
+    },
+  }
+  window.openAdminAuth = () => window.portfolioAdmin.openAuth()
+})()

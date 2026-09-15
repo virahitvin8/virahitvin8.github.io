@@ -241,11 +241,11 @@
             </a>
           </div>
           <div class="orbit-slot slot-inner-4">
-            <a href="#certifications" class="satellite-node sat-type-cert" onclick="showCertModal('Drone Technology in Agriculture', 'AgriTech Innovations', 'April 2023'); return false;" title="Drone UAV Technology in Agriculture">
+            <a href="#contact" class="satellite-node sat-type-exp" onclick="document.querySelector('#contact').scrollIntoView({behavior:'smooth'}); return false;" title="Drone UAV training — certificate issued on request">
               <span class="sat-beacon"></span>
               <span class="sat-icon" style="background: linear-gradient(135deg, #1d3557, #457b9d);"><i class="fas fa-plane"></i></span>
               <span class="sat-badge">Drone UAV 🛸</span>
-              <span class="sat-tag">CERT</span>
+              <span class="sat-tag">REQ</span>
             </a>
           </div>
         </div>
@@ -261,7 +261,7 @@
             </a>
           </div>
           <div class="orbit-slot slot-outer-2">
-            <a href="#experience" class="satellite-node sat-type-exp" onclick="showCertModal('Organic Farming Certification &amp; Sugarcane Agronomy', 'NSL Sugars Pvt Ltd / ANGRAU', 'February 2024'); return false;" title="NSL Sugars Organic Farming Experience &amp; Certification">
+            <a href="#experience" class="satellite-node sat-type-exp" onclick="showCertModal('Organic Farming Certification', 'ANGRAU, Andhra Pradesh', 'February 2024'); return false;" title="Organic Farming Experience &amp; Certification">
               <span class="planet-aura" style="background: rgba(56, 102, 65, 0.35);"></span>
               <span class="sat-icon" style="background: linear-gradient(135deg, #386641, #6a994e);"><i class="fas fa-leaf"></i></span>
               <span class="sat-badge">Organic Exp 🌿</span>
@@ -607,7 +607,7 @@
         <p class="section-subtitle">Click any certificate card to view it</p>
       </div>
       <div class="cert-grid">
-        <div class="cert-card" data-animate="fadeInUp" style="--delay: 0.1s">
+        <div class="cert-card" data-animate="fadeInUp" data-cert-slug="next-gen-remote-sensing-analytics" style="--delay: 0.1s">
           <div class="cert-ribbon" style="background: var(--accent); color: var(--primary);">2-Wk FDP</div>
           <div class="cert-top" style="background: linear-gradient(135deg, #0d3b2e 0%, #1b5e47 50%, #38a37f 100%);">
             <div class="cert-icon-wrap"><i class="fas fa-satellite"></i></div>
@@ -624,7 +624,7 @@
           </div>
         </div>
 
-        <div class="cert-card" data-animate="fadeInUp" style="--delay: 0.2s">
+        <div class="cert-card" data-animate="fadeInUp" data-cert-slug="csir-ngri-remote-sensing-gis" style="--delay: 0.2s">
           <div class="cert-ribbon" style="background: #e63946; color: white;">CSIR-NGRI</div>
           <div class="cert-top" style="background: linear-gradient(135deg, #0b2545 0%, #133c55 50%, #1d6996 100%);">
             <div class="cert-icon-wrap"><i class="fas fa-globe-americas"></i></div>
@@ -641,42 +641,25 @@
           </div>
         </div>
 
-        <div class="cert-card" data-animate="fadeInUp" style="--delay: 0.3s">
-          <div class="cert-ribbon">Certified</div>
-          <div class="cert-top" style="background: linear-gradient(135deg, #2d6a4f 0%, #52b788 100%);">
-            <div class="cert-icon-wrap"><i class="fas fa-leaf"></i></div>
+        <div class="cert-card" data-animate="fadeInUp" data-cert-slug="sids-farm-internship" style="--delay: 0.3s">
+          <div class="cert-ribbon" style="background: var(--accent); color: var(--primary);">Sid's Farm</div>
+          <div class="cert-top" style="background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 50%, #95d5b2 100%);">
+            <div class="cert-icon-wrap"><i class="fas fa-cow"></i></div>
             <div class="cert-glow"></div>
           </div>
           <div class="cert-body">
-            <h3 class="cert-title">Organic Farming</h3>
-            <p class="cert-issuer"><i class="fas fa-building"></i> NSL Sugars Pvt Ltd / ANGRU</p>
-            <div class="cert-date"><i class="far fa-calendar-alt"></i><span>February 2024</span></div>
-            <div class="cert-skills"><span>Sustainable Practices</span><span>Soil Science</span><span>Certification</span></div>
-            <a href="#" class="cert-btn" onclick="showCertModal('Organic Farming Certification', 'NSL Sugars Pvt Ltd / ANGRU', 'February 2024'); return false;">
+            <h3 class="cert-title">Sid's Farm Internship</h3>
+            <p class="cert-issuer"><i class="fas fa-building"></i> Sid's Farm Pvt Ltd, Bangalore</p>
+            <div class="cert-date"><i class="far fa-calendar-alt"></i><span>Nov 2024 – Mar 2025</span></div>
+            <div class="cert-skills"><span>Dairy Marketing</span><span>Customer Outreach</span><span>Farm Operations</span></div>
+            <a href="#" class="cert-btn" onclick="showCertModal('Sid\'s Farm Internship', 'Sid\'s Farm Pvt Ltd, Bangalore', 'Nov 2024 – Mar 2025'); return false;">
               <i class="fas fa-external-link-alt"></i> View Certificate
             </a>
           </div>
         </div>
 
-        <div class="cert-card" data-animate="fadeInUp" style="--delay: 0.4s">
-          <div class="cert-ribbon">Certified</div>
-          <div class="cert-top" style="background: linear-gradient(135deg, #1d3557 0%, #457b9d 100%);">
-            <div class="cert-icon-wrap"><i class="fas fa-plane"></i></div>
-            <div class="cert-glow"></div>
-          </div>
-          <div class="cert-body">
-            <h3 class="cert-title">Drone Technology in Agriculture</h3>
-            <p class="cert-issuer"><i class="fas fa-building"></i> AgriTech Innovations</p>
-            <div class="cert-date"><i class="far fa-calendar-alt"></i><span>April 2023</span></div>
-            <div class="cert-skills"><span>UAV Operation</span><span>Crop Monitoring</span><span>Precision Ag</span></div>
-            <a href="#" class="cert-btn" onclick="showCertModal('Drone Technology in Agriculture', 'AgriTech Innovations', 'April 2023'); return false;">
-              <i class="fas fa-external-link-alt"></i> View Certificate
-            </a>
-          </div>
-        </div>
-
-        <div class="cert-card" data-animate="fadeInUp" style="--delay: 0.5s">
-          <div class="cert-ribbon">Certified</div>
+        <div class="cert-card" data-animate="fadeInUp" data-cert-slug="itm-hydroponics-systems" style="--delay: 0.4s">
+          <div class="cert-ribbon" style="background: var(--accent); color: var(--primary);">ITM</div>
           <div class="cert-top" style="background: linear-gradient(135deg, #023e8a 0%, #0096c7 100%);">
             <div class="cert-icon-wrap"><i class="fas fa-water"></i></div>
             <div class="cert-glow"></div>
@@ -692,8 +675,45 @@
           </div>
         </div>
 
-        <div class="cert-card" data-animate="fadeInUp" style="--delay: 0.6s">
-          <div class="cert-ribbon">Certified</div>
+        <div class="cert-card" data-animate="fadeInUp" data-cert-slug="angrau-organic-farming" style="--delay: 0.5s">
+          <div class="cert-ribbon" style="background: var(--accent); color: var(--primary);">ANGRAU</div>
+          <div class="cert-top" style="background: linear-gradient(135deg, #2d6a4f 0%, #52b788 100%);">
+            <div class="cert-icon-wrap"><i class="fas fa-leaf"></i></div>
+            <div class="cert-glow"></div>
+          </div>
+          <div class="cert-body">
+            <h3 class="cert-title">Organic Farming</h3>
+            <p class="cert-issuer"><i class="fas fa-building"></i> ANGRAU, Andhra Pradesh</p>
+            <div class="cert-date"><i class="far fa-calendar-alt"></i><span>February 2024</span></div>
+            <div class="cert-skills"><span>Sustainable Practices</span><span>Soil Science</span><span>Certification</span></div>
+            <a href="#" class="cert-btn" onclick="showCertModal('Organic Farming Certification', 'ANGRAU, Andhra Pradesh', 'February 2024'); return false;">
+              <i class="fas fa-external-link-alt"></i> View Certificate
+            </a>
+          </div>
+        </div>
+
+        <!-- The two cards below are training completed but whose certificates are
+             issued on request: they link to contact rather than opening the
+             secured viewer, which would have to invent a document. -->
+        <div class="cert-card" data-animate="fadeInUp" data-cert-request="true" style="--delay: 0.6s">
+          <div class="cert-ribbon" style="background: #6c757d; color: #fff;">On request</div>
+          <div class="cert-top" style="background: linear-gradient(135deg, #1d3557 0%, #457b9d 100%);">
+            <div class="cert-icon-wrap"><i class="fas fa-plane"></i></div>
+            <div class="cert-glow"></div>
+          </div>
+          <div class="cert-body">
+            <h3 class="cert-title">Drone Technology in Agriculture</h3>
+            <p class="cert-issuer"><i class="fas fa-building"></i> AgriTech Innovations</p>
+            <div class="cert-date"><i class="far fa-calendar-alt"></i><span>April 2023</span></div>
+            <div class="cert-skills"><span>UAV Operation</span><span>Crop Monitoring</span><span>Precision Ag</span></div>
+            <a href="#contact" class="cert-btn" title="Certificate issued on request — get in touch and I will send it.">
+              <i class="fas fa-envelope"></i> Request Certificate
+            </a>
+          </div>
+        </div>
+
+        <div class="cert-card" data-animate="fadeInUp" data-cert-request="true" style="--delay: 0.7s">
+          <div class="cert-ribbon" style="background: #6c757d; color: #fff;">On request</div>
           <div class="cert-top" style="background: linear-gradient(135deg, #6d4c41 0%, #c77737 100%);">
             <div class="cert-icon-wrap" style="font-size:1.8rem;">🍄</div>
             <div class="cert-glow"></div>
@@ -703,15 +723,32 @@
             <p class="cert-issuer"><i class="fas fa-university"></i> ITM University, Gwalior</p>
             <div class="cert-date"><i class="far fa-calendar-alt"></i><span>November 2021</span></div>
             <div class="cert-skills"><span>Cultivation</span><span>Quality Control</span><span>Agribusiness</span></div>
-            <a href="#" class="cert-btn" onclick="showCertModal('Mushroom Cultivation', 'ITM University, Gwalior', 'November 2021'); return false;">
-              <i class="fas fa-external-link-alt"></i> View Certificate
+            <a href="#contact" class="cert-btn" title="Certificate issued on request — get in touch and I will send it.">
+              <i class="fas fa-envelope"></i> Request Certificate
+            </a>
+          </div>
+        </div>
+
+        <div class="cert-card" data-animate="fadeInUp" data-cert-request="true" style="--delay: 0.8s">
+          <div class="cert-ribbon" style="background: #6c757d; color: #fff;">On request</div>
+          <div class="cert-top" style="background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 50%, #40916c 100%);">
+            <div class="cert-icon-wrap"><i class="fas fa-industry"></i></div>
+            <div class="cert-glow"></div>
+          </div>
+          <div class="cert-body">
+            <h3 class="cert-title">Agro-Industrial Attachment</h3>
+            <p class="cert-issuer"><i class="fas fa-building"></i> NSL Sugars Pvt Ltd, Bellary</p>
+            <div class="cert-date"><i class="far fa-calendar-alt"></i><span>Aug 2024 – Nov 2024</span></div>
+            <div class="cert-skills"><span>Sugarcane Nursery</span><span>Bud Propagation</span><span>Agro-Industry</span></div>
+            <a href="#contact" class="cert-btn" title="Certificate issued on request — get in touch and I will send it.">
+              <i class="fas fa-envelope"></i> Request Certificate
             </a>
           </div>
         </div>
       </div>
       <div class="cert-note" data-animate="fadeInUp">
         <i class="fas fa-info-circle"></i>
-        <p>Certificate links will be added soon. To verify any certification, please <a href="#contact">contact me directly</a>.</p>
+        <p>Cards marked <strong>On request</strong> are training programmes whose certificates are issued on request (NSL Sugars, Drone Technology, Mushroom Cultivation) — <a href="#contact">contact me</a> and I will send them. The other certificates open in the secured viewer.</p>
       </div>
     </div>
   </section>
@@ -724,8 +761,8 @@
         <div class="section-line"></div>
       </div>
       <div class="projects-grid">
-        <div class="project-card featured-project" data-animate="fadeInUp" style="--delay: 0.1s">
-          <div class="project-tag-top">📰 Published Research</div>
+        <div class="project-card" data-animate="fadeInUp" style="--delay: 0.1s">
+          <div class="project-tag-top">📄 Published Paper</div>
           <div class="project-header">
             <div class="project-icon-wrap"><i class="fas fa-book-open"></i></div>
             <div class="project-meta">
@@ -739,7 +776,7 @@
             <span>Research</span><span>Sorghum</span><span>Food Safety</span><span>Agri Express</span>
           </div>
           <div class="project-links">
-            <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i> Read Article</a>
+            <a href="assets/papers/hcn-content-in-sorghum.pdf" target="_blank" rel="noopener noreferrer" class="project-link"><i class="fas fa-external-link-alt"></i> Read Article</a>
           </div>
         </div>
 

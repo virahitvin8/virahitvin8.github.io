@@ -1,34 +1,36 @@
-import { useEffect, useState } from 'react';
-import { usePortfolio } from '../content/PortfolioContext';
-import { Satellite } from './icons';
+import { useEffect, useState } from "react"
+import { usePortfolio } from "../content/PortfolioContext"
+import { Satellite } from "./icons"
 
 const LINKS = [
-  ['about', 'About'],
-  ['education', 'Education'],
-  ['experience', 'Experience'],
-  ['projects', 'Projects'],
-  ['certifications', 'Credentials'],
-  ['resume', 'Résumé'],
-  ['feeds', 'Live'],
-  ['contact', 'Contact'],
-] as const;
+  ["about", "About"],
+  ["education", "Education"],
+  ["experience", "Experience"],
+  ["projects", "Projects"],
+  ["certifications", "Credentials"],
+  ["resume", "Résumé"],
+  ["feeds", "Live"],
+  ["contact", "Contact"],
+] as const
 
 export function Navbar() {
-  const { data } = usePortfolio();
-  const [scrolled, setScrolled] = useState(false);
-  const [open, setOpen] = useState(false);
+  const { data } = usePortfolio()
+  const [scrolled, setScrolled] = useState(false)
+  const [open, setOpen] = useState(false)
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+    const onScroll = () => setScrolled(window.scrollY > 40)
+    onScroll()
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [])
 
   return (
     <header
       className={`fixed inset-x-0 top-0 z-[9000] transition-all duration-500 ${
-        scrolled ? 'border-b border-hair bg-void/80 backdrop-blur-xl' : 'border-b border-transparent'
+        scrolled
+          ? "border-b border-hair bg-void/80 backdrop-blur-xl"
+          : "border-b border-transparent"
       }`}
     >
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-10">
@@ -74,9 +76,19 @@ export function Navbar() {
           className="flex h-9 w-9 flex-col items-center justify-center gap-1.5 lg:hidden"
           aria-label="Menu"
         >
-          <span className={`h-px w-6 bg-ink transition ${open ? 'translate-y-[7px] rotate-45' : ''}`} />
-          <span className={`h-px w-6 bg-ink transition ${open ? 'opacity-0' : ''}`} />
-          <span className={`h-px w-6 bg-ink transition ${open ? '-translate-y-[7px] -rotate-45' : ''}`} />
+          <span
+            className={`h-px w-6 bg-ink transition ${
+              open ? "translate-y-[7px] rotate-45" : ""
+            }`}
+          />
+          <span
+            className={`h-px w-6 bg-ink transition ${open ? "opacity-0" : ""}`}
+          />
+          <span
+            className={`h-px w-6 bg-ink transition ${
+              open ? "-translate-y-[7px] -rotate-45" : ""
+            }`}
+          />
         </button>
       </nav>
 
@@ -103,5 +115,5 @@ export function Navbar() {
         </div>
       )}
     </header>
-  );
+  )
 }

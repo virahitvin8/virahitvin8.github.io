@@ -50,14 +50,26 @@ ROOT = Path(__file__).resolve().parent.parent
 PUBLIC = ROOT / "public"
 CLASSIC = ROOT / "portfolio" / "assets"
 
-# Note the trailing spaces — they are part of the folder names as supplied.
-PORTRAIT_SRC = (
-    ROOT / "private" / "pictures. " / "profile picture " / "profile-pic (3).png"
-)
-HEADER_SRC = (
-    ROOT / "private" / "pictures. " / "header icon pic "
-    / "d932695e-9bc6-415d-a528-61acab2f9954.jpeg"
-)
+def find_source_image(parent_sub: str, folder_sub: str, default_name: str) -> Path:
+    candidates = [
+        ROOT / "private" / parent_sub / folder_sub,
+        ROOT / "private" / parent_sub.strip() / folder_sub.strip(),
+        ROOT / "private" / parent_sub / folder_sub.strip(),
+        ROOT / "private" / parent_sub.strip() / folder_sub,
+    ]
+    for cand in candidates:
+        if cand.exists():
+            specific = cand / default_name
+            if specific.exists():
+                return specific
+            for ext in ("*.png", "*.jpg", "*.jpeg", "*.webp"):
+                files = sorted(cand.glob(ext))
+                if files:
+                    return files[0]
+    return ROOT / "private" / parent_sub / folder_sub / default_name
+
+PORTRAIT_SRC = find_source_image("pictures. ", "profile picture ", "profile-pic (3).png")
+HEADER_SRC = find_source_image("pictures. ", "header icon pic ", "d932695e-9bc6-415d-a528-61acab2f9954.jpeg")
 
 # Palette shared with src/index.css, so the icons stay on-brand.
 VOID = (4, 18, 12)

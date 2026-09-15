@@ -5,8 +5,12 @@ the repository root — see [`certificates/README.md`](../../../certificates/REA
 for the exact file name of each certificate.
 
 Scans are kept in one place because the two builds would otherwise need two
-copies of the same six images, which drift apart. On deploy, the workflow copies
+copies of the same five images, which drift apart. On deploy, the workflow copies
 them from the built site into this folder so `/classic/` finds them too.
+
+Three cards — *Drone Technology in Agriculture*, *Mushroom Cultivation*, and
+*Agro-Industrial Attachment (NSL Sugars)* — are marked **On request** and need
+no file at all: they link to the contact section, never to this viewer.
 
 For a **standalone local test** of just the classic build, copy them across
 yourself before serving:

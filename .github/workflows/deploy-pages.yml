@@ -14,6 +14,8 @@ on:
     paths:
       - 'src/**'
       - 'public/**'
+      - 'certificates/**'
+      - 'scripts/**'
       - 'index.html'
       - 'package.json'
       - 'package-lock.json'

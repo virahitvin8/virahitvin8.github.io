@@ -26,6 +26,7 @@ npm run dev        # http://localhost:8443 (or $PORT)
 | `npm run dev` | Copies `certificates/` into place, then starts the dev server |
 | `npm run build` | Same, then a production build into `dist/` |
 | `npm run certs` | Just the certificate check, without starting the server |
+| `npm run certs:optimise` | Shrink certificate scans for the web (keeps the originals) |
 | `npm run preview` | Serve the production build locally |
 | `npm run format` | Format with oxfmt |
 | `npx tsc --noEmit` | Typecheck |
@@ -143,6 +144,7 @@ certificates/              Drop certificate scans here — see its README
 scripts/
   build-image-assets.py    Regenerates every image asset from the source photos
   sync-certificates.mjs    Copies certificates/ to where the site serves them
+  optimise-certificates.py Shrinks scans for the web; keeps the full-res originals
 portfolio/                 The standalone vanilla build, served at /classic/
 plans/                     The original build plan (background reading)
 private/                   Ignored. Superseded résumés and source documents.
@@ -224,6 +226,22 @@ no second copy to keep in step; the deploy workflow then mirrors the same files
 into `/classic/`. Names are normalised (`Organic Farming.PNG` →
 `organic-farming.png`), and a file whose name matches no certificate is reported
 with a suggested spelling rather than silently doing nothing.
+
+A scan photographed on a phone is several megabytes, and the viewer never shows
+one wider than about 1200 px — so `npm run certs:optimise` shrinks it to 1800 px
+on the long edge at quality 88 with no chroma subsampling (kept, because that is
+what smears small type on a document). A 4.8 MB photograph becomes about 300 KB.
+It copies the untouched original to `private/certificate-originals/` **before**
+writing, and leaves a file alone when a re-encode would not actually save
+anything — re-encoding costs a JPEG generation, so doing it for a fraction of a
+percent is pure loss.
+
+Three certificates — **Drone Technology in Agriculture**, **Mushroom
+Cultivation**, and **Agro-Industrial Attachment (NSL Sugars)** — are marked
+`onRequest: true` in `src/data/portfolio.ts`. The training or internship was
+completed but the certificate was never issued or published, so those cards say
+so and link to the contact section instead of opening the viewer. A card must
+never offer to show a document that does not exist.
 
 ---
 

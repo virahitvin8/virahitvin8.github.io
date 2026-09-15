@@ -1,10 +1,10 @@
-import { usePortfolio } from '../content/PortfolioContext';
-import { Editable } from './admin/Editable';
-import { Section } from './Section';
-import { Sparkle } from './icons';
+import { usePortfolio } from "../content/PortfolioContext"
+import { Editable } from "./admin/Editable"
+import { Section } from "./Section"
+import { Sparkle } from "./icons"
 
 export function About() {
-  const { data } = usePortfolio();
+  const { data } = usePortfolio()
   return (
     <Section
       id="about"
@@ -26,7 +26,9 @@ export function About() {
                 <div className="font-display text-3xl text-neon text-glow-neon lg:text-4xl">
                   {s.value}
                 </div>
-                <div className="mt-1 text-xs uppercase tracking-wider text-faint">{s.label}</div>
+                <div className="mt-1 text-xs uppercase tracking-wider text-faint">
+                  {s.label}
+                </div>
               </div>
             ))}
           </div>
@@ -40,7 +42,11 @@ export function About() {
                 key={i}
                 className="group flex items-center gap-3 rounded-lg border border-hair bg-white/[0.02] px-4 py-3 transition hover:border-neon/40 hover:bg-neon/[0.04]"
               >
-                <Sparkle width={16} height={16} className="text-gold transition group-hover:text-neon" />
+                <Sparkle
+                  width={16}
+                  height={16}
+                  className="text-gold transition group-hover:text-neon"
+                />
                 <span className="text-sm text-ink">{f}</span>
               </div>
             ))}
@@ -48,5 +54,5 @@ export function About() {
         </div>
       </div>
     </Section>
-  );
+  )
 }

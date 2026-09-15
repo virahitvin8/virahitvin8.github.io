@@ -1,28 +1,34 @@
-import { useEffect, useState } from 'react';
-import { usePortfolio } from '../../content/PortfolioContext';
-import { Lock, X } from '../icons';
+import { useEffect, useState } from "react"
+import { usePortfolio } from "../../content/PortfolioContext"
+import { Lock, X } from "../icons"
 
-export function AdminGate({ open, onClose }: { open: boolean; onClose: () => void }) {
-  const { login } = usePortfolio();
-  const [pin, setPin] = useState('');
+export function AdminGate({
+  open,
+  onClose,
+}: {
+  open: boolean
+  onClose: () => void
+}) {
+  const { login } = usePortfolio()
+  const [pin, setPin] = useState("")
 
   useEffect(() => {
-    if (!open) setPin('');
-  }, [open]);
+    if (!open) setPin("")
+  }, [open])
 
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [onClose]);
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose()
+    window.addEventListener("keydown", onKey)
+    return () => window.removeEventListener("keydown", onKey)
+  }, [onClose])
 
-  if (!open) return null;
+  if (!open) return null
 
   const submit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (login(pin)) onClose();
-    setPin('');
-  };
+    e.preventDefault()
+    if (login(pin)) onClose()
+    setPin("")
+  }
 
   return (
     <div
@@ -61,8 +67,10 @@ export function AdminGate({ open, onClose }: { open: boolean; onClose: () => voi
         >
           Unlock
         </button>
-        <p className="mt-4 text-xs text-faint">Default PIN is 2080 — change it once inside.</p>
+        <p className="mt-4 text-xs text-faint">
+          Default PIN is 2080 — change it once inside.
+        </p>
       </form>
     </div>
-  );
+  )
 }
