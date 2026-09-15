@@ -498,18 +498,37 @@ a.feed-item:hover .feed-body p { color: var(--fx-a1); }
 }
 .secure-close:hover { background: #ff6b6b; border-color: #ff6b6b; }
 
+/* The stage hugs the displayed canvas so the two interlaced layers, which are
+   absolutely positioned against it, land on exactly the same pixels.
+
+   A certificate photographed on a phone is portrait (3:4, like the 864x1152
+   case measured here). Sized by width alone the stage became 1200px tall in an
+   813px viewport with body scrolling locked, so the bottom of the certificate
+   was simply unreachable. Constraining the height as well makes a portrait scan
+   scale down to fit; because the canvas has an intrinsic ratio, clamping its
+   height scales the width too, and the aspect ratio is preserved. */
 .cert-stage {
   position: relative;
   max-width: min(900px, 94vw);
-  width: 100%;
+  max-height: calc(100vh - 9.5rem);
+  max-height: calc(100dvh - 9.5rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: filter .18s ease, opacity .18s ease;
 }
 .cert-stage canvas {
-  width: 100%; height: auto; display: block; border-radius: 10px;
+  display: block; border-radius: 10px;
   box-shadow: 0 0 0 1px rgba(201, 168, 76, .5), 0 30px 80px rgba(0, 0, 0, .75);
 }
 /* the complete image — shown whenever interlacing is off */
-.cert-stage .cert-layer-full { position: relative; z-index: 1; }
+.cert-stage .cert-layer-full {
+  position: relative; z-index: 1;
+  width: auto; height: auto;
+  max-width: min(900px, 94vw);
+  max-height: calc(100vh - 9.5rem);
+  max-height: calc(100dvh - 9.5rem);
+}
 .cert-stage .cert-layer-a,
 .cert-stage .cert-layer-b {
   position: absolute; top: 0; left: 0;

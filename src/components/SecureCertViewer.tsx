@@ -108,7 +108,10 @@ export function SecureCertViewer({
               alt={`${cert.title} — ${cert.issuer}`}
               draggable={false}
               onError={() => setFailed(true)}
-              className="relative z-0 w-full select-none object-contain"
+              /* A certificate photographed on a phone is portrait. Sizing by
+                 width alone made it taller than the viewport, with body
+                 scrolling locked, so the bottom was unreachable. */
+              className="relative z-0 mx-auto block max-h-[calc(100dvh-9rem)] w-auto max-w-full select-none object-contain"
             />
           ) : (
             <div className="relative z-0 flex aspect-[1.414/1] flex-col items-center justify-center gap-4 bg-[radial-gradient(ellipse_at_center,#0d2b1f,#04120c)] p-10 text-center">

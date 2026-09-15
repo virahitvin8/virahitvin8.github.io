@@ -11,7 +11,7 @@
 /* Bump VERSION whenever a cached asset changes at the same URL — the profile
    photo and the icon set keep their filenames, so without a bump returning
    visitors would keep serving the old images from disk. */
-const VERSION = 'fx2080-v3';
+const VERSION = 'fx2080-v4';
 const CORE_CACHE = VERSION + '-core';
 const RUNTIME_CACHE = VERSION + '-runtime';
 

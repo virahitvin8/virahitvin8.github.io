@@ -188,11 +188,10 @@ persist in your browser too, so export after those as well.
 
 ## Keeping it fast
 
-- `assets/profile.png` is now **512×512**. Be aware the source photograph is
-  only 167×167 original pixels, so this is a high-quality upscale — it looks
-  crisp at every size the site uses, but soft if someone opens the file at full
-  resolution. A larger original photo is still the single biggest visual upgrade
-  available to you.
+- `assets/profile.png` is **512×512**, generated from a 1024×1024 original, so
+  it is genuinely sharp rather than an upscale. It is disposable: run
+  `python3 ../scripts/build-image-assets.py` from the repository root to
+  regenerate it, `assets/avatar.png`, the icon set and the share card together.
 - Keep `assets/cv.pdf` under about 2 MB so the Download CV button feels instant.
 - `sw.js` caches everything for repeat visitors, so the second visit loads from
   disk. Bump `VERSION` in `sw.js` to force a refresh after big changes.

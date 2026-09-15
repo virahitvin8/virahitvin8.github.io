@@ -175,6 +175,14 @@ It writes `public/` and mirrors the same output into `portfolio/assets/`, so
 `/` and `/classic/` cannot drift apart. Resizing is done on premultiplied alpha;
 without that, a circular cut-out picks up a dark fringe at its edge.
 
+Two marks, chosen by size. A full head-and-shoulders portrait in a 16px tab icon
+gives the face about **three pixels**, which reads as noise — so `favicon-16/32`
+(and the 48 inside `favicon.ico`) are cropped tight to the head with no gold
+ring, putting the face at roughly half the tile. From 180px up there is room for
+the whole circular portrait inside the ring, which is the better-looking mark and
+is what a home-screen icon shows. The head crop is located from the photograph
+itself rather than hard-coded, so replacing the source does not mis-frame it.
+
 ### Live GitHub
 
 `src/hooks/useGitHubFeed.ts` reads `virahitvin8` in two places:

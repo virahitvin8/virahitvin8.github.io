@@ -1318,6 +1318,21 @@
 
   /* Resolve a real certificate scan, if the owner has supplied one.
      Order:  explicit attribute → uploaded image → saved path map → folder probe */
+  /* Extensions probed in the drop-in folder, in preference order. */
+  const CERT_EXTS = ['png', 'jpg', 'jpeg', 'webp'];
+
+  /* The scan file for a slug, if one is present in the drop-in folder.
+     Shared by the viewer and the admin panel so the two can never disagree
+     about whether a certificate has a real scan. */
+  async function findLocalScan(slug) {
+    if (!slug) return null;
+    for (let i = 0; i < CERT_EXTS.length; i++) {
+      const found = await loadImage(CONFIG.CERT_DIR + slug + '.' + CERT_EXTS[i]);
+      if (found) return found;
+    }
+    return null;
+  }
+
   async function resolveCertImage(data) {
     if (!data) return null;
     const slug = data.slug || slugify(data.title);
@@ -1332,13 +1347,7 @@
     const path = map[slug] || confMap[slug];
     if (path) return loadImage(path);
 
-    /* lazy probe of the drop-in folder — one attempt per extension */
-    const exts = ['png', 'jpg', 'jpeg', 'webp'];
-    for (let i = 0; i < exts.length; i++) {
-      const found = await loadImage(CONFIG.CERT_DIR + slug + '.' + exts[i]);
-      if (found) return found;
-    }
-    return null;
+    return findLocalScan(slug);
   }
 
   function loadImage(src) {
@@ -1854,8 +1863,9 @@
 
       + '<div class="admin-field" style="margin-top:1.4rem;"><label>Certificate Scans</label>'
       + '<p class="admin-help-text" style="margin-bottom:.8rem;">Upload a scan for each credential, or drop files into '
-      + '<code>assets/certs/</code> named after the certificate (e.g. <code>organic-farming.png</code>). '
-      + 'Uploads are compressed and stored on this device, then embedded when you export.</p>'
+      + '<code>public/certs/</code> named after the certificate (e.g. <code>organic-farming.png</code>) — '
+      + 'they are copied into <code>assets/certs/</code> on deploy and detected automatically, with no size limit. '
+      + 'Uploads are compressed and stored on this device only, then embedded when you export.</p>'
       + '<div id="coreCertList"></div></div>'
       + '<div class="admin-field" style="margin-top:1rem;"><label>Free Upload Space</label>'
       + '<button type="button" class="admin-btn-secondary" style="width:100%;padding:.6rem;border-radius:8px;" '
@@ -1914,10 +1924,28 @@
           ? '<button type="button" class="admin-btn-secondary" style="padding:.45rem;border-radius:6px;font-size:.76rem;" '
             + 'data-cert-clear="' + esca(slug) + '"><i class="fas fa-undo"></i></button>'
           : '')
-        + '<span style="font-size:.68rem;opacity:.6;min-width:64px;">'
+        + '<span data-cert-status="' + esca(slug) + '" data-cert-state="'
+        + (hasUpload ? 'uploaded' : (path ? 'path' : 'fallback')) + '" '
+        + 'style="font-size:.68rem;opacity:.6;min-width:76px;">'
         + (hasUpload ? 'uploaded' : (path ? 'path set' : 'fallback')) + '</span>'
         + '</div></div>';
     }).join('');
+
+    /* Report what the viewer will actually use.
+       A certificate whose scan was already sitting in the drop-in folder used
+       to read "fallback", so the panel claimed there was no scan while the
+       viewer happily showed one. The folder probe is async, so each row fills
+       in its own status when it resolves. */
+    host.querySelectorAll('[data-cert-status]').forEach((el) => {
+      if (el.getAttribute('data-cert-state') !== 'fallback') return;
+      findLocalScan(el.getAttribute('data-cert-status')).then((img) => {
+        if (!img) return;
+        el.textContent = 'scan on disk';
+        el.title = img.src + '\nThis file is used by the viewer.';
+        el.style.color = '#52b788';
+        el.style.opacity = '.95';
+      });
+    });
 
     host.querySelectorAll('[data-cert-upload]').forEach((btn) => {
       btn.addEventListener('click', () => uploadCertFile(btn.getAttribute('data-cert-upload')));

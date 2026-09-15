@@ -13,7 +13,7 @@
    otherwise keep the old one from disk.
 ═══════════════════════════════════════════════════════════════════════ */
 
-const VERSION = 'fx-react-v2';
+const VERSION = 'fx-react-v3';
 const CORE = VERSION + '-core';
 const ASSETS = VERSION + '-assets';
 

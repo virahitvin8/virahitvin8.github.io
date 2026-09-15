@@ -25,11 +25,19 @@ Generated (public/, published; mirrored into portfolio/assets/ for /classic/):
     profile.png         512x512   hero portrait, transparency preserved
     avatar.png          512x512   header avatar, square crop of the header photo
     og-card.png        1200x630   share card — portrait swapped in place
-    icons/favicon-16/32/48.png
+    icons/favicon-16.png, favicon-32.png
     icons/apple-touch-icon.png    180x180
     icons/icon-192.png, icon-512.png
     icons/icon-maskable-512.png   subject inset into the Android safe zone
     favicon.ico         16/32/48 in one file
+
+Two marks, chosen per size because one cannot serve both ends. At 16px a
+full head-and-shoulders portrait gives the face about three pixels, which reads
+as noise; so the tab icons are cropped tight to the head and the gold ring is
+dropped (at that size the ring itself costs a pixel of signal). From 180px up
+there is room for the whole circular portrait inside a gold ring, which is the
+nicer mark and what a home-screen icon shows. Both are generated from the same
+photograph, so they never disagree.
 """
 
 from pathlib import Path
@@ -100,7 +108,7 @@ def radical_wash(size: int) -> Image.Image:
 
 
 def plate(premul: np.ndarray, size: int, inset: float, ring: bool = True) -> Image.Image:
-    """A dark emerald tile with the portrait centred inside a gold ring."""
+    """A dark emerald tile with the whole portrait centred inside a gold ring."""
     canvas = radical_wash(size)
 
     inner = max(1, int(round(size * inset)))
@@ -115,6 +123,65 @@ def plate(premul: np.ndarray, size: int, inset: float, ring: bool = True) -> Ima
             outline=GOLD,
             width=max(1, int(round(size * 0.022))),
         )
+    return canvas
+
+
+def head_box(portrait: Image.Image) -> tuple[int, int, int, int]:
+    """
+    Locate the head: a square crop containing it, as (x0, y0, side, head_width).
+
+    Derived from the photograph rather than hard-coded, so replacing the source
+    does not silently mis-frame every icon. The studio backdrop is bright and
+    bluish and the subject is not, which separates the silhouette cleanly; the
+    head then ends where the silhouette suddenly widens into the shoulders.
+    """
+    px = np.asarray(portrait.convert("RGBA")).astype(np.int16)
+    h, w = px.shape[:2]
+    r, g, b, a = px[:, :, 0], px[:, :, 1], px[:, :, 2], px[:, :, 3]
+
+    backdrop = (b > 185) & (g > 175) & (b >= r) & (a > 200)
+    subject = (a > 200) & ~backdrop
+    if not subject.any():
+        side = int(min(w, h) * 0.6)
+        return (w - side) // 2, (h - side) // 2, side, side
+
+    present = subject.any(axis=1)
+    left = np.where(present, np.argmax(subject, axis=1), 0)
+    right = np.where(present, w - 1 - np.argmax(subject[:, ::-1], axis=1), 0)
+    widths = np.where(present, right - left + 1, 0)
+
+    top = int(np.argmax(widths > w * 0.02))
+    band = widths[top:top + max(1, int(h * 0.25))]
+    head_w = int(band.max()) if band.size else int(w * 0.25)
+
+    # shoulders are the first row more than half again as wide as the head
+    shoulder = top
+    for y in range(top, h):
+        if widths[y] > head_w * 1.5:
+            shoulder = y
+            break
+    shoulder = shoulder if shoulder > top + head_w // 2 else min(h, top + head_w)
+
+    rows = np.nonzero(subject[top:shoulder + 1].any(axis=0))[0]
+    cx = (rows.min() + rows.max()) / 2 if rows.size else w / 2
+    cy = (top + shoulder) / 2
+
+    side = int(max(shoulder - top, head_w) * 1.06)
+    side = min(side, min(w, h))
+    x0 = int(min(max(cx - side / 2, 0), w - side))
+    y0 = int(min(max(cy - side / 2, 0), h - side))
+    return x0, y0, side, head_w
+
+
+def plate_face(premul: np.ndarray, box: tuple[int, int, int, int], size: int,
+               inset: float = 1.0) -> Image.Image:
+    """A tile cropped tight to the head — for sizes where the whole portrait is mush."""
+    x0, y0, side = box[0], box[1], box[2]
+    head = premul[y0:y0 + side, x0:x0 + side]
+    canvas = radical_wash(size)
+    inner = max(1, int(round(size * inset)))
+    disc = resize_premultiplied(head, (inner, inner))
+    canvas.paste(disc, ((size - inner) // 2, (size - inner) // 2), disc)
     return canvas
 
 
@@ -176,6 +243,14 @@ def main() -> None:
         print(f"wrote og-card.png  portrait replaced at {x},{y} ({w}x{h})")
 
     # ── 4. icon set ─────────────────────────────────────────────────────────
+    box = head_box(portrait)
+    fx, fy, fside, fw = box
+    print(f"head box        : {fside}x{fside} at ({fx},{fy}) — head {fw}px wide, "
+          f"so the face fills {fw / fside * 100:.0f}% of a tight tile "
+          f"(was {fw / portrait.size[0] * 100:.0f}% in the full portrait)")
+
+    # Large sizes: the full circular portrait in a gold ring. This is the mark a
+    # home screen or a tab pinned at 512px shows, and there is room for detail.
     for size, inset, name in (
         (192, 0.86, "icon-192.png"),
         (512, 0.86, "icon-512.png"),
@@ -184,16 +259,24 @@ def main() -> None:
         write_pair(name, plate(premul, size, inset), subdir="icons")
         print(f"wrote icons/{name}")
 
-    # A maskable icon gets cropped to a circle or squircle by the launcher, so
-    # the subject has to stay inside the middle 80% of the tile.
-    write_pair("icon-maskable-512.png", plate(premul, 512, 0.70), subdir="icons")
-    print("wrote icons/icon-maskable-512.png (subject inside the safe zone)")
+    # A maskable icon gets cropped to a circle or squircle by the launcher, so the
+    # subject has to stay inside the middle 80% of the tile — and because Android
+    # draws it at 48-108px, it uses the tight head crop rather than the portrait.
+    write_pair("icon-maskable-512.png", plate_face(premul, box, 512, 0.74), subdir="icons")
+    print("wrote icons/icon-maskable-512.png (head crop, inside the safe zone)")
 
-    for size in (16, 32, 48):
-        write_pair(f"favicon-{size}.png", plate(premul, size, 0.84), subdir="icons")
-    print("wrote icons/favicon-16/32/48.png")
+    # Small sizes: head crop, no ring. 48 also lives inside favicon.ico for
+    # Windows, so it keeps the tight crop as well.
+    for size in (16, 32):
+        write_pair(f"favicon-{size}.png", plate_face(premul, box, size), subdir="icons")
+    print("wrote icons/favicon-16.png, favicon-32.png (head crop, no ring)")
 
-    plate(premul, 48, 0.84).save(
+    # 48x48 belongs in favicon.ico for Windows; a loose PNG beside it would be a
+    # second source of truth for the same size, and nothing references one.
+    for stale in (PUBLIC / "icons" / "favicon-48.png", CLASSIC / "icons" / "favicon-48.png"):
+        stale.unlink(missing_ok=True)
+
+    plate_face(premul, box, 48).save(
         PUBLIC / "favicon.ico", sizes=[(48, 48), (32, 32), (16, 16)]
     )
     print("wrote favicon.ico (16/32/48)")
