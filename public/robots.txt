@@ -1,0 +1,13 @@
+# N. Akshit Vinay — Remote Sensing, GIS & Agriculture Portfolio
+# Custom domain? Update the Sitemap line and the same host in index.html
+# (canonical, og:url, og:image, twitter:image).
+
+User-agent: *
+Allow: /
+
+# The archived vanilla HTML build served from /classic/ is the same content as
+# the React app at the root. Keeping it out of the index avoids two URLs
+# competing for the same page.
+Disallow: /classic/
+
+Sitemap: https://virahitvin8.github.io/sitemap.xml

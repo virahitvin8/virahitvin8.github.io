@@ -1,0 +1,293 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import 'tailwindcss';
+
+/* ═══════════════════════════════════════════════════════════
+   EMERALD EXECUTIVE / ORBITAL TELEMETRY — 2080 design tokens
+   ═══════════════════════════════════════════════════════════ */
+@theme {
+  --color-void: #020a07;
+  --color-abyss: #04120c;
+  --color-primary: #0d2b1f;
+  --color-primary-mid: #16402e;
+  --color-primary-light: #2d6a4f;
+  --color-gold: #c9a84c;
+  --color-gold-light: #f0c96e;
+  --color-sage: #52b788;
+  --color-sage-light: #74c69d;
+  --color-neon: #00ffc8;
+  --color-ink: #f5f2e8;
+  --color-mist: rgba(245, 242, 232, 0.62);
+  --color-faint: rgba(245, 242, 232, 0.34);
+  --color-hair: rgba(0, 255, 200, 0.14);
+
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Outfit', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+:root {
+  --neon-soft: rgba(0, 255, 200, 0.5);
+  --gold-soft: rgba(201, 168, 76, 0.4);
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5.5rem;
+}
+
+body {
+  margin: 0;
+  background: var(--color-void);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: rgba(0, 255, 200, 0.25);
+  color: #fff;
+}
+
+/* Hidden-until-scroll scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 255, 200, 0.18);
+  border-radius: 99px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 255, 200, 0.35);
+  background-clip: content-box;
+}
+
+/* ── Reusable field utilities ── */
+.hud-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--color-neon);
+}
+
+.text-glow-neon {
+  text-shadow: 0 0 22px rgba(0, 255, 200, 0.45);
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--color-hair);
+  backdrop-filter: blur(10px);
+}
+
+.grain::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(rgba(0, 255, 200, 0.05) 1px, transparent 1px);
+  background-size: 26px 26px;
+  mask-image: radial-gradient(ellipse at center, #000 20%, transparent 78%);
+}
+
+/* ═══════════════════════════ KEYFRAMES ═══════════════════════════ */
+@keyframes orbit-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes orbit-spin-rev {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+@keyframes marquee-scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.35;
+    transform: scale(0.8);
+  }
+}
+@keyframes float-soft {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
+@keyframes glitch-a {
+  0%,
+  100% {
+    clip-path: inset(10% 0 60% 0);
+    transform: translate(-2px, -1px);
+  }
+  50% {
+    clip-path: inset(55% 0 20% 0);
+    transform: translate(2px, 1px);
+  }
+}
+@keyframes glitch-b {
+  0%,
+  100% {
+    clip-path: inset(70% 0 8% 0);
+    transform: translate(2px, 1px);
+  }
+  50% {
+    clip-path: inset(20% 0 55% 0);
+    transform: translate(-2px, -1px);
+  }
+}
+@keyframes sweep {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(1200%);
+  }
+}
+@keyframes blink-caret {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(34px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes ring-expand {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0;
+}
+.reveal.in {
+  animation: reveal-up 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-orbit {
+  animation: orbit-spin 46s linear infinite;
+}
+.animate-orbit-rev {
+  animation: orbit-spin-rev 46s linear infinite;
+}
+.animate-pulse-dot {
+  animation: pulse-dot 1.8s ease-in-out infinite;
+}
+.animate-float {
+  animation: float-soft 7s ease-in-out infinite;
+}
+
+/* Glitch text layers */
+.glitch {
+  position: relative;
+}
+.glitch[data-text].glitching::before,
+.glitch[data-text].glitching::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.glitch[data-text].glitching::before {
+  color: var(--color-neon);
+  animation: glitch-a 0.28s steps(2) infinite;
+}
+.glitch[data-text].glitching::after {
+  color: var(--color-gold);
+  animation: glitch-b 0.28s steps(2) infinite;
+}
+
+/* Inline-edit affordances (admin) */
+body.admin-editing [data-editable] {
+  outline: 1px dashed rgba(0, 255, 200, 0.55);
+  outline-offset: 4px;
+  cursor: text;
+  border-radius: 3px;
+  transition: background 0.2s, outline-color 0.2s;
+}
+body.admin-editing [data-editable]:hover {
+  outline-color: var(--color-gold);
+  background: rgba(0, 255, 200, 0.06);
+}
+body.admin-editing [data-editable-image] {
+  outline: 2px dashed var(--gold-soft);
+  outline-offset: 4px;
+  cursor: pointer;
+}
+body.admin-editing [data-editable-image]:hover {
+  outline-color: var(--color-gold);
+}
+
+/* Secure certificate viewer — no selection, print suppression */
+.secure-lock {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+@media print {
+  body.secure-open * {
+    display: none !important;
+  }
+  body.secure-open::after {
+    content: 'Protected credential — printing is disabled.';
+    display: block !important;
+    padding: 2rem;
+    font-family: monospace;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal {
+    opacity: 1 !important;
+  }
+}

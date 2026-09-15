@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Single-page portfolio: one canonical URL is the correct signal. The section
+  anchors are the same document, so listing them separately adds no rank.
+  Submit at https://search.google.com/search-console → Sitemaps.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://virahitvin8.github.io/</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://virahitvin8.github.io/profile.png</image:loc>
+      <image:title>N. Akshit Vinay</image:title>
+    </image:image>
+  </url>
+</urlset>

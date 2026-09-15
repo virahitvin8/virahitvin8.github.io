@@ -1,0 +1,62 @@
+{
+  "name": "N. Akshit Vinay — Remote Sensing, GIS & Agriculture",
+  "short_name": "Akshit Vinay",
+  "description": "Portfolio of N. Akshit Vinay — M.Sc Remote Sensing & GIS scholar and agriculturist specialising in satellite earth observation, geospatial analytics, precision farming and drone technology.",
+  "id": "/",
+  "start_url": "./?source=pwa",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "any",
+  "background_color": "#04120c",
+  "theme_color": "#0d2b1f",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["portfolio", "education", "science", "productivity"],
+  "icons": [
+    {
+      "src": "assets/icons/favicon-32.png",
+      "sizes": "32x32",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Certifications",
+      "short_name": "Certificates",
+      "description": "Verified credentials and training records",
+      "url": "./?source=pwa#certifications"
+    },
+    {
+      "name": "Projects",
+      "short_name": "Projects",
+      "description": "Remote sensing, GIS and agritech project work",
+      "url": "./?source=pwa#projects"
+    },
+    {
+      "name": "Contact",
+      "short_name": "Contact",
+      "description": "Get in touch",
+      "url": "./?source=pwa#contact"
+    }
+  ]
+}

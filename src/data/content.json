@@ -1,0 +1,17 @@
+{
+  "_readme": "PUBLISHED CONTENT. This file is read at BUILD TIME by src/content/PortfolioContext.tsx and merged over the defaults in src/data/portfolio.ts. Publish edits here instead of editing TypeScript: unlock the site in admin mode, make your changes, click Export, and save the downloaded file over this one. Commit, and CI rebuilds the live site. Leave it as {} to fall back entirely to the code defaults. Keys beginning with an underscore are ignored.",
+
+  "_sections": [
+    "profile",
+    "social",
+    "stats",
+    "about",
+    "education",
+    "experience",
+    "skills",
+    "certifications",
+    "projects",
+    "linkedinPosts",
+    "contact"
+  ]
+}

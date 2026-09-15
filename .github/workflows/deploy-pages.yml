@@ -1,0 +1,99 @@
+name: Deploy portfolio to GitHub Pages
+
+# Publishes a single site containing both builds:
+#   /          the React + Vite app (the primary portfolio)
+#   /classic/  the original static HTML/CSS/JS build, kept as an archive
+#
+# Only the built artifact is uploaded, so nothing else in the repository —
+# the resume PDFs, the extracted CV images, planning notes — can ever become
+# public. The CV is published deliberately, via the app's own bundle.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'public/**'
+      - 'index.html'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'vite.config.ts'
+      - 'tsconfig.json'
+      - 'portfolio/**'
+      - '.github/workflows/deploy-pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npx tsc --noEmit
+
+      - name: Build the React app
+        run: npm run build
+
+      - name: Add the vanilla build as /classic/
+        run: |
+          mkdir -p dist/classic
+          cp -R portfolio/. dist/classic/
+          # The archive keeps its own sitemap reference; drop the copy that
+          # points at the site root so only one canonical host remains.
+          rm -f dist/classic/DEPLOY.md dist/classic/set-domain.sh
+
+      # Certificate scans are maintained in one place (public/certs/) and read
+      # by the React app. The classic build loads them relative to its own
+      # folder, so copy them across rather than asking for two copies of the
+      # same six images that can silently drift apart.
+      - name: Share certificate scans with the classic build
+        run: |
+          if [ -d dist/certs ] && [ -n "$(ls -A dist/certs)" ]; then
+            mkdir -p dist/classic/assets/certs
+            cp -R dist/certs/. dist/classic/assets/certs/
+            echo "Copied certificate scans into /classic/assets/certs/"
+          else
+            echo "No certificate scans committed — both builds use the rendered fallback."
+          fi
+
+      # GitHub Pages runs Jekyll by default, which ignores files and folders
+      # beginning with an underscore. Nothing here does, but a .nojekyll marker
+      # makes the copy byte-for-byte predictable.
+      - name: Disable Jekyll processing
+        run: touch dist/.nojekyll
+
+      - name: Upload the site as the Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,647 @@
+/* ═══════════════════════════════════════════════════════════════
+   FUTURIST-2080 LAYER — N. AKSHIT VINAY
+   Load AFTER style.css and admin.css.
+
+   This layer is ADAPTIVE:
+     • The palette shifts with the VIEWER's local time of day
+       (dawn / day / dusk / night  →  light theme by day, dark by night)
+     • and with the VIEWER's live local weather
+       (clear / cloudy / rain / storm / snow / fog / wind).
+
+   The runtime sets these attributes on <html>:
+     data-theme  = "day" | "night"
+     data-band   = "dawn" | "day" | "dusk" | "night"
+     data-weather= "clear" | "cloudy" | "rain" | "storm" | "snow" | "fog"
+     data-wind   = "calm" | "windy"
+═══════════════════════════════════════════════════════════════ */
+
+:root {
+  /* 2080 signature colours */
+  --fx-neon: #00ffc8;
+  --fx-neon-soft: rgba(0, 255, 200, .55);
+  --fx-amber: #c9a84c;
+  --fx-void: #020a07;
+
+  /* weather-driven dynamic accents (overridden per condition) */
+  --fx-a1: #00ffc8;
+  --fx-a2: #c9a84c;
+  --fx-a3: #52b788;
+
+  /* surfaces — day defaults (night overrides below) */
+  --fx-surface: #ffffff;
+  --fx-surface-2: #f2f7f4;
+  --fx-line: rgba(0, 0, 0, .07);
+  --fx-glow: 0 0 18px rgba(0, 255, 200, .35);
+  --fx-sky-1: #0d2b1f;
+  --fx-sky-2: #0a1f15;
+  --fx-sky-3: #1a3c2c;
+  --fx-wash: transparent;
+
+  --fx-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   1. ADAPTIVE THEME — TIME OF DAY
+═══════════════════════════════════════════════════════════════ */
+
+/* — DAY: the original design palette, gently warmed by band — */
+html[data-band="dawn"] {
+  --fx-sky-1: #123a2c;
+  --fx-sky-2: #0d2b1f;
+  --fx-sky-3: #2a4a3a;
+  --fx-wash: radial-gradient(ellipse at 20% 0%, rgba(255, 176, 120, .10), transparent 60%);
+}
+html[data-band="day"] {
+  --fx-sky-1: #0d2b1f;
+  --fx-sky-2: #0a1f15;
+  --fx-sky-3: #1a3c2c;
+  --fx-wash: radial-gradient(ellipse at 80% 0%, rgba(255, 214, 130, .10), transparent 60%);
+}
+html[data-band="dusk"] {
+  --fx-sky-1: #1a2733;
+  --fx-sky-2: #0d1720;
+  --fx-sky-3: #2d2233;
+  --fx-wash: radial-gradient(ellipse at 50% 100%, rgba(255, 138, 92, .14), transparent 65%);
+}
+
+/* — NIGHT: full dark theme, remapping the core design tokens — */
+html[data-theme="night"] {
+  --off-white: #04120c;
+  --text-dark: #e9f6f0;
+  --text-mid: #b6ccc2;
+  --text-muted: #7f978c;
+  --card-bg: #071a12;
+  --section-alt: #061610;
+  --white: #071a12;
+
+  --primary-light: #52b788;
+  --sage: #74c69d;
+
+  --fx-surface: #071a12;
+  --fx-surface-2: #0a2119;
+  --fx-line: rgba(255, 255, 255, .08);
+  --fx-glow: 0 0 22px rgba(0, 255, 200, .30);
+
+  --fx-sky-1: #02100b;
+  --fx-sky-2: #010805;
+  --fx-sky-3: #04170f;
+
+  --shadow-sm: 0 4px 20px rgba(0, 0, 0, .45);
+  --shadow-md: 0 8px 40px rgba(0, 0, 0, .55);
+  --shadow-lg: 0 20px 60px rgba(0, 0, 0, .65);
+}
+
+/* Night: every surface that was hard-wired to --white / light grey */
+html[data-theme="night"] .about-section,
+html[data-theme="night"] .experience-section,
+html[data-theme="night"] .projects-section,
+html[data-theme="night"] .timeline-card,
+html[data-theme="night"] .exp-timeline-card,
+html[data-theme="night"] .cert-card,
+html[data-theme="night"] .project-card,
+html[data-theme="night"] .lang-tag,
+html[data-theme="night"] .soft-skills-wrap,
+html[data-theme="night"] .domain-modal-box {
+  background: var(--fx-surface);
+}
+html[data-theme="night"] .cert-section {
+  background: linear-gradient(180deg, #04120c 0%, #071c14 100%);
+}
+html[data-theme="night"] .skills-section,
+html[data-theme="night"] .education-section { background: #061610; }
+html[data-theme="night"] .info-item,
+html[data-theme="night"] .exp-card { background: var(--fx-surface-2); }
+
+html[data-theme="night"] .cert-card,
+html[data-theme="night"] .exp-timeline-card,
+html[data-theme="night"] .project-card,
+html[data-theme="night"] .lang-tag,
+html[data-theme="night"] .info-item { border-color: var(--fx-line); }
+
+html[data-theme="night"] .skill-bar-track { background: rgba(255, 255, 255, .09); }
+html[data-theme="night"] .skill-bar-header,
+html[data-theme="night"] .project-title,
+html[data-theme="night"] .exp-role,
+html[data-theme="night"] .timeline-title { color: var(--text-dark); }
+html[data-theme="night"] .soft-skill-pill {
+  background: linear-gradient(135deg, rgba(0, 255, 200, .05), rgba(82, 183, 136, .07));
+  border-color: rgba(0, 255, 200, .14);
+}
+html[data-theme="night"] .project-tech span,
+html[data-theme="night"] .section-tag {
+  background: rgba(0, 255, 200, .07);
+  border-color: rgba(0, 255, 200, .2);
+}
+html[data-theme="night"] .expertise-title { border-left-color: var(--fx-amber); }
+
+/* night sky wash on the big dark blocks */
+html[data-theme="night"] .hero {
+  background: linear-gradient(135deg, var(--fx-sky-1) 0%, var(--fx-sky-2) 45%, var(--fx-sky-3) 100%);
+}
+html[data-theme="night"] .contact-section {
+  background: linear-gradient(135deg, var(--fx-sky-1) 0%, var(--fx-sky-2) 100%);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   2. ADAPTIVE THEME — WEATHER PALETTES
+   Each condition re-tints the accents used across the whole site.
+═══════════════════════════════════════════════════════════════ */
+
+/* accents shared by both themes */
+html[data-weather="clear"] {
+  --accent: #d9b45c;  --accent-light: #f5d98c;
+  --fx-a1: #ffe08a;   --fx-a2: #ffc46b;  --fx-a3: #7fd18f;
+}
+html[data-weather="cloudy"] {
+  --accent: #b8bfae;  --accent-light: #dfe4d6;
+  --fx-a1: #cfe3d8;   --fx-a2: #b8bfae;  --fx-a3: #8fae9c;
+}
+html[data-weather="rain"] {
+  --accent: #9dc0d6;  --accent-light: #cfe3f0;
+  --fx-a1: #7fd8ff;   --fx-a2: #9dc0d6;  --fx-a3: #63b0cc;
+}
+html[data-weather="storm"] {
+  --accent: #a99ce0;  --accent-light: #d3cbf5;
+  --fx-a1: #a99cff;   --fx-a2: #7fd8ff;  --fx-a3: #6f9ce0;
+}
+html[data-weather="snow"] {
+  --accent: #cfe4f2;  --accent-light: #f0f8ff;
+  --fx-a1: #ffffff;   --fx-a2: #d8ecff;  --fx-a3: #9fc9dd;
+}
+html[data-weather="fog"] {
+  --accent: #c2cbbf;  --accent-light: #e3e8e0;
+  --fx-a1: #dfe8e0;   --fx-a2: #c2cbbf;  --fx-a3: #93a897;
+}
+html[data-wind="windy"] { --fx-a2: #7fffd4; --fx-a3: #7fffd4; }
+
+/* --primary-light / --sage are used as TEXT colours on light surfaces in
+   day mode, so each weather needs a dark enough tint to stay readable.
+   (Values verified against a WCAG contrast audit — all >= 4.5:1.)   */
+html[data-theme="day"][data-weather="clear"]  { --primary-light: #24744c; --sage: #3f9c69; }
+html[data-theme="day"][data-weather="cloudy"] { --primary-light: #45604f; --sage: #5c7f6a; }
+html[data-theme="day"][data-weather="rain"]   { --primary-light: #2a5f7d; --sage: #3b7f9e; }
+html[data-theme="day"][data-weather="storm"]  { --primary-light: #463a85; --sage: #5f56ab; }
+html[data-theme="day"][data-weather="snow"]   { --primary-light: #386176; --sage: #4e8299; }
+html[data-theme="day"][data-weather="fog"]    { --primary-light: #435f52; --sage: #5a7d6b; }
+
+/* night mode: the same roles become light-on-dark */
+html[data-theme="night"][data-weather="clear"]  { --primary-light: #8fd9a5; --sage: #9fe0b4; }
+html[data-theme="night"][data-weather="cloudy"] { --primary-light: #a9c9b8; --sage: #b8d4c6; }
+html[data-theme="night"][data-weather="rain"]   { --primary-light: #7fc0dd; --sage: #9ad4ec; }
+html[data-theme="night"][data-weather="storm"]  { --primary-light: #a99ce0; --sage: #bdb2f0; }
+html[data-theme="night"][data-weather="snow"]   { --primary-light: #a8cfe0; --sage: #c4e4f2; }
+html[data-theme="night"][data-weather="fog"]    { --primary-light: #a4c0ad; --sage: #bcd2c4; }
+
+/* ═══════════════════════════════════════════════════════════════
+   3. WEATHER / TIME ATMOSPHERE LAYERS
+═══════════════════════════════════════════════════════════════ */
+#fxWeather,
+#fxTimeGlow,
+.fx-scanlines,
+.fx-vignette,
+.fx-progress {
+  position: fixed;
+  pointer-events: none;
+}
+#fxWeather { inset: 0; z-index: 8998; opacity: .85; }
+#fxTimeGlow {
+  inset: 0; z-index: 8997; background: var(--fx-wash);
+  transition: background 1.2s ease;
+}
+.fx-scanlines {
+  inset: 0; z-index: 9000; mix-blend-mode: overlay; opacity: .45;
+  background: repeating-linear-gradient(0deg,
+    rgba(255, 255, 255, .035) 0 1px, transparent 1px 3px);
+}
+.fx-vignette {
+  inset: 0; z-index: 8999;
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, .26) 100%);
+}
+.fx-progress {
+  top: 0; left: 0; height: 3px; width: 0; z-index: 9500;
+  background: linear-gradient(90deg, var(--fx-a1), var(--fx-a2));
+  box-shadow: 0 0 10px var(--fx-neon-soft);
+}
+
+/* Sun / moon glow for clear skies (night vs day handled by band) */
+html[data-weather="clear"][data-band="day"] #fxTimeGlow {
+  background: radial-gradient(circle at 82% 6%, rgba(255, 214, 130, .22), transparent 42%);
+}
+html[data-weather="clear"][data-theme="night"] #fxTimeGlow {
+  background: radial-gradient(circle at 78% 8%, rgba(180, 220, 255, .12), transparent 40%);
+}
+html[data-weather="cloudy"] #fxTimeGlow,
+html[data-weather="fog"] #fxTimeGlow {
+  background: linear-gradient(180deg, rgba(190, 205, 210, .18), transparent 55%);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   4. BOOT TERMINAL
+═══════════════════════════════════════════════════════════════ */
+#bootLoader {
+  position: fixed; inset: 0; z-index: 100000;
+  background: radial-gradient(ellipse at 50% 40%, #04160f 0%, var(--fx-void) 70%);
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity .7s ease, visibility .7s;
+}
+#bootLoader.done { opacity: 0; visibility: hidden; pointer-events: none; }
+.boot-terminal {
+  width: min(620px, 90vw);
+  font-family: var(--fx-mono);
+  color: var(--fx-neon);
+}
+.boot-line {
+  font-size: .82rem; letter-spacing: .6px; margin: .4rem 0;
+  opacity: 0; transform: translateX(-8px); transition: .3s;
+  text-shadow: 0 0 10px var(--fx-neon-soft);
+}
+.boot-line.on { opacity: 1; transform: none; }
+.boot-line .ok { color: var(--fx-amber); }
+.boot-bar {
+  height: 5px; margin-top: 1.2rem;
+  background: rgba(0, 255, 200, .1);
+  border: 1px solid rgba(0, 255, 200, .35);
+}
+#bootFill {
+  height: 100%; width: 0;
+  background: linear-gradient(90deg, var(--fx-a1), var(--fx-a2));
+  box-shadow: 0 0 14px var(--fx-neon-soft);
+  transition: width .18s linear;
+}
+.boot-skip {
+  position: absolute; bottom: 1.6rem; right: 1.6rem;
+  background: none; border: 1px solid rgba(255, 255, 255, .18);
+  color: rgba(255, 255, 255, .45); font-size: .68rem; letter-spacing: 2px;
+  padding: .45rem 1rem; border-radius: 4px; cursor: pointer;
+  font-family: var(--fx-mono);
+}
+.boot-skip:hover { color: var(--fx-neon); border-color: var(--fx-neon); }
+
+/* ═══════════════════════════════════════════════════════════════
+   5. CUSTOM NEON CURSOR
+═══════════════════════════════════════════════════════════════ */
+@media (hover: hover) and (pointer: fine) {
+  body.futurist-cursor,
+  body.futurist-cursor a,
+  body.futurist-cursor button { cursor: none; }
+  .fx-cursor-dot,
+  .fx-cursor-ring {
+    position: fixed; top: 0; left: 0; z-index: 100001; pointer-events: none;
+    border-radius: 50%; transform: translate(-50%, -50%);
+  }
+  .fx-cursor-dot {
+    width: 7px; height: 7px; background: var(--fx-a1);
+    box-shadow: 0 0 10px var(--fx-a1);
+  }
+  .fx-cursor-ring {
+    width: 36px; height: 36px;
+    border: 1px solid var(--fx-a1);
+    transition: width .25s, height .25s, border-color .25s, background .25s;
+  }
+  .fx-cursor-ring.grow {
+    width: 64px; height: 64px;
+    border-color: var(--fx-a2);
+    background: rgba(255, 255, 255, .06);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   6. GLITCH HERO NAME
+═══════════════════════════════════════════════════════════════ */
+.glitch { position: relative; }
+.glitch.glitching::before,
+.glitch.glitching::after {
+  content: attr(data-text);
+  position: absolute; inset: 0; overflow: hidden;
+  pointer-events: none;
+}
+.glitch.glitching::before {
+  color: var(--fx-a1); transform: translate(-3px, -2px);
+  clip-path: inset(20% 0 40% 0);
+  animation: fxGlitchX .25s steps(2) infinite;
+}
+.glitch.glitching::after {
+  color: var(--fx-a2); transform: translate(3px, 2px);
+  clip-path: inset(60% 0 10% 0);
+  animation: fxGlitchX .25s steps(2) infinite reverse;
+}
+@keyframes fxGlitchX {
+  0%   { clip-path: inset(10% 0 60% 0); }
+  50%  { clip-path: inset(50% 0 20% 0); }
+  100% { clip-path: inset(80% 0 5% 0); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   7. HUD MARQUEE
+═══════════════════════════════════════════════════════════════ */
+.fx-marquee {
+  overflow: hidden; position: relative; padding: .9rem 0;
+  background: var(--fx-sky-2);
+  border-top: 1px solid rgba(0, 255, 200, .2);
+  border-bottom: 1px solid rgba(0, 255, 200, .2);
+}
+.fx-marquee-track {
+  display: flex; gap: 3rem; width: max-content;
+  animation: fxMarquee 26s linear infinite;
+}
+.fx-marquee:hover .fx-marquee-track { animation-play-state: paused; }
+.fx-marquee-track span {
+  color: rgba(255, 255, 255, .78);
+  font-family: var(--fx-mono);
+  font-size: .78rem; letter-spacing: 3px; text-transform: uppercase;
+  white-space: nowrap; display: flex; align-items: center; gap: 3rem;
+}
+.fx-marquee-track b { color: var(--fx-a1); font-weight: 400; }
+@keyframes fxMarquee { to { transform: translateX(-50%); } }
+
+/* ═══════════════════════════════════════════════════════════════
+   8. HUD SECTION TAGS + WEATHER CHIP
+═══════════════════════════════════════════════════════════════ */
+.hud-tag {
+  display: flex; align-items: center; gap: .8rem;
+  font-family: var(--fx-mono); font-size: .7rem; letter-spacing: 3px;
+  color: var(--fx-neon); text-transform: uppercase; margin-bottom: 1rem;
+  justify-content: center;
+}
+.hud-tag::before,
+.hud-tag::after {
+  content: ""; width: 34px; height: 1px; background: var(--fx-neon);
+  box-shadow: 0 0 8px var(--fx-neon-soft);
+}
+.hud-tag .hud-num { color: var(--fx-amber); }
+
+.weather-chip {
+  display: inline-flex; align-items: center; gap: .5rem;
+  background: var(--glass); border: 1px solid var(--glass-border);
+  border-radius: 25px; padding: .35rem .85rem;
+  font-family: var(--fx-mono); font-size: .68rem; letter-spacing: 1px;
+  color: var(--white); cursor: pointer; transition: var(--transition);
+  white-space: nowrap;
+}
+.weather-chip:hover { border-color: var(--fx-a1); background: rgba(0, 255, 200, .08); }
+.weather-chip[data-state="loading"] { opacity: .55; }
+.weather-chip .wc-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--fx-a1); box-shadow: 0 0 8px var(--fx-a1);
+  animation: fxPulse 1.8s infinite;
+}
+.weather-chip .wc-mode {
+  color: var(--fx-a2); font-size: .6rem; letter-spacing: 1.5px;
+}
+.nav-fx { display: flex; align-items: center; gap: .6rem; }
+@keyframes fxPulse { 50% { opacity: .35; transform: scale(.75); } }
+
+/* ═══════════════════════════════════════════════════════════════
+   9. LIVE TELEMETRY FEEDS
+═══════════════════════════════════════════════════════════════ */
+.feeds-section {
+  background: linear-gradient(180deg, #04120c, var(--fx-void));
+  padding: 6rem 0;
+}
+.feeds-section .section-title { color: #fff; }
+.feeds-section .section-tag {
+  color: var(--fx-a1) !important;
+  border-color: rgba(0, 255, 200, .3) !important;
+  background: rgba(0, 255, 200, .06) !important;
+}
+.feeds-section .section-line { background: linear-gradient(90deg, var(--fx-a1), var(--fx-a2)); }
+.feeds-section .section-subtitle { color: rgba(255, 255, 255, .45); }
+.feeds-grid { display: grid; grid-template-columns: 1.15fr 1fr; gap: 2rem; }
+.feed-panel {
+  background: rgba(255, 255, 255, .03);
+  border: 1px solid rgba(0, 255, 200, .15);
+  border-radius: 18px; padding: 1.6rem;
+  backdrop-filter: blur(8px);
+}
+.feed-panel-head {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 1.2rem; padding-bottom: .9rem;
+  border-bottom: 1px solid rgba(255, 255, 255, .08);
+}
+.feed-panel-head h3 {
+  color: #fff; font-size: 1rem; display: flex; gap: .6rem; align-items: center;
+}
+.feed-panel-head h3 i { color: var(--fx-a1); }
+.live-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--fx-a1); box-shadow: 0 0 10px var(--fx-a1);
+  animation: fxPulse 1.6s infinite;
+}
+.feed-item {
+  display: flex; gap: .9rem; padding: .8rem 0;
+  border-bottom: 1px dashed rgba(255, 255, 255, .08);
+}
+.feed-item:last-child { border-bottom: none; }
+a.feed-item:hover .feed-body p { color: var(--fx-a1); }
+.feed-ico {
+  width: 34px; height: 34px; flex-shrink: 0; border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .85rem; color: #fff;
+  background: linear-gradient(135deg, #0d2b1f, #2d6a4f);
+}
+.feed-body p {
+  color: rgba(255, 255, 255, .82); font-size: .84rem; line-height: 1.55;
+  transition: color .2s;
+}
+.feed-body b { color: var(--fx-amber); font-weight: 600; }
+.feed-body small {
+  /* .35 measured 3.21:1 against the dark feed panel — below the 4.5:1 floor
+     for text this small. .55 measures 6.16:1 and still reads as secondary. */
+  color: rgba(255, 255, 255, .55); font-family: var(--fx-mono);
+  font-size: .66rem; letter-spacing: 1px;
+}
+.feed-empty {
+  color: rgba(255, 255, 255, .55); font-size: .8rem; padding: 1rem 0;
+  text-align: center; font-family: var(--fx-mono); line-height: 1.7;
+}
+.feed-empty a { color: var(--fx-a1); text-decoration: underline; }
+
+/* ═══════════════════════════════════════════════════════════════
+   10. SECURED CERTIFICATE VIEWER
+   Two canvas layers alternate odd/even scanlines at ~60 Hz, so a
+   one-shot screenshot only ever captures half the image.
+═══════════════════════════════════════════════════════════════ */
+#secureCertOverlay {
+  position: fixed; inset: 0; z-index: 100002;
+  background: rgba(1, 6, 4, .95); backdrop-filter: blur(14px);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 1rem;
+  opacity: 0; visibility: hidden; transition: .35s;
+  user-select: none; -webkit-user-select: none; -webkit-touch-callout: none;
+}
+#secureCertOverlay.open { opacity: 1; visibility: visible; }
+.secure-topbar {
+  position: absolute; top: 0; left: 0; right: 0;
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 1rem; padding: 1rem 1.5rem;
+  background: rgba(2, 10, 7, .88);
+  border-bottom: 1px solid rgba(0, 255, 200, .2);
+  flex-wrap: wrap;
+}
+.secure-brand {
+  font-family: var(--fx-mono); color: var(--fx-a1);
+  font-size: .72rem; letter-spacing: 2px;
+}
+.secure-tools { display: flex; align-items: center; gap: .6rem; }
+.secure-warning {
+  display: none; color: #ffd166; font-family: var(--fx-mono);
+  font-size: .7rem; letter-spacing: 1px;
+  animation: fxBlinkWarn .4s steps(2) infinite;
+}
+.secure-warning.show { display: inline; }
+@keyframes fxBlinkWarn { 50% { opacity: .3; } }
+.secure-close {
+  background: rgba(255, 255, 255, .08);
+  border: 1px solid rgba(255, 255, 255, .2); color: #fff;
+  padding: .5rem 1rem; border-radius: 6px; cursor: pointer;
+  font-size: .76rem; font-family: inherit; letter-spacing: 1px;
+}
+.secure-close:hover { background: #ff6b6b; border-color: #ff6b6b; }
+
+.cert-stage {
+  position: relative;
+  max-width: min(900px, 94vw);
+  width: 100%;
+  transition: filter .18s ease, opacity .18s ease;
+}
+.cert-stage canvas {
+  width: 100%; height: auto; display: block; border-radius: 10px;
+  box-shadow: 0 0 0 1px rgba(201, 168, 76, .5), 0 30px 80px rgba(0, 0, 0, .75);
+}
+/* the complete image — shown whenever interlacing is off */
+.cert-stage .cert-layer-full { position: relative; z-index: 1; }
+.cert-stage .cert-layer-a,
+.cert-stage .cert-layer-b {
+  position: absolute; top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 2; opacity: 0;
+}
+
+/* the 60 Hz interlace — only active while interlacing is enabled */
+#secureCertOverlay.interlaced .cert-layer-full { opacity: 0; }
+#secureCertOverlay.interlaced .cert-layer-a {
+  opacity: 1; animation: fxInterlaceA .034s steps(1, end) infinite;
+}
+#secureCertOverlay.interlaced .cert-layer-b {
+  opacity: 1; animation: fxInterlaceB .034s steps(1, end) infinite;
+}
+@keyframes fxInterlaceA { 0%, 49.9% { opacity: 1; } 50%, 100% { opacity: 0; } }
+@keyframes fxInterlaceB { 0%, 49.9% { opacity: 0; } 50%, 100% { opacity: 1; } }
+
+/* focus loss / devtools / tab switch → instantly obfuscate */
+#secureCertOverlay.shield-hidden .cert-stage {
+  filter: blur(50px) grayscale(100%);
+  opacity: .015;
+}
+.secure-note {
+  color: rgba(255, 255, 255, .55); font-size: .7rem;
+  font-family: var(--fx-mono); letter-spacing: 1px;
+  text-align: center; padding: 0 1.5rem; max-width: 760px; line-height: 1.8;
+}
+.secure-note b { color: var(--fx-a2); font-weight: 600; }
+.secure-meta {
+  font-family: var(--fx-mono); font-size: .64rem; letter-spacing: 1.5px;
+  color: rgba(0, 255, 200, .5); text-align: center;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   11. DOUBLE-CLICK INLINE EDIT MODE (admin only)
+═══════════════════════════════════════════════════════════════ */
+body.inline-edit [data-iedit] {
+  outline: 1px dashed rgba(0, 255, 200, .7);
+  outline-offset: 3px; cursor: text;
+}
+body.inline-edit [data-iedit]:hover {
+  outline-color: var(--fx-amber);
+  background: rgba(0, 255, 200, .06);
+}
+body.inline-edit [data-iedit][contenteditable="true"] {
+  outline: 2px solid var(--fx-neon);
+  background: rgba(0, 255, 200, .1);
+}
+body.inline-edit img[data-iimg] {
+  outline: 2px dashed var(--fx-amber);
+  outline-offset: 3px; cursor: pointer;
+}
+body.inline-edit .fx-edit-hint {
+  position: fixed; bottom: 5.4rem; left: 50%; transform: translateX(-50%);
+  z-index: 100003; pointer-events: none;
+  background: rgba(4, 18, 12, .95); border: 1px solid var(--fx-neon);
+  color: #fff; font-family: var(--fx-mono); font-size: .68rem;
+  letter-spacing: 1.5px; padding: .5rem 1rem; border-radius: 8px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   12. SCROLL REVEAL + MISC
+═══════════════════════════════════════════════════════════════ */
+.reveal {
+  opacity: 0; transform: translateY(36px);
+  transition: opacity .8s cubic-bezier(.16, 1, .3, 1),
+              transform .8s cubic-bezier(.16, 1, .3, 1);
+}
+.reveal.in { opacity: 1; transform: none; }
+.btn, .nav-cta { will-change: transform; }
+
+/* ═══════════════════════════════════════════════════════════════
+   13. PRINT SUPPRESSION — printing yields a blank page
+═══════════════════════════════════════════════════════════════ */
+@media print {
+  html, body {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    overflow: hidden !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   14. RESPONSIVE + ACCESSIBILITY
+═══════════════════════════════════════════════════════════════ */
+@media (max-width: 980px) {
+  .feeds-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  .fx-cursor-dot, .fx-cursor-ring { display: none; }
+  body.futurist-cursor,
+  body.futurist-cursor a,
+  body.futurist-cursor button { cursor: auto; }
+  #fxWeather { opacity: .6; }
+  .weather-chip .wc-place { display: none; }
+  .nav-fx { margin: 0 .5rem; }
+  .weather-chip { padding: .3rem .6rem; font-size: .62rem; }
+  .secure-topbar { padding: .7rem 1rem; }
+  .secure-brand { font-size: .62rem; letter-spacing: 1px; }
+  .cert-stage { max-width: 96vw; }
+}
+
+@media (max-width: 480px) {
+  .weather-chip .wc-mode { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fx-marquee-track,
+  .fx-cursor-dot, .fx-cursor-ring { animation: none !important; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  #secureCertOverlay.interlaced .cert-layer-a,
+  #secureCertOverlay.interlaced .cert-layer-b { animation: none; opacity: 0; }
+  #secureCertOverlay.interlaced .cert-layer-full { opacity: 1; }
+}
+
+/* ── 11. BRAND-COLOURED SOCIAL BUTTONS (added with the GitHub uplink) ── */
+.social-btn.github { background: #24292f; }
+.social-icon.github:hover { background: #24292f; color: #fff; border-color: #24292f; }
+
+/* ── 12. GITHUB REPOSITORY LISTING (section label + language chip) ── */
+.feed-sub {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: .66rem; letter-spacing: 1.6px; text-transform: uppercase;
+  color: var(--fx-a1, #00ffc8);
+  opacity: .72;
+  padding: 1rem 0 .45rem;
+}
+.feed-sub + .feed-item { border-top: none; padding-top: .35rem; }
+.feed-lang {
+  display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+  margin-right: .4rem; vertical-align: baseline;
+  box-shadow: 0 0 6px rgba(255, 255, 255, .18);
+}

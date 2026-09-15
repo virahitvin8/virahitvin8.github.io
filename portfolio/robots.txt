@@ -1,0 +1,17 @@
+# N. Akshit Vinay — Remote Sensing, GIS & Agriculture Portfolio
+# Custom domain? Run ./set-domain.sh https://your-domain.com and this file
+# is rewritten for you.
+
+User-agent: *
+Allow: /
+
+# The PWA entry URL renders the same page — keep it out of the index so it
+# never competes with the canonical URL as duplicate content.
+Disallow: /*?source=pwa
+
+# Admin and export surfaces are client-side only, but never let a crawler
+# advertise them either.
+Disallow: /*?admin
+Disallow: /*?edit
+
+Sitemap: https://virahitvin8.github.io/sitemap.xml

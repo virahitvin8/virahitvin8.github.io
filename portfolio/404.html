@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
+  <title>Signal lost — N. Akshit Vinay</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      padding: 2rem; text-align: center;
+      background: radial-gradient(ellipse at 50% 35%, #04160f 0%, #020a07 70%);
+      color: #e9f6f0;
+      font-family: 'Outfit', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    }
+    .wrap { max-width: 560px; }
+    .code {
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: .7rem; letter-spacing: 4px; text-transform: uppercase;
+      color: #00ffc8; margin-bottom: 1.2rem;
+    }
+    h1 { font-size: clamp(1.6rem, 5vw, 2.4rem); font-weight: 800; line-height: 1.2; margin-bottom: .9rem; }
+    p { color: #b6ccc2; font-size: .95rem; line-height: 1.8; margin-bottom: 2rem; }
+    a.btn {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: linear-gradient(135deg, #d9b45c, #f5d98c);
+      color: #0d2b1f; font-weight: 700; font-size: .9rem;
+      padding: .85rem 1.8rem; border-radius: 50px; text-decoration: none;
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+    a.btn:hover { transform: translateY(-3px); box-shadow: 0 14px 30px rgba(217, 180, 92, .3); }
+    .hint {
+      margin-top: 2.5rem; font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: .66rem; letter-spacing: 1.5px; color: rgba(255, 255, 255, .3);
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="code">// ERROR 404 &middot; ORBITAL PATH NOT FOUND</div>
+    <h1>That coordinate doesn&rsquo;t exist.</h1>
+    <p>
+      The page you were looking for has moved, been renamed, or never made it into orbit.
+      Head back to the portfolio and pick up the trail there.
+    </p>
+    <!-- Change href to "/" if the site is published at the domain root. -->
+    <a class="btn" id="home" href="./">Back to the portfolio</a>
+    <div class="hint">N. AKSHIT VINAY &middot; REMOTE SENSING &amp; GIS</div>
+  </div>
+  <script>
+    /* Works whether the site is served from / or from /<repository>/ */
+    (function () {
+      var segs = location.pathname.split('/').filter(Boolean);
+      if (segs.length > 1) {
+        document.getElementById('home').href = '/' + segs[0] + '/';
+      }
+    })();
+  </script>
+</body>
+</html>
