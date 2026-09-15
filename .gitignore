@@ -33,3 +33,9 @@ Thumbs.db
 # The CV the site actually serves is src/assets/cv.pdf, bundled by the
 # Download CV button. That one stays tracked.
 private/
+
+# ── Generated from certificates/ ──────────────────────────────────────────
+# Certificate scans are authored in certificates/ and copied here by
+# scripts/sync-certificates.mjs on every dev and build run. Tracked input, one
+# location; this folder is output and would only be a second source of truth.
+public/certs/

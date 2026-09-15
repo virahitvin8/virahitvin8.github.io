@@ -1863,7 +1863,7 @@
 
       + '<div class="admin-field" style="margin-top:1.4rem;"><label>Certificate Scans</label>'
       + '<p class="admin-help-text" style="margin-bottom:.8rem;">Upload a scan for each credential, or drop files into '
-      + '<code>public/certs/</code> named after the certificate (e.g. <code>organic-farming.png</code>) — '
+      + '<code>certificates/</code> named after the certificate (e.g. <code>organic-farming.png</code>) — '
       + 'they are copied into <code>assets/certs/</code> on deploy and detected automatically, with no size limit. '
       + 'Uploads are compressed and stored on this device only, then embedded when you export.</p>'
       + '<div id="coreCertList"></div></div>'

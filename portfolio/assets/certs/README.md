@@ -1,12 +1,12 @@
 # Certificate scans (classic build)
 
-**The canonical folder is `/public/certs/` at the repository root** — see
-[`CERTIFICATES.md`](../../../CERTIFICATES.md) for the full guide and the exact
-file name for each certificate.
+**Do not put files here by hand.** Scans are authored in **`/certificates/`** at
+the repository root — see [`certificates/README.md`](../../../certificates/README.md)
+for the exact file name of each certificate.
 
 Scans are kept in one place because the two builds would otherwise need two
 copies of the same six images, which drift apart. On deploy, the workflow copies
-`public/certs/` into this folder so `/classic/` finds them too.
+them from the built site into this folder so `/classic/` finds them too.
 
 For a **standalone local test** of just the classic build, copy them across
 yourself before serving:
@@ -31,3 +31,5 @@ Nothing found is a normal state: a generated certificate of record is rendered
 instead, so a card is never a broken image.
 
 The slugs are the same ones the React build uses, so **one file serves both**.
+The 2080 Core panel reports `scan on disk` when it finds a file here, so what the
+panel says and what the viewer shows cannot disagree.

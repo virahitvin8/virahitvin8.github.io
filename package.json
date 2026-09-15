@@ -4,9 +4,10 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "dev": "node scripts/sync-certificates.mjs && vite",
+    "build": "node scripts/sync-certificates.mjs && vite build",
     "preview": "vite preview",
+    "certs": "node scripts/sync-certificates.mjs",
     "format": "oxfmt"
   },
   "dependencies": {

@@ -60,7 +60,11 @@ jobs:
           cp -R portfolio/. dist/classic/
           # The archive keeps its own sitemap reference; drop the copy that
           # points at the site root so only one canonical host remains.
-          rm -f dist/classic/DEPLOY.md dist/classic/set-domain.sh
+          # Internal notes that should not ship: the first two describe a repo
+          # layout the deployed site no longer has, and the third links to
+          # certificates/README.md, which is outside the published tree.
+          rm -f dist/classic/DEPLOY.md dist/classic/set-domain.sh \
+                dist/classic/assets/certs/README.md
 
       # Certificate scans are maintained in one place (public/certs/) and read
       # by the React app. The classic build loads them relative to its own

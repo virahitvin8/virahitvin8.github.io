@@ -12,7 +12,7 @@
   const CERTS_STORAGE_KEY = 'portfolio_certs';            // live certificate grid
   const CERTS_PRISTINE_KEY = 'portfolio_certs_pristine';  // untouched originals
   // Kept identical to the React build's DEFAULT_PIN (and documented in
-  // CERTIFICATES.md) so the owner has one PIN for the whole site instead of
+  // certificates/README.md) so the owner has one PIN for the whole site instead of
   // having to remember which build serves which page.
   const DEFAULT_PIN = '2080';
 

@@ -23,8 +23,9 @@ npm run dev        # http://localhost:8443 (or $PORT)
 
 | Script | What it does |
 |---|---|
-| `npm run dev` | Vite dev server with hot reload |
-| `npm run build` | Production build into `dist/` |
+| `npm run dev` | Copies `certificates/` into place, then starts the dev server |
+| `npm run build` | Same, then a production build into `dist/` |
+| `npm run certs` | Just the certificate check, without starting the server |
 | `npm run preview` | Serve the production build locally |
 | `npm run format` | Format with oxfmt |
 | `npx tsc --noEmit` | Typecheck |
@@ -137,11 +138,12 @@ src/
                            useCertImage (certificate scan resolution)
   assets/cv.pdf            The résumé the Download CV button serves
 public/                    Icons, profile.png, avatar.png, og-card.png,
-                           manifest, robots, sitemap, sw.js, certs/
+                           manifest, robots, sitemap, sw.js
+certificates/              Drop certificate scans here — see its README
 scripts/
   build-image-assets.py    Regenerates every image asset from the source photos
+  sync-certificates.mjs    Copies certificates/ to where the site serves them
 portfolio/                 The standalone vanilla build, served at /classic/
-CERTIFICATES.md            How certificate scans are attached to their cards
 plans/                     The original build plan (background reading)
 private/                   Ignored. Superseded résumés and source documents.
 ```
@@ -210,11 +212,18 @@ browser can stop a phone camera pointed at a screen. The goal is that casual
 capture is useless and any leak is traceable, not that capture is impossible.
 Claiming otherwise would be the one thing that actually damages credibility.
 
-To show a real scan, drop it into `public/certs/` named after the certificate's
-slug — the exact file name for each is in [`CERTIFICATES.md`](CERTIFICATES.md).
-A missing scan is a normal state, not an error: the viewer renders a generated
-certificate of record instead, so a card is never a broken image. You can also
-set `image` on a certification (a path or a full URL), which takes precedence.
+To show a real scan, drop it into **`certificates/`** named after the
+certificate's slug — the exact file name for each is in
+[`certificates/README.md`](certificates/README.md). A missing scan is a normal
+state, not an error: the viewer renders a generated certificate of record
+instead, so a card is never a broken image. You can also set `image` on a
+certification (a path or a full URL), which takes precedence.
+
+`npm run dev` and `npm run build` copy that folder into place first, so there is
+no second copy to keep in step; the deploy workflow then mirrors the same files
+into `/classic/`. Names are normalised (`Organic Farming.PNG` →
+`organic-farming.png`), and a file whose name matches no certificate is reported
+with a suggested spelling rather than silently doing nothing.
 
 ---
 
@@ -226,7 +235,7 @@ set `image` on a certification (a path or a full URL), which takes precedence.
 - **Certificate scans are read from a folder, not from the admin editor, for
   anything published.** Uploads through the editor are stored per-browser in
   `localStorage`, which browsers cap around 5 MB in total — fine for a quick
-  preview, not for six full scans. Use `public/certs/`.
+  preview, not for six full scans. Use `certificates/`.
 - **The header avatar is a fixed crop.** It is a square window taken from the
   header photograph (`anchor=0.12` in `scripts/build-image-assets.py`). If the
   framing sits badly, change that number and re-run the script.
