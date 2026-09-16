@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="nitGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#9b2226"/>
+      <stop offset="100%" stop-color="#ae2012"/>
+    </linearGradient>
+  </defs>
+  <rect width="100" height="100" rx="22" fill="#1b0000" stroke="#ae2012" stroke-width="2"/>
+  <!-- Gear + Technology Emblem -->
+  <circle cx="50" cy="44" r="24" fill="url(#nitGrad)"/>
+  <circle cx="50" cy="44" r="10" fill="#1b0000"/>
+  <!-- Satellite Dish / Waves -->
+  <path d="M 38 44 Q 50 32 62 44" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+  <path d="M 32 44 Q 50 24 68 44" fill="none" stroke="#ee9b00" stroke-width="2.5" stroke-linecap="round"/>
+  <polygon points="50,20 54,28 46,28" fill="#e9d8a6"/>
+  <text x="50" y="85" text-anchor="middle" font-family="'Segoe UI', Roboto, sans-serif" font-weight="900" font-size="11.5" fill="#ee9b00" letter-spacing="1">NIT PATNA</text>
+</svg>

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="shuatsGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#14213d"/>
+      <stop offset="100%" stop-color="#003566"/>
+    </linearGradient>
+    <linearGradient id="gisGlobe" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00b4d8"/>
+      <stop offset="100%" stop-color="#0077b6"/>
+    </linearGradient>
+  </defs>
+  <rect width="100" height="100" rx="22" fill="#0a1128" stroke="#00b4d8" stroke-width="2"/>
+  <!-- Globe with Latitude/Longitude Grids -->
+  <circle cx="50" cy="46" r="28" fill="url(#gisGlobe)" opacity="0.4"/>
+  <circle cx="50" cy="46" r="28" fill="none" stroke="#00b4d8" stroke-width="2.5"/>
+  <ellipse cx="50" cy="46" rx="28" ry="11" fill="none" stroke="#90e0ef" stroke-width="1.8"/>
+  <ellipse cx="50" cy="46" rx="14" ry="28" fill="none" stroke="#90e0ef" stroke-width="1.8"/>
+  <line x1="50" y1="18" x2="50" y2="74" stroke="#caf0f8" stroke-width="2"/>
+  <!-- Satellite Orbiting -->
+  <path d="M 22 46 A 34 16 35 0 1 78 46" fill="none" stroke="#ffb703" stroke-width="2.5" stroke-dasharray="4 2"/>
+  <circle cx="74" cy="38" r="4" fill="#ffb703"/>
+  <text x="50" y="88" text-anchor="middle" font-family="'Segoe UI', Roboto, sans-serif" font-weight="900" font-size="12" fill="#90e0ef" letter-spacing="1">SHUATS</text>
+</svg>

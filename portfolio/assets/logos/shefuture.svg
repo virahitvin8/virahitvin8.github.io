@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="sheGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f72585"/>
+      <stop offset="100%" stop-color="#7209b7"/>
+    </linearGradient>
+  </defs>
+  <rect width="100" height="100" rx="22" fill="#190028" stroke="#f72585" stroke-width="2"/>
+  <!-- Flame of Innovation / Bioethanol Flask -->
+  <path d="M 45 22 L 55 22 L 55 34 L 68 56 C 72 63 67 72 58 72 L 42 72 C 33 72 28 63 32 56 L 45 34 Z" fill="url(#sheGrad)" opacity="0.3"/>
+  <path d="M 45 22 L 55 22 L 55 34 L 68 56 C 72 63 67 72 58 72 L 42 72 C 33 72 28 63 32 56 L 45 34 Z" fill="none" stroke="#f72585" stroke-width="2.5"/>
+  <!-- Biofuel Leaf inside flask -->
+  <path d="M 50 66 C 44 60 42 50 50 44 C 58 50 56 60 50 66 Z" fill="#4cc9f0"/>
+  <text x="50" y="86" text-anchor="middle" font-family="'Segoe UI', Roboto, sans-serif" font-weight="900" font-size="10.5" fill="#f72585" letter-spacing="0.5">SHEFUTURE</text>
+</svg>

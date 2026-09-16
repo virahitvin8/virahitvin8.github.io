@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "node scripts/sync-certificates.mjs && vite",
-    "build": "node scripts/sync-certificates.mjs && vite build",
+    "build": "node scripts/sync-certificates.mjs && vite build && node scripts/assemble-dist.mjs",
     "preview": "vite preview",
     "certs": "node scripts/sync-certificates.mjs",
     "certs:optimise": "python3 scripts/optimise-certificates.py",

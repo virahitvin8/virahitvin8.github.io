@@ -57,6 +57,30 @@ export function Contact() {
           </a>
         </div>
 
+        {/* Solemn Academic Declaration & Signature */}
+        <div className="mx-auto mt-14 max-w-2xl rounded-2xl border border-neon/20 bg-abyss/80 p-6 text-left backdrop-blur sm:p-8">
+          <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-neon/30 bg-neon/10 px-3 py-1 text-xs font-semibold tracking-wider text-neon uppercase">
+            <span>🛡️ Solemn Academic Declaration</span>
+          </div>
+          <p className="text-sm italic leading-relaxed text-mist">
+            "I hereby solemnly declare that all information, academic credentials, research publications, and field experience documented within this portfolio are true, authentic, and verifiable to the best of my knowledge and official records."
+          </p>
+          <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-hair pt-4">
+            <div className="flex items-center gap-4">
+              <img
+                src="/signature/signature.svg"
+                alt="Signature of N. Akshit Vinay"
+                className="h-12 w-auto filter drop-shadow-[0_0_8px_rgba(0,255,200,0.3)]"
+              />
+              <div>
+                <p className="font-display text-sm font-bold text-ink">Neelam Akshit Vinay</p>
+                <p className="font-mono text-xs text-gold">M.Sc Scholar · Remote Sensing &amp; GIS</p>
+              </div>
+            </div>
+            <span className="font-mono text-[10px] tracking-wider text-faint">VERIFIED CREDENTIAL</span>
+          </div>
+        </div>
+
         <p className="mt-10 font-mono text-xs text-faint">
           <Editable field="profile.email" /> ·{" "}
           <Editable field="profile.location" />

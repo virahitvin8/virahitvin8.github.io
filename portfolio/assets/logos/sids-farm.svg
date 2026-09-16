@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="sidsGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2d6a4f"/>
+      <stop offset="100%" stop-color="#52b788"/>
+    </linearGradient>
+    <linearGradient id="milkGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#d8f3dc"/>
+    </linearGradient>
+  </defs>
+  <rect width="100" height="100" rx="22" fill="#081c15" stroke="#2d6a4f" stroke-width="2"/>
+  <circle cx="50" cy="46" r="32" fill="url(#sidsGrad)" opacity="0.25"/>
+  <!-- Milk Drop + Leaf Emblem -->
+  <path d="M 50 20 C 38 35 34 47 34 54 C 34 64 41 72 50 72 C 59 72 66 64 66 54 C 66 47 62 35 50 20 Z" fill="url(#milkGrad)"/>
+  <!-- Sprout inside drop -->
+  <path d="M 50 62 C 50 50 43 45 40 45 C 40 52 46 59 50 62 Z" fill="#2d6a4f"/>
+  <path d="M 50 62 C 50 48 57 43 61 44 C 61 51 55 58 50 62 Z" fill="#52b788"/>
+  <text x="50" y="86" text-anchor="middle" font-family="'Segoe UI', Roboto, sans-serif" font-weight="900" font-size="10.5" fill="#d8f3dc" letter-spacing="0.5">SID'S FARM</text>
+</svg>

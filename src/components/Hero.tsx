@@ -77,12 +77,13 @@ export function Hero() {
           <Editable field="profile.availability" className="hud-label !text-sage-light" />
         </div>
 
+        <div className="mb-2.5 flex items-center gap-2 font-mono text-sm tracking-widest text-neon uppercase">
+          <span className="inline-block h-1.5 w-6 rounded-full bg-neon shadow-[0_0_8px_var(--neon)]" />
+          <span>HELLO I AM</span>
+        </div>
+
         {/*
          * The owner's name is the page's main heading, so it is a real <h1>.
-         * It used to be a styled <div>, which left the document with no h1 at
-         * all — every section title was an h2 — costing the strongest on-page
-         * signal for search engines and breaking heading navigation in screen
-         * readers. The glitch effect keys off [data-text], so it is unaffected.
          */}
         <h1
           ref={nameRef}
@@ -136,35 +137,39 @@ export function Hero() {
         </div>
       </div>
 
-      {/* Right: orbital constellation with editable profile photo */}
-      <div className="relative mx-auto flex aspect-square w-full max-w-[420px] items-center justify-center">
-        {/* orbit rings */}
-        <div className="absolute inset-0 rounded-full border border-hair" />
-        <div className="absolute inset-[12%] rounded-full border border-neon/10" />
-        <div className="absolute inset-[24%] rounded-full border border-gold/10" />
+      {/* Right: orbital constellation with vibrant profile photo backdrop */}
+      <div className="relative mx-auto flex aspect-square w-full max-w-[440px] items-center justify-center">
+        {/* ambient cyber-glow behind photo */}
+        <div className="pointer-events-none absolute inset-4 rounded-full bg-[radial-gradient(circle_at_center,rgba(0,255,200,0.18)_0%,rgba(13,43,31,0.25)_45%,transparent_70%)] blur-2xl" />
 
-        {/* outer orbit — clockwise */}
-        <div className="absolute inset-0 animate-orbit">
+        {/* orbit rings */}
+        <div className="absolute inset-0 rounded-full border border-hair/80" />
+        <div className="absolute inset-[12%] rounded-full border border-neon/15" />
+        <div className="absolute inset-[24%] rounded-full border border-gold/15" />
+
+        {/* outer orbit — clockwise, pauses smoothly on hover */}
+        <div className="absolute inset-0 animate-orbit hover:[animation-play-state:paused]">
           {ORBIT_BADGES.slice(0, 2).map((b, i) => (
             <OrbitBadge key={b.label} badge={b} angle={i * 180} />
           ))}
         </div>
-        {/* inner orbit — counter-clockwise */}
-        <div className="absolute inset-[12%] animate-orbit-rev">
+        {/* inner orbit — counter-clockwise, pauses smoothly on hover */}
+        <div className="absolute inset-[12%] animate-orbit-rev hover:[animation-play-state:paused]">
           {ORBIT_BADGES.slice(2).map((b, i) => (
             <OrbitBadge key={b.label} badge={b} angle={90 + i * 180} reverse />
           ))}
         </div>
 
-        {/* photo core */}
-        <div className="relative h-[56%] w-[56%] overflow-hidden rounded-full border-2 border-neon/30 shadow-[0_0_60px_rgba(0,255,200,0.2)]">
-          <div className="absolute inset-0 z-10 bg-gradient-to-t from-void/60 via-transparent to-transparent" />
-          <Editable
-            field="profile.photo"
-            image
-            alt={data.profile.name}
-            className="h-full w-full object-cover"
-          />
+        {/* photo core with luminous gradient aura and crisp backdrop */}
+        <div className="relative h-[60%] w-[60%] rounded-full p-[3px] bg-gradient-to-tr from-neon/60 via-gold/40 to-neon/40 shadow-[0_0_70px_rgba(0,255,200,0.3),0_10px_30px_rgba(0,0,0,0.8)] transition-transform duration-500 hover:scale-[1.02]">
+          <div className="relative h-full w-full overflow-hidden rounded-full border border-neon/30 bg-[radial-gradient(ellipse_at_50%_35%,#174233_0%,#0c2b20_55%,#04120c_100%)]">
+            <Editable
+              field="profile.photo"
+              image
+              alt={data.profile.name}
+              className="h-full w-full object-cover select-none filter contrast-[1.03] brightness-[1.03]"
+            />
+          </div>
         </div>
       </div>
     </section>
@@ -183,7 +188,7 @@ function OrbitBadge({
   const Icon = badge.icon;
   return (
     <div
-      className="absolute left-1/2 top-1/2"
+      className="group/badge absolute left-1/2 top-1/2 cursor-pointer"
       style={{ transform: `rotate(${angle}deg) translateY(-50%)`, transformOrigin: '0 0' }}
     >
       {/* counter-rotate the badge so it stays upright & legible */}
@@ -191,9 +196,9 @@ function OrbitBadge({
         className={reverse ? 'animate-orbit' : 'animate-orbit-rev'}
         style={{ transform: `translate(-50%, 0)` }}
       >
-        <div className="flex items-center gap-1.5 rounded-full border border-neon/30 bg-abyss/90 px-3 py-1.5 backdrop-blur">
-          <Icon width={14} height={14} className="text-neon" />
-          <span className="font-mono text-[10px] tracking-widest text-ink">{badge.label}</span>
+        <div className="flex items-center gap-1.5 rounded-full border border-neon/30 bg-abyss/95 px-3 py-1.5 backdrop-blur-md shadow-[0_4px_16px_rgba(0,0,0,0.6)] transition-all duration-300 group-hover/badge:scale-115 group-hover/badge:border-neon group-hover/badge:shadow-[0_0_20px_rgba(0,255,200,0.4)]">
+          <Icon width={14} height={14} className="text-neon transition-colors group-hover/badge:text-gold" />
+          <span className="font-mono text-[10px] tracking-widest text-ink group-hover/badge:text-neon">{badge.label}</span>
         </div>
       </div>
     </div>

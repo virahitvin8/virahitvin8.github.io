@@ -2241,13 +2241,6 @@
         e.preventDefault()
         this.flashWarn("COPY / CROP BLOCKED")
       }
-      this._onBlur = () => this.overlay.classList.add("shield-hidden")
-      this._onFocus = () => this.overlay.classList.remove("shield-hidden")
-      this._onVis = () => {
-        if (document.hidden) this.overlay.classList.add("shield-hidden")
-        else this.overlay.classList.remove("shield-hidden")
-      }
-
       addEventListener("keydown", this._onKey, true)
       addEventListener("keyup", this._onKey, true)
       addEventListener("contextmenu", this._onBlock, true)
@@ -2256,29 +2249,6 @@
       addEventListener("dragstart", this._onBlock, true)
       addEventListener("selectstart", this._onBlock, true)
       addEventListener("beforeprint", this._onBlock, true)
-      addEventListener("blur", this._onBlur)
-      addEventListener("focus", this._onFocus)
-      document.addEventListener("visibilitychange", this._onVis)
-      this.devTimer = setInterval(() => {
-        const wDelta =
-          window.outerWidth -
-          window.innerWidth
-        const hDelta =
-          window.outerHeight -
-          window.innerHeight
-        const devtools =
-          (wDelta >
-            190 &&
-            hDelta >
-              190) ||
-          hDelta >
-            300
-        this.overlay.classList.toggle(
-          "shield-hidden",
-          devtools ||
-            document.hidden,
-        )
-      }, 900)
     },
 
     disarm() {
@@ -2292,10 +2262,6 @@
       removeEventListener("dragstart", this._onBlock, true)
       removeEventListener("selectstart", this._onBlock, true)
       removeEventListener("beforeprint", this._onBlock, true)
-      removeEventListener("blur", this._onBlur)
-      removeEventListener("focus", this._onFocus)
-      document.removeEventListener("visibilitychange", this._onVis)
-      clearInterval(this.devTimer)
       this.overlay.classList.remove("shield-hidden")
     },
 

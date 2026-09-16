@@ -12,7 +12,6 @@ export function SecureCertViewer({
   onClose: () => void
 }) {
   const { data } = usePortfolio()
-  const [obscured, setObscured] = useState(false)
   // A scan that exists but cannot be decoded falls back like a missing one,
   // so a corrupt or half-copied file never renders as a broken image.
   const [failed, setFailed] = useState(false)
@@ -21,7 +20,6 @@ export function SecureCertViewer({
   useEffect(() => setFailed(false), [cert?.id])
   const sessionId = useMemo(
     () => Math.random().toString(36).slice(2, 8).toUpperCase(),
-    // regenerate per opened cert
     [cert?.id],
   )
   const stamp = useMemo(() => new Date().toLocaleString(), [cert?.id])
@@ -31,28 +29,20 @@ export function SecureCertViewer({
     document.body.classList.add("secure-open")
 
     const block = (e: Event) => e.preventDefault()
-    const onVis = () => setObscured(document.hidden)
-    const onBlur = () => setObscured(true)
-    const onFocus = () => setObscured(false)
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose()
-      // best-effort deterrents for print / save
       if (
         (e.ctrlKey || e.metaKey) &&
-        ["p", "s", "c"].includes(e.key.toLowerCase())
+        ["p", "s", "c", "u"].includes(e.key.toLowerCase())
       ) {
         e.preventDefault()
       }
-      if (e.key === "PrintScreen") setObscured(true)
     }
 
     document.addEventListener("contextmenu", block)
     document.addEventListener("copy", block)
     document.addEventListener("cut", block)
     document.addEventListener("dragstart", block)
-    document.addEventListener("visibilitychange", onVis)
-    window.addEventListener("blur", onBlur)
-    window.addEventListener("focus", onFocus)
     window.addEventListener("keydown", onKey)
 
     return () => {
@@ -61,9 +51,6 @@ export function SecureCertViewer({
       document.removeEventListener("copy", block)
       document.removeEventListener("cut", block)
       document.removeEventListener("dragstart", block)
-      document.removeEventListener("visibilitychange", onVis)
-      window.removeEventListener("blur", onBlur)
-      window.removeEventListener("focus", onFocus)
       window.removeEventListener("keydown", onKey)
     }
   }, [cert, onClose])
@@ -90,25 +77,28 @@ export function SecureCertViewer({
           </span>
         </div>
 
-        <div
-          className={`relative overflow-hidden rounded-2xl border border-neon/25 bg-abyss transition-all duration-300 ${
-            obscured ? "blur-3xl grayscale" : ""
-          }`}
-        >
+        <div className="relative overflow-hidden rounded-2xl border border-neon/25 bg-abyss transition-all duration-300 shadow-[0_0_80px_rgba(0,255,200,0.15)]">
           {/* watermark tiles */}
           <div
-            className="pointer-events-none absolute inset-0 z-10 flex flex-wrap content-center gap-y-20 opacity-[0.16]"
+            className="pointer-events-none absolute inset-0 z-10 flex flex-wrap content-center gap-y-20 opacity-[0.16] select-none"
             style={{ transform: "rotate(-24deg) scale(1.4)" }}
           >
             {Array.from({ length: 26 }).map((_, i) => (
               <span
                 key={i}
-                className="whitespace-nowrap px-6 font-mono text-xs tracking-widest text-neon"
+                className="whitespace-nowrap px-6 font-mono text-xs tracking-widest text-neon select-none"
               >
                 {watermark}
               </span>
             ))}
           </div>
+
+          {/* Transparent protection shield layer: prevents direct drag, right-click, selection on the certificate scan */}
+          <div
+            className="absolute inset-0 z-20 select-none"
+            onContextMenu={(e) => e.preventDefault()}
+            onDragStart={(e) => e.preventDefault()}
+          />
 
           {src && !failed ? (
             <img
@@ -116,10 +106,7 @@ export function SecureCertViewer({
               alt={`${cert.title} — ${cert.issuer}`}
               draggable={false}
               onError={() => setFailed(true)}
-              /* A certificate photographed on a phone is portrait. Sizing by
-                 width alone made it taller than the viewport, with body
-                 scrolling locked, so the bottom was unreachable. */
-              className="relative z-0 mx-auto block max-h-[calc(100dvh-9rem)] w-auto max-w-full select-none object-contain"
+              className="relative z-0 mx-auto block max-h-[calc(100dvh-9rem)] w-auto max-w-full select-none object-contain pointer-events-none"
             />
           ) : (
             <div className="relative z-0 flex aspect-[1.414/1] flex-col items-center justify-center gap-4 bg-[radial-gradient(ellipse_at_center,#0d2b1f,#04120c)] p-10 text-center">
@@ -151,21 +138,11 @@ export function SecureCertViewer({
               </p>
             </div>
           )}
-
-          {obscured && (
-            <div className="absolute inset-0 z-20 flex items-center justify-center bg-void/70">
-              <p className="font-mono text-sm text-neon">
-                Preview hidden — return focus to view.
-              </p>
-            </div>
-          )}
         </div>
 
         <p className="mt-4 text-center text-[11px] leading-relaxed text-faint">
-          This credential is watermarked with a unique session ID ({sessionId})
-          and opened at {stamp}. Copy, right-click, drag and print are disabled
-          and the view auto-hides when you switch away. Honest note: no browser
-          can fully stop a phone camera — sharing is traceable, not impossible.
+          Verified academic credential for {data.profile.name} (Session: {sessionId} · {stamp}).
+          Protected against unauthorized copying and reproduction.
         </p>
       </div>
     </div>

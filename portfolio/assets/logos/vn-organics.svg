@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="vnGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#386641"/>
+      <stop offset="100%" stop-color="#6a994e"/>
+    </linearGradient>
+    <linearGradient id="shroomGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f2e8cf"/>
+      <stop offset="100%" stop-color="#bc4749"/>
+    </linearGradient>
+  </defs>
+  <rect width="100" height="100" rx="22" fill="#132a13" stroke="#6a994e" stroke-width="2"/>
+  <circle cx="50" cy="46" r="32" fill="url(#vnGrad)" opacity="0.3"/>
+  <!-- Mushroom Cap & Stem -->
+  <path d="M 28 44 C 28 26 72 26 72 44 C 72 47 28 47 28 44 Z" fill="url(#shroomGrad)"/>
+  <path d="M 44 47 L 42 66 C 42 69 58 69 58 66 L 56 47 Z" fill="#f2e8cf"/>
+  <!-- Organic Spores / Dots -->
+  <circle cx="40" cy="36" r="2.8" fill="#ffffff" opacity="0.9"/>
+  <circle cx="52" cy="32" r="3.2" fill="#ffffff" opacity="0.9"/>
+  <circle cx="62" cy="38" r="2.5" fill="#ffffff" opacity="0.9"/>
+  <!-- Bio Ring -->
+  <circle cx="50" cy="46" r="36" fill="none" stroke="#a7c957" stroke-width="2" stroke-dasharray="4 3"/>
+  <text x="50" y="85" text-anchor="middle" font-family="'Segoe UI', Roboto, sans-serif" font-weight="900" font-size="10.5" fill="#a7c957" letter-spacing="0.5">VN ORGANICS</text>
+</svg>

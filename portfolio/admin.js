@@ -169,10 +169,7 @@
             <label>Email Address</label>
             <input type="email" id="editEmail" value="akshitvinay4636@gmail.com" />
           </div>
-          <div class="admin-field">
-            <label>Phone Number</label>
-            <input type="text" id="editPhone" value="+91 7396222207" />
-          </div>
+
         </div>
 
         <!-- TAB 2: Photo Upload -->
@@ -425,6 +422,55 @@
     }
   }
 
+  
+  function enableAdminDragDrop() {
+    document.body.classList.add("admin-logged-in");
+    const itemSelectors = [
+      ".exp-timeline-card",
+      ".cert-card",
+      ".project-card",
+      ".skill-category",
+      ".domain-pill",
+      ".stat-item",
+      ".timeline-card"
+    ];
+    const items = document.querySelectorAll(itemSelectors.join(","));
+    items.forEach((el) => {
+      el.setAttribute("draggable", "true");
+      el.addEventListener("dragstart", (e) => {
+        e.dataTransfer.setData("text/plain", "");
+        window._draggedAdminEl = el;
+        el.style.opacity = "0.5";
+      });
+      el.addEventListener("dragend", () => {
+        el.style.opacity = "1";
+        document.querySelectorAll(".drag-over").forEach((o) => o.classList.remove("drag-over"));
+        window._draggedAdminEl = null;
+      });
+      el.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        if (window._draggedAdminEl && window._draggedAdminEl !== el && window._draggedAdminEl.parentNode === el.parentNode) {
+          el.classList.add("drag-over");
+        }
+      });
+      el.addEventListener("dragleave", () => {
+        el.classList.remove("drag-over");
+      });
+      el.addEventListener("drop", (e) => {
+        e.preventDefault();
+        el.classList.remove("drag-over");
+        const dragged = window._draggedAdminEl;
+        if (dragged && dragged !== el && dragged.parentNode === el.parentNode) {
+          const parent = el.parentNode;
+          const rect = el.getBoundingClientRect();
+          const next = (e.clientY - rect.top) / (rect.bottom - rect.top) > 0.5;
+          parent.insertBefore(dragged, next ? el.nextSibling : el);
+          showToast("Element position updated");
+        }
+      });
+    });
+  }
+
   function applyDataToDOM(data) {
     if (data.name) {
       document
@@ -487,8 +533,6 @@
       document.getElementById("editLocation").value = data.location
     if (data.email && document.getElementById("editEmail"))
       document.getElementById("editEmail").value = data.email
-    if (data.phone && document.getElementById("editPhone"))
-      document.getElementById("editPhone").value = data.phone
     if (data.cgpaMsc && document.getElementById("editCgpaMsc"))
       document.getElementById("editCgpaMsc").value = data.cgpaMsc
   }
@@ -671,7 +715,8 @@
         pinInput.value.trim() ===
           correctPin
       ) {
-        sessionStorage.setItem("portfolio_admin_auth", "true")
+        sessionStorage.setItem("portfolio_admin_auth", "true");
+        enableAdminDragDrop();
         this.closeAuth()
         const bar = document.getElementById("adminBar")
         if (bar) bar.classList.add("active")
@@ -728,9 +773,7 @@
       const email =
         document.getElementById("editEmail")?.value.trim() ||
         ""
-      const phone =
-        document.getElementById("editPhone")?.value.trim() ||
-        ""
+      const phone = ""
       const cgpaMsc =
         document.getElementById("editCgpaMsc")?.value.trim() ||
         "10.0"

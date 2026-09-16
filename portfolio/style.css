@@ -280,16 +280,19 @@ img { max-width: 100%; display: block; }
 .hero-image-circle {
   width: 250px; height: 250px; border-radius: 50%; overflow: hidden;
   border: 4px solid var(--accent);
-  box-shadow: 0 0 0 8px rgba(201,168,76,0.18), 0 20px 50px rgba(0,0,0,0.5);
+  background: radial-gradient(ellipse at 50% 35%, #174233 0%, #0c2b20 55%, #04120c 100%);
+  box-shadow: 0 0 0 8px rgba(201,168,76,0.22), 0 0 60px rgba(0, 255, 200, 0.3), 0 20px 50px rgba(0,0,0,0.7);
   position: relative; z-index: 5;
-  transition: transform 0.4s ease;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
 .hero-image-circle:hover {
   transform: scale(1.03);
+  box-shadow: 0 0 0 10px rgba(201,168,76,0.35), 0 0 80px rgba(0, 255, 200, 0.45), 0 25px 60px rgba(0,0,0,0.8);
 }
 .hero-photo {
   width: 100%; height: 100%; object-fit: cover;
   object-position: center top;
+  filter: contrast(1.04) brightness(1.03);
 }
 
 /* Orbital Tracks */
@@ -300,6 +303,7 @@ img { max-width: 100%; display: block; }
   pointer-events: none;
   border: 1px dashed rgba(201, 168, 76, 0.28);
   box-shadow: 0 0 30px rgba(201, 168, 76, 0.06), inset 0 0 30px rgba(45, 106, 79, 0.08);
+  transition: border-color 0.3s ease;
 }
 .orbit-inner {
   width: 380px; height: 380px;
@@ -315,10 +319,12 @@ img { max-width: 100%; display: block; }
   z-index: 7;
 }
 
-/* Pause on hover */
+/* Smooth Pause on hover without rotation angle snapping */
 .hero-image-wrapper:hover .orbit-track,
-.hero-image-wrapper:hover .satellite-node {
-  animation-play-state: paused;
+.hero-image-wrapper:hover .satellite-node,
+.orbit-slot:hover ~ .orbit-track,
+.satellite-node:hover {
+  animation-play-state: paused !important;
 }
 
 /* Slots around the orbits */
@@ -346,7 +352,7 @@ img { max-width: 100%; display: block; }
   align-items: center;
   gap: 0.45rem;
   padding: 0.35rem 0.75rem 0.35rem 0.4rem;
-  background: rgba(13, 43, 31, 0.92);
+  background: rgba(13, 43, 31, 0.94);
   border: 1px solid rgba(201, 168, 76, 0.45);
   backdrop-filter: blur(14px);
   border-radius: 30px;
@@ -354,7 +360,8 @@ img { max-width: 100%; display: block; }
   text-decoration: none;
   white-space: nowrap;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  scale: 1;
+  transition: scale 0.25s ease, background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
 }
 .orbit-inner .satellite-node {
   animation: counterOrbit 36s linear infinite;
@@ -363,10 +370,10 @@ img { max-width: 100%; display: block; }
   animation: counterOrbitReverse 50s linear infinite;
 }
 .satellite-node:hover {
-  transform: scale(1.18) !important;
+  scale: 1.12;
   background: rgba(13, 43, 31, 0.98);
   border-color: var(--accent, #c9a84c);
-  box-shadow: 0 12px 32px rgba(201, 168, 76, 0.55);
+  box-shadow: 0 12px 32px rgba(201, 168, 76, 0.55), 0 0 20px rgba(0,255,200,0.3);
   z-index: 100;
 }
 .sat-icon {
@@ -1203,6 +1210,89 @@ a.contact-value:hover { color: var(--accent-light); }
   .hero-container { padding: 5.5rem 1rem 2rem; }
   .hero-image-wrapper { transform: scale(0.62); margin: -3rem 0 -3rem; }
   .hero-stats { flex-direction: column; gap: 1rem; padding: 1.5rem; }
+}
+
+/* ════════════════════════════════════════
+   INSTITUTION, CERT & PROJECT LOGOS
+════════════════════════════════════════ */
+.institution-logo-img,
+.exp-logo-img,
+.cert-logo-img,
+.project-logo-img {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  border-radius: 10px;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.4));
+  transition: transform 0.3s ease;
+}
+.exp-icon-wrap img,
+.project-icon-wrap img,
+.cert-icon-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.exp-timeline-card:hover .exp-logo-img,
+.cert-card:hover .cert-logo-img,
+.project-card:hover .project-logo-img {
+  transform: scale(1.1);
+}
+
+/* Footer Declaration & Signature */
+.footer-declaration-brand {
+  max-width: 460px;
+}
+.declaration-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  background: rgba(0, 255, 200, 0.12);
+  border: 1px solid rgba(0, 255, 200, 0.35);
+  color: #00ffcc;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 0.8rem;
+}
+.declaration-text {
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.78);
+  font-style: italic;
+  margin-bottom: 1rem;
+}
+.declaration-sign-wrap {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  padding-top: 0.5rem;
+  border-top: 1px dashed rgba(201, 168, 76, 0.3);
+}
+.footer-signature {
+  height: 52px;
+  width: auto;
+  filter: drop-shadow(0 0 10px rgba(0, 255, 200, 0.3));
+}
+.signature-details {
+  display: flex;
+  flex-direction: column;
+}
+.sign-name {
+  font-family: var(--font-display, inherit);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.5px;
+}
+.sign-role {
+  font-size: 0.72rem;
+  color: var(--accent, #c9a84c);
+  font-family: var(--font-mono, monospace);
+}
+@media (max-width: 480px) {
   .stat-divider { width: 60px; height: 1px; }
   .cert-grid { grid-template-columns: 1fr; }
   .hero-name { font-size: 2rem; }
