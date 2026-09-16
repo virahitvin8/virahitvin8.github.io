@@ -541,32 +541,21 @@
 
     apply() {
       const html = document.documentElement
-      html.setAttribute("data-band", this.state.band)
-      html.setAttribute("data-theme", this.state.theme)
+      html.setAttribute("data-band", "day")
+      html.setAttribute("data-theme", "day")
       html.setAttribute("data-weather", this.state.weather)
       html.setAttribute("data-wind", this.state.wind)
-      html.setAttribute("data-fx-source", this.state.source)
+      html.setAttribute("data-fx-source", "day")
       const meta = $('meta[name="theme-color"]')
       if (meta) {
-        meta.setAttribute(
-          "content",
-          this.state.theme ===
-            "night"
-            ? "#04120c"
-            : "#0d2b1f",
-        )
+        meta.setAttribute("content", "#fbfbfa")
       }
-      WeatherFX.setMode(this.state.weather, this.state.wind, this.state.theme)
-      renderWeatherChip()
+      WeatherFX.setMode(this.state.weather, this.state.wind, "day")
     },
 
     setBand(band) {
-      this.state.band = band
-      this.state.theme =
-        band ===
-        "night"
-          ? "night"
-          : "day"
+      this.state.band = "day"
+      this.state.theme = "day"
       this.apply()
     },
 
@@ -1335,65 +1324,10 @@
   }
   function initBoot() {
     const boot = $("#bootLoader")
-    if (!boot) return
-    let seen = false
-    try {
-      seen =
-        sessionStorage.getItem(CONFIG.BOOT_SESSION_KEY) ===
-        "1"
-    } catch (e) {}
-    if (seen || REDUCED || boot.classList.contains("done")) {
-      boot.classList.add("done")
-      document.body.style.overflow = ""
-      return
+    if (boot) {
+      boot.remove()
     }
-
-    document.body.style.overflow = "hidden"
-    const lines = $$(".boot-line", boot)
-    const fill = $("#bootFill")
-    let i = 0,
-      finished = false
-
-    const finish = () => {
-      if (finished) return
-      finished = true
-      boot.classList.add("done")
-      document.body.style.overflow = ""
-      try {
-        sessionStorage.setItem(CONFIG.BOOT_SESSION_KEY, "1")
-      } catch (e) {}
-    }
-
-    const step = () => {
-      if (finished) return
-      if (
-        i <
-        lines.length
-      ) {
-        lines[i].classList.add("on")
-        i++
-        if (fill)
-          fill.style.width =
-            Math.round((i / lines.length) * 100) +
-            "%"
-        setTimeout(step, 260)
-      } else {
-        setTimeout(finish, 520)
-      }
-    }
-
-    const skip = $(".boot-skip", boot)
-    if (skip) skip.addEventListener("click", finish)
-    document.addEventListener("keydown", (e) => {
-      if (
-        e.key ===
-        "Escape"
-      )
-        finish()
-    })
-
-    setTimeout(step, 260)
-    setTimeout(finish, 6500)
+    document.body.style.overflow = ""
   }
   function initAtmosphere() {
     ;["fx-scanlines", "fx-vignette", "fxTimeGlow"].forEach((cls) => {

@@ -71,34 +71,6 @@
 </head>
 <body>
 
-  <!-- ═══ 2080 BOOT TERMINAL ═══ -->
-  <div id="bootLoader">
-    <div class="boot-terminal">
-      <div class="boot-line">&gt; N.AV // PORTFOLIO OS <span class="ok">v20.80</span></div>
-      <div class="boot-line">&gt; booting geospatial core .......... <span class="ok">OK</span></div>
-      <div class="boot-line">&gt; linking satellite constellation .. <span class="ok">OK</span></div>
-      <div class="boot-line">&gt; calibrating HUD &amp; neural grid .... <span class="ok">OK</span></div>
-      <div class="boot-line">&gt; decrypting credentials ........... <span class="ok">OK</span></div>
-      <div class="boot-line" id="bootLocal">&gt; acquiring local observation ...... <span class="ok">…</span></div>
-      <div class="boot-line">&gt; welcome, visitor_8841 ▊</div>
-      <div class="boot-bar"><div id="bootFill"></div></div>
-    </div>
-    <button class="boot-skip" type="button">SKIP ▸▸</button>
-  </div>
-  <script>
-    /* Safety net: if the main scripts are slow to arrive (cold CDN, weak
-       connection), this releases the boot overlay by itself so a visitor is
-       never left staring at a frozen terminal. */
-    (function () {
-      var b = document.getElementById('bootLoader');
-      if (b) b.addEventListener('click', function () { b.classList.add('done'); document.body.style.overflow = ''; });
-      setTimeout(function () {
-        var el = document.getElementById('bootLoader');
-        if (el) { el.classList.add('done'); document.body.style.overflow = ''; }
-      }, 7000);
-    })();
-  </script>
-
   <!-- Weather-reactive particle field (rain / snow / fog / wind / clouds) -->
   <canvas id="fxWeather" aria-hidden="true"></canvas>
 
@@ -106,7 +78,10 @@
     <div class="nav-container">
       <a href="#home" class="nav-logo">
         <img src="assets/avatar.png" alt="Akshit Vinay" class="nav-avatar" />
-        <span class="logo-text">N.AKSHIT VINAY</span>
+        <div style="display:flex; flex-direction:column; line-height:1.2;">
+          <span class="logo-text">N.AKSHIT VINAY</span>
+          <span style="font-size:0.65rem; color:var(--accent); font-weight:600; letter-spacing:0.5px;">B.Sc (Hons) Agri → M.Sc RS &amp; GIS</span>
+        </div>
       </a>
       <ul class="nav-links" id="navLinks">
         <li><a href="#about" class="nav-link">About</a></li>
@@ -116,13 +91,13 @@
         <li><a href="#projects" class="nav-link">Projects</a></li>
         <li><a href="#skills" class="nav-link">Skills</a></li>
         <li><a href="#contact" class="nav-link">Contact</a></li>
+        <li><a href="javascript:void(0)" onclick="openAdminAuth()" class="nav-link" style="color:var(--accent); font-weight:700;"><i class="fas fa-lock"></i> Admin</a></li>
         <li><a href="assets/cv.pdf" target="_blank" class="nav-cta">Download CV</a></li>
       </ul>
       <div class="nav-fx">
-        <button type="button" class="weather-chip" id="weatherChip" data-state="loading"
-                aria-label="Local conditions driving the theme — click to preview others">
-          <span class="wc-dot"></span><span>LOCATING…</span><span class="wc-mode">AUTO</span>
-        </button>
+        <div class="altitude-hud-chip" id="altBadge" style="display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:20px;background:rgba(255,255,255,0.9);border:1px solid rgba(13,43,31,0.2);font-size:0.75rem;font-weight:600;color:var(--primary);box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+          <i class="fas fa-satellite" style="color:var(--primary-light);"></i> <span>0m Ground → 705km Orbit</span>
+        </div>
       </div>
       <button class="hamburger" id="hamburger" aria-label="Toggle menu">
         <span></span><span></span><span></span>
@@ -137,7 +112,7 @@
       <div class="hero-content" data-animate="fadeInLeft">
         <div class="hero-badge">
           <span class="badge-dot"></span>
-          <span>Available for Opportunities &bull; M.Sc Remote Sensing &amp; GIS</span>
+          <span>🌱 B.Sc (Hons) Agriculture Graduate → 🛰️ M.Sc Remote Sensing &amp; GIS Scholar</span>
         </div>
         <h1 class="hero-title">
           <span class="hero-greeting">HELLO I AM</span>
@@ -150,8 +125,7 @@
           <span class="role-interactive-hint"><i class="fas fa-sparkles"></i> explore</span>
         </div>
         <p class="hero-tagline">
-          Specializing in Remote Sensing data analytics, GIS spatial modeling, and precision agriculture — 
-          bridging satellite Earth observation with real-world sustainable farming and land management.
+          <strong>My background is B.Sc (Hons) Agriculture</strong>, and upon completion of B.Sc (Hons) Agriculture, I transitioned directly into the <strong>M.Sc Remote Sensing &amp; GIS</strong> field with <strong>CSIR-NGRI training</strong> — turning satellite Earth observation and GIS mapping into on-the-ground precision agricultural decisions.
         </p>
         <div class="hero-domain-pills">
           <button type="button" class="domain-pill" onclick="openDomainModal('gis')">
@@ -311,10 +285,7 @@
       <div class="about-grid">
         <div class="about-text" data-animate="fadeInLeft">
           <p class="about-lead">
-            A dedicated <strong>Remote Sensing &amp; GIS Scholar and Agriculturist</strong>, currently pursuing 
-            <strong>M.Sc in Remote Sensing &amp; GIS</strong> at <strong>Sam Higginbottom University of Agriculture, Technology and Sciences (SHUATS)</strong>, 
-            Prayagraj (currently in 3rd Semester, Batch 2025–27). He holds a 
-            <strong>B.Sc (Hons) in Agriculture</strong> from ITM University, Gwalior (CGPA: 8.71).
+            My foundational background is <strong>B.Sc (Hons) in Agriculture</strong> from ITM University, Gwalior (ICAR Accredited, 8.78 CGPA). Upon successful completion of B.Sc (Hons) Agriculture, I advanced directly into the <strong>M.Sc in Remote Sensing &amp; GIS</strong> field at <strong>Sam Higginbottom University of Agriculture, Technology and Sciences (SHUATS)</strong>, Prayagraj (10.0 CGPA), complemented by rigorous specialized national training at <strong>CSIR-NGRI Hyderabad</strong>.
           </p>
           <p class="about-body">
             Specializing in the intersection of <strong>satellite Earth observation, GIS spatial modeling, and precision agriculture</strong>. 
@@ -757,7 +728,30 @@
         <div class="section-line"></div>
       </div>
       <div class="projects-grid">
+        <!-- Project 1: Watershed Analysis -->
         <div class="project-card" data-animate="fadeInUp" style="--delay: 0.1s">
+          <div class="project-tag-top">🛰️ Geospatial &amp; Hydrology</div>
+          <div class="project-header">
+            <div class="project-icon-wrap" style="background: linear-gradient(135deg, #0b2545, #1d6996); color: white; display: flex; align-items: center; justify-content: center; font-size: 1.4rem;">
+              <i class="fas fa-water"></i>
+            </div>
+            <div class="project-meta">
+              <span class="project-date">SHUATS Geospatial Lab</span>
+              <span class="project-label">GIS &amp; Remote Sensing</span>
+            </div>
+          </div>
+          <h3 class="project-title">Watershed &amp; Basin Morphometric Analysis</h3>
+          <p class="project-desc">Digital watershed delineation, stream network hierarchy extraction, bifurcation ratio calculation, and hypsometric curve modeling using SRTM 30m DEM data in ArcGIS Pro to evaluate runoff and soil conservation priorities.</p>
+          <div class="project-tech">
+            <span>ArcGIS Pro</span><span>SRTM DEM</span><span>Hydrology</span><span>Catchment Basin</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/virahitvin8" target="_blank" rel="noopener noreferrer" class="project-link"><i class="fab fa-github"></i> Repository</a>
+          </div>
+        </div>
+
+        <!-- Project 2: Published Research Article on HCN in Sorghum -->
+        <div class="project-card" data-animate="fadeInUp" style="--delay: 0.2s">
           <div class="project-tag-top">📄 Published Research Article</div>
           <div class="project-header">
             <div class="project-icon-wrap"><img src="assets/logos/agri-express.svg" alt="Agri Express" class="project-logo-img" /></div>
@@ -777,8 +771,31 @@
           </div>
         </div>
 
-        <div class="project-card" data-animate="fadeInUp" style="--delay: 0.2s">
-          <div class="project-tag-top">🏆 Competition</div>
+        <!-- Project 3: UAV Drone Crop Health Survey -->
+        <div class="project-card" data-animate="fadeInUp" style="--delay: 0.3s">
+          <div class="project-tag-top">🛸 Drone &amp; Aerial Sensing</div>
+          <div class="project-header">
+            <div class="project-icon-wrap" style="background: linear-gradient(135deg, #1d3557, #457b9d); color: white; display: flex; align-items: center; justify-content: center; font-size: 1.4rem;">
+              <i class="fas fa-plane"></i>
+            </div>
+            <div class="project-meta">
+              <span class="project-date">Field Research</span>
+              <span class="project-label">AgriTech Innovations</span>
+            </div>
+          </div>
+          <h3 class="project-title">UAV Drone Crop Health &amp; Canopy Survey</h3>
+          <p class="project-desc">Autonomous flight mission planning and orthomosaic photogrammetry over agricultural test parcels. Calibrated multispectral reflectance imagery to generate centimeter-level NDVI, NDRE, and SAVI vegetation health index maps.</p>
+          <div class="project-tech">
+            <span>UAV Drone</span><span>Multispectral</span><span>NDVI / NDRE</span><span>Photogrammetry</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/virahitvin8" target="_blank" rel="noopener noreferrer" class="project-link"><i class="fab fa-github"></i> Drone Analytics</a>
+          </div>
+        </div>
+
+        <!-- Project 4: Cassava as a Bio-Ethanol Fuel Resource -->
+        <div class="project-card" data-animate="fadeInUp" style="--delay: 0.4s">
+          <div class="project-tag-top">🏆 Entrepreneurship Model</div>
           <div class="project-header">
             <div class="project-icon-wrap"><img src="assets/logos/shefuture.svg" alt="SheFuture" class="project-logo-img" /></div>
             <div class="project-meta">
@@ -787,25 +804,56 @@
             </div>
           </div>
           <h3 class="project-title">Cassava as a Bio-Ethanol Fuel Resource</h3>
-          <p class="project-desc">Participated in SheFuture Entrepreneurship Competition presenting an innovative business model around Cassava cultivation as a renewable bio-ethanol fuel source — addressing India's energy needs through agriculture.</p>
+          <p class="project-desc">Participated in SheFuture Entrepreneurship Competition presenting an innovative closed-loop business model around industrial Cassava cultivation and starch residue fermentation into clean bio-ethanol fuel.</p>
           <div class="project-tech">
             <span>Biofuel</span><span>Cassava</span><span>Entrepreneurship</span><span>Renewable Energy</span>
           </div>
+          <div class="project-links">
+            <a href="https://github.com/virahitvin8" target="_blank" rel="noopener noreferrer" class="project-link"><i class="fab fa-github"></i> Project Notes</a>
+          </div>
         </div>
 
-        <div class="project-card" data-animate="fadeInUp" style="--delay: 0.3s">
-          <div class="project-tag-top">🤝 Agri Training</div>
+        <!-- Project 5: Hydroponics NFT System -->
+        <div class="project-card" data-animate="fadeInUp" style="--delay: 0.5s">
+          <div class="project-tag-top">💧 Precision Farming</div>
           <div class="project-header">
-            <div class="project-icon-wrap"><img src="assets/logos/vn-organics.svg" alt="VN Organics" class="project-logo-img" /></div>
+            <div class="project-icon-wrap" style="background: linear-gradient(135deg, #023e8a, #0096c7); color: white; display: flex; align-items: center; justify-content: center; font-size: 1.4rem;">
+              <i class="fas fa-tint"></i>
+            </div>
             <div class="project-meta">
-              <span class="project-date">November 2021</span>
-              <span class="project-label">VN Organics — Gwalior</span>
+              <span class="project-date">ITM Polyhouse</span>
+              <span class="project-label">Soilless Agriculture</span>
             </div>
           </div>
-          <h3 class="project-title">Mushroom Cultivation Workshop</h3>
-          <p class="project-desc">Hands-on oyster mushroom cultivation and substrate preparation workshop at VN Organics — mastering controlled humidity, temperature monitoring, and post-harvest quality standards.</p>
+          <h3 class="project-title">Hydroponic Nutrient Film Technique (NFT)</h3>
+          <p class="project-desc">Engineered and calibrated recirculating closed-loop Nutrient Film Technique (NFT) channels for leafy greens. Managed automated electrical conductivity (EC), pH balancing, and 90% water conservation protocols.</p>
           <div class="project-tech">
-            <span>Mushroom Farming</span><span>VN Organics</span><span>Quality Control</span>
+            <span>Hydroponics</span><span>NFT System</span><span>EC/pH Dosing</span><span>Polyhouse</span>
+          </div>
+          <div class="project-links">
+            <a href="#certifications" class="project-link"><i class="fas fa-award"></i> View ITM Credential</a>
+          </div>
+        </div>
+
+        <!-- Project 6: CSIR-NGRI Geophysics -->
+        <div class="project-card" data-animate="fadeInUp" style="--delay: 0.6s">
+          <div class="project-tag-top">📡 National Training</div>
+          <div class="project-header">
+            <div class="project-icon-wrap" style="background: linear-gradient(135deg, #0b2545, #1b4332); color: white; display: flex; align-items: center; justify-content: center; font-size: 1.4rem;">
+              <i class="fas fa-satellite"></i>
+            </div>
+            <div class="project-meta">
+              <span class="project-date">CSIR - NGRI Hyderabad</span>
+              <span class="project-label">Earth Surface Processes</span>
+            </div>
+          </div>
+          <h3 class="project-title">CSIR-NGRI Hydrogeology &amp; Remote Sensing</h3>
+          <p class="project-desc">Specialized geophysical training at National Geophysical Research Institute on satellite radar lineament extraction, heliborne transient electromagnetic (TEM) inversion, and hard-rock aquifer potential zone mapping.</p>
+          <div class="project-tech">
+            <span>CSIR-NGRI</span><span>Hydrogeology</span><span>Resistivity</span><span>Earth Observation</span>
+          </div>
+          <div class="project-links">
+            <a href="#certifications" class="project-link"><i class="fas fa-award"></i> View Certificate</a>
           </div>
         </div>
       </div>
@@ -999,17 +1047,26 @@
   <footer class="footer">
     <div class="footer-container">
       <div class="footer-top">
-        <div class="footer-brand footer-declaration-brand">
-          <div class="declaration-badge"><i class="fas fa-award"></i> SOLEMN ACADEMIC DECLARATION</div>
-          <p class="declaration-text">
-            "I hereby solemnly declare that all information, academic credentials, research publications, and field experience documented within this portfolio are true, authentic, and verifiable to the best of my knowledge and official records."
+        <div class="footer-brand footer-declaration-brand" style="background: rgba(255,255,255,0.06); padding: 1.5rem; border-radius: 16px; border: 1px solid rgba(255,255,255,0.12);">
+          <div class="declaration-badge"><i class="fas fa-award"></i> SOLEMN ACADEMIC DECLARATION &bull; VERIFIED RECORD</div>
+          <p class="declaration-text" style="font-style:italic; margin-top:0.75rem; color:rgba(255,255,255,0.85); font-size:0.9rem;">
+            "I hereby solemnly declare that all information, academic credentials, research publications, and field experience documented within this portfolio are true, authentic, and verifiable to the best of my knowledge and official institutional records."
           </p>
-          <div class="declaration-sign-wrap">
-            <img src="assets/signature/signature.svg" alt="Signature of N. Akshit Vinay" class="footer-signature" />
+          <div class="declaration-sign-wrap" style="display:flex; align-items:center; gap:1.25rem; margin-top:1.25rem; flex-wrap:wrap;">
+            <!-- Formal Resume Portrait -->
+            <img src="assets/resume-photo.png" alt="Neelam Akshit Vinay - Formal Portrait" style="width:65px; height:65px; border-radius:12px; object-fit:cover; border:2px solid var(--accent); box-shadow:0 4px 12px rgba(0,0,0,0.25);" />
+            <img src="assets/signature/signature.svg" alt="Signature of N. Akshit Vinay" class="footer-signature" style="height:48px; filter: drop-shadow(0 0 4px rgba(255,255,255,0.3));" />
             <div class="signature-details">
-              <span class="sign-name">Neelam Akshit Vinay</span>
-              <span class="sign-role">M.Sc Scholar &bull; Remote Sensing, GIS &amp; Precision Agriculture</span>
+              <span class="sign-name" style="font-weight:700; color:var(--white); font-size:1.05rem;">Neelam Akshit Vinay</span>
+              <span class="sign-role" style="color:var(--accent); font-size:0.82rem; display:block;">B.Sc (Hons) Agriculture &bull; M.Sc Remote Sensing &amp; GIS</span>
+              <span style="font-size:0.75rem; color:rgba(255,255,255,0.6);">CSIR-NGRI Trained &bull; Verified Credential</span>
             </div>
+          </div>
+          <div style="margin-top:1rem; padding-top:1rem; border-top:1px solid rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:0.5rem;">
+            <span style="font-size:0.78rem; color:rgba(255,255,255,0.7);"><i class="fas fa-shield-alt" style="color:var(--accent);"></i> Institutional Record</span>
+            <button onclick="openAdminAuth()" style="background:linear-gradient(135deg,var(--accent),var(--accent-light)); color:var(--primary); font-weight:700; font-size:0.78rem; padding:6px 14px; border-radius:20px; border:none; cursor:pointer; display:inline-flex; align-items:center; gap:6px;">
+              <i class="fas fa-lock"></i> Admin Login (PIN: 2080)
+            </button>
           </div>
         </div>
         <div class="footer-links-col">

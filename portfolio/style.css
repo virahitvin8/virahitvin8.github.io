@@ -521,9 +521,9 @@ img { max-width: 100%; display: block; }
 /* ════════════════════════════════════════
    SECTIONS BASE
 ════════════════════════════════════════ */
-.section { padding: 6rem 0; position: relative; }
+.section { padding: 3.2rem 0; position: relative; }
 .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
-.section-header { text-align: center; margin-bottom: 4rem; }
+.section-header { text-align: center; margin-bottom: 2.2rem; }
 .section-tag {
   display: inline-block;
   color: var(--primary-light); font-weight: 600; font-size: 0.78rem;
