@@ -160,3 +160,38 @@ export const Trash = (p: P) => (
     <path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
   </svg>
 )
+
+export const ArrowDown = (p: P) => (
+  <svg {...base(p)}>
+    <path d="M12 5v14m7-7-7 7-7-7" />
+  </svg>
+)
+
+export const Sprout = (p: P) => (
+  <svg {...base(p)}>
+    <path d="M7 20h10M12 20v-8M12 12c-2.5-3-6-3-6 0 0 3 3.5 3 6 0M12 12c2.5-3 6-3 6 0 0 3-3.5 3-6 0" />
+  </svg>
+)
+
+export const Compass = (p: P) => (
+  <svg {...base(p)}>
+    <circle cx="12" cy="12" r="10" />
+    <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
+  </svg>
+)
+
+export const Code = (p: P) => (
+  <svg {...base(p)}>
+    <polyline points="16 18 22 12 16 6" />
+    <polyline points="8 6 2 12 8 18" />
+  </svg>
+)
+
+export const FilePdf = (p: P) => (
+  <svg {...base(p)}>
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+    <polyline points="14 2 14 8 20 8" />
+    <line x1="9" y1="13" x2="15" y2="13" />
+    <line x1="9" y1="17" x2="15" y2="17" />
+  </svg>
+)

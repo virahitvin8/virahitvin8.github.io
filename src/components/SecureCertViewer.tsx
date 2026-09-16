@@ -60,33 +60,33 @@ export function SecureCertViewer({
   const watermark = `${data.profile.name} · ${sessionId} · VIEW ONLY`
 
   return (
-    <div className="secure-lock fixed inset-0 z-[10080] flex items-center justify-center bg-void/95 px-4 backdrop-blur-2xl">
+    <div className="secure-lock fixed inset-0 z-[10080] flex items-center justify-center bg-black/60 px-4 backdrop-blur-md">
       <button
         onClick={onClose}
-        className="absolute right-5 top-5 z-20 flex h-11 w-11 items-center justify-center rounded-full border border-hair text-mist transition hover:border-neon hover:text-neon"
+        className="absolute right-5 top-5 z-20 flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-white/90 text-primary shadow-md transition hover:bg-white hover:scale-105"
         aria-label="Close"
       >
         <X />
       </button>
 
       <div className="relative w-full max-w-3xl">
-        <div className="mb-4 flex items-center justify-center gap-2 text-sage-light">
-          <Shield width={16} height={16} />
-          <span className="hud-label !text-sage-light">
-            Protected Credential
+        <div className="mb-4 flex items-center justify-center gap-2 text-primary">
+          <Shield width={18} height={18} />
+          <span className="font-mono text-xs font-semibold tracking-wider text-primary uppercase">
+            Protected Institutional Credential
           </span>
         </div>
 
-        <div className="relative overflow-hidden rounded-2xl border border-neon/25 bg-abyss transition-all duration-300 shadow-[0_0_80px_rgba(0,255,200,0.15)]">
+        <div className="relative overflow-hidden rounded-2xl border border-primary/20 bg-white transition-all duration-300 shadow-2xl">
           {/* watermark tiles */}
           <div
-            className="pointer-events-none absolute inset-0 z-10 flex flex-wrap content-center gap-y-20 opacity-[0.16] select-none"
+            className="pointer-events-none absolute inset-0 z-10 flex flex-wrap content-center gap-y-20 opacity-[0.14] select-none"
             style={{ transform: "rotate(-24deg) scale(1.4)" }}
           >
             {Array.from({ length: 26 }).map((_, i) => (
               <span
                 key={i}
-                className="whitespace-nowrap px-6 font-mono text-xs tracking-widest text-neon select-none"
+                className="whitespace-nowrap px-6 font-mono text-xs tracking-widest text-primary select-none font-bold"
               >
                 {watermark}
               </span>
@@ -109,16 +109,18 @@ export function SecureCertViewer({
               className="relative z-0 mx-auto block max-h-[calc(100dvh-9rem)] w-auto max-w-full select-none object-contain pointer-events-none"
             />
           ) : (
-            <div className="relative z-0 flex aspect-[1.414/1] flex-col items-center justify-center gap-4 bg-[radial-gradient(ellipse_at_center,#0d2b1f,#04120c)] p-10 text-center">
-              <div className="flex h-14 w-14 items-center justify-center rounded-xl border border-gold/40 text-gold">
+            <div className="relative z-0 flex aspect-[1.414/1] flex-col items-center justify-center gap-4 bg-gradient-to-b from-white via-sand-light/40 to-sand-light/70 p-10 text-center">
+              <div className="flex h-14 w-14 items-center justify-center rounded-xl border border-gold/60 bg-gold/10 text-gold-light">
                 <Shield width={26} height={26} />
               </div>
-              <p className="hud-label !text-gold">Certificate of Record</p>
-              <h3 className="max-w-lg font-display text-2xl text-ink">
+              <p className="font-mono text-xs font-bold tracking-wider text-gold-light uppercase">
+                Certificate of Record
+              </p>
+              <h3 className="max-w-lg font-display text-2xl font-bold text-primary">
                 {cert.title}
               </h3>
-              <p className="text-sm text-sage-light">{cert.issuer}</p>
-              <p className="font-mono text-xs text-faint">{cert.date}</p>
+              <p className="text-sm font-semibold text-primary-light">{cert.issuer}</p>
+              <p className="font-mono text-xs text-mist">{cert.date}</p>
               <p className="mt-2 max-w-md text-xs text-mist">{cert.blurb}</p>
               <p className="mt-6 text-[11px] text-faint">
                 {pending ? (
@@ -129,7 +131,7 @@ export function SecureCertViewer({
                   <>
                     Original document available on request — the owner can
                     attach the scan at{" "}
-                    <code className="font-mono text-neon/80">
+                    <code className="font-mono text-primary/80">
                       {CERT_DIR}
                       {cert.slug || "slug"}.png
                     </code>

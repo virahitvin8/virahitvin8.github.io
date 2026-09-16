@@ -1,28 +1,28 @@
 const WORDS = [
-  "REMOTE SENSING",
-  "GIS",
-  "PRECISION AGRICULTURE",
-  "NDVI",
+  "B.Sc (Hons) AGRICULTURE",
+  "M.Sc REMOTE SENSING & GIS",
+  "CSIR-NGRI TRAINED",
+  "PRECISION AGRONOMY",
   "EARTH OBSERVATION",
-  "DRONE MAPPING",
-  "SENTINEL-2",
-  "SPATIAL MODELLING",
-  "SUSTAINABILITY",
-  "MULTISPECTRAL",
+  "UAV DRONE MAPPING",
+  "WATERSHED DELINEATION",
+  "SENTINEL-2 & LANDSAT",
+  "MULTISPECTRAL NDVI",
+  "HYDROPONICS & SOIL SCIENCE",
 ]
 
 export function Marquee() {
   const row = [...WORDS, ...WORDS]
   return (
-    <div className="relative overflow-hidden border-y border-hair bg-abyss/40 py-5">
-      <div className="flex w-max animate-[marquee-scroll_40s_linear_infinite] gap-10 whitespace-nowrap">
+    <div className="relative overflow-hidden border-y border-primary/10 bg-white/70 py-3 shadow-xs backdrop-blur-xs">
+      <div className="flex w-max animate-[marquee-scroll_45s_linear_infinite] gap-8 whitespace-nowrap">
         {row.map((w, i) => (
           <span
             key={i}
-            className="flex items-center gap-10 font-display text-2xl text-mist"
+            className="flex items-center gap-8 font-mono text-xs font-bold tracking-widest text-primary/80"
           >
-            <span className={i % 2 ? "text-gold/70" : "text-ink/80"}>{w}</span>
-            <span className="text-neon">✦</span>
+            <span className={i % 2 ? "text-primary" : "text-gold-light"}>{w}</span>
+            <span className="text-emerald-600">✦</span>
           </span>
         ))}
       </div>

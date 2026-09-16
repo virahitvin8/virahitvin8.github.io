@@ -1,6 +1,6 @@
 import { usePortfolio } from "../content/PortfolioContext"
 import { Section } from "./Section"
-import { Download, Upload } from "./icons"
+import { Download, Upload, FilePdf } from "./icons"
 
 export function Resume() {
   const { data, isAdmin, editing, updateData, showToast } = usePortfolio()
@@ -39,76 +39,74 @@ export function Resume() {
     <Section
       id="resume"
       index="07"
-      eyebrow="Curriculum Vitae"
-      title="The full résumé"
+      eyebrow="Official Curriculum Vitae"
+      title="Verified Academic &amp; Professional Résumé"
+      className="zone-orbit"
     >
-      <div className="grid gap-8 lg:grid-cols-[1fr_1.6fr]">
+      <div className="grid gap-6 lg:grid-cols-[1fr_1.6fr]">
         {/* Info + actions */}
-        <div className="reveal flex flex-col gap-5">
-          <div className="glass rounded-2xl p-6">
-            <p className="hud-label mb-2">Current Document</p>
-            <p className="break-all font-mono text-sm text-ink">{resumeName}</p>
-            <p className="mt-1 text-xs text-faint">
-              Last updated · {resumeUpdated}
+        <div className="reveal flex flex-col justify-between rounded-2xl border border-primary/12 bg-white/95 p-6 shadow-sm">
+          <div>
+            <div className="flex items-center gap-2 text-primary font-mono text-xs font-bold uppercase tracking-wider mb-3">
+              <FilePdf width={16} height={16} className="text-emerald-700" />
+              <span>Current Document</span>
+            </div>
+            <p className="break-all font-mono text-sm font-bold text-primary">{resumeName}</p>
+            <p className="mt-1 text-xs text-mist">
+              Verified Version &bull; Last updated {resumeUpdated}
             </p>
 
-            <div className="mt-6 flex flex-col gap-3">
-              <a
-                href={cvUrl}
-                download={resumeName}
-                className="flex items-center justify-center gap-2 rounded-full bg-neon px-6 py-3 font-semibold text-void transition hover:bg-sage-light hover:shadow-[0_0_28px_var(--neon-soft)]"
-              >
-                <Download width={18} height={18} /> Download résumé
-              </a>
-              <a
-                href={cvUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center justify-center gap-2 rounded-full border border-hair px-6 py-3 font-medium text-ink transition hover:border-neon hover:text-neon"
-              >
-                Open in new tab
-              </a>
-
-              {canEdit && (
-                <button
-                  onClick={uploadResume}
-                  className="flex items-center justify-center gap-2 rounded-full border border-dashed border-gold/50 px-6 py-3 font-medium text-gold-light transition hover:bg-gold/10"
-                >
-                  <Upload width={18} height={18} /> Upload new résumé
-                </button>
-              )}
+            <div className="mt-4 rounded-xl border border-primary/10 bg-primary/[0.02] p-3 text-xs text-mist leading-relaxed">
+              Complete documentation of B.Sc (Hons) Agriculture coursework, M.Sc Remote Sensing &amp; GIS curriculum, CSIR-NGRI research training, and field credentials.
             </div>
           </div>
 
-          {isAdmin && (
-            <p className="text-xs leading-relaxed text-faint">
-              Admin: turn on inline edit, then{" "}
-              <b className="text-gold">Upload new résumé</b> to swap the PDF. It
-              saves to your browser instantly — use{" "}
-              <b className="text-neon">Export</b> in the admin bar and redeploy
-              so every visitor gets the new file.
-            </p>
-          )}
+          <div className="mt-6 flex flex-col gap-2.5">
+            <a
+              href={cvUrl}
+              download={resumeName}
+              className="flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 font-semibold text-white shadow-sm transition hover:bg-primary-light hover:shadow-md"
+            >
+              <Download width={16} height={16} /> Download Official CV (PDF)
+            </a>
+            <a
+              href={cvUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="flex items-center justify-center gap-2 rounded-full border border-primary/25 bg-white px-6 py-2.5 text-xs font-semibold text-primary shadow-2xs transition hover:bg-primary/5"
+            >
+              Open in New Window
+            </a>
+
+            {canEdit && (
+              <button
+                onClick={uploadResume}
+                className="flex items-center justify-center gap-2 rounded-full border border-dashed border-gold px-6 py-2.5 text-xs font-bold text-gold-light transition hover:bg-gold/10"
+              >
+                <Upload width={15} height={15} /> Upload new résumé (Admin)
+              </button>
+            )}
+          </div>
         </div>
 
         {/* Embedded preview */}
-        <div className="reveal overflow-hidden rounded-2xl border border-hair bg-abyss">
+        <div className="reveal overflow-hidden rounded-2xl border border-primary/15 bg-white shadow-sm">
           <object
             data={`${cvUrl}#toolbar=0&view=FitH`}
             type="application/pdf"
-            className="h-[70vh] w-full"
+            className="h-[52vh] w-full"
           >
-            <div className="flex h-[70vh] flex-col items-center justify-center gap-4 p-8 text-center">
-              <p className="text-mist">
-                Your browser can&apos;t preview PDFs inline.
+            <div className="flex h-[52vh] flex-col items-center justify-center gap-3 p-6 text-center">
+              <p className="text-sm text-mist">
+                PDF preview loaded in native viewer.
               </p>
               <a
                 href={cvUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="rounded-full bg-neon px-6 py-3 font-semibold text-void"
+                className="rounded-full bg-primary px-5 py-2 text-xs font-bold text-white shadow-sm"
               >
-                Open the résumé
+                Open Résumé PDF
               </a>
             </div>
           </object>

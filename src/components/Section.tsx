@@ -18,16 +18,16 @@ export function Section({
   return (
     <section
       id={id}
-      className={`mx-auto max-w-7xl px-6 py-24 lg:px-10 lg:py-32 ${className}`}
+      className={`mx-auto max-w-7xl px-6 py-12 lg:px-10 lg:py-16 ${className}`}
     >
-      <header className="reveal mb-14 flex flex-col gap-4 border-b border-hair pb-8 lg:flex-row lg:items-end lg:justify-between">
+      <header className="reveal mb-8 flex flex-col gap-3 border-b border-primary/10 pb-5 lg:flex-row lg:items-end lg:justify-between">
         <div>
-          <div className="mb-3 flex items-center gap-3">
-            <span className="font-mono text-sm text-gold">{index}</span>
-            <span className="h-px w-10 bg-gold/40" />
-            <span className="hud-label">{eyebrow}</span>
+          <div className="mb-2 flex items-center gap-2.5">
+            <span className="font-mono text-xs font-bold text-gold-light">{index}</span>
+            <span className="h-px w-8 bg-gold/40" />
+            <span className="hud-label text-primary">{eyebrow}</span>
           </div>
-          <h2 className="max-w-2xl font-display text-4xl leading-tight text-ink lg:text-5xl">
+          <h2 className="max-w-3xl font-display text-3xl font-bold tracking-tight text-primary sm:text-4xl">
             {title}
           </h2>
         </div>

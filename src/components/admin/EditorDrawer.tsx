@@ -115,8 +115,8 @@ export function EditorDrawer({ open, onClose }: { open: boolean; onClose: () => 
             <button
               key={id}
               onClick={() => setTab(id)}
-              className={`flex-1 py-3 text-xs font-medium transition ${
-                tab === id ? 'bg-neon/10 text-neon' : 'text-faint hover:text-ink'
+              className={`flex-1 py-3 text-xs font-semibold transition ${
+                tab === id ? 'border-b-2 border-primary bg-primary/5 text-primary' : 'text-faint hover:text-ink'
               }`}
             >
               {label}
