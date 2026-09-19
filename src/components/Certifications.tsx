@@ -85,7 +85,7 @@ export function Certifications() {
   return (
     <Section
       id="certifications"
-      index="06"
+      index="09"
       eyebrow="Credentials &amp; Verified Scans"
       title="Certifications &amp; Research Training"
       className="zone-orbit"

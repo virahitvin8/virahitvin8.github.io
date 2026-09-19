@@ -38,7 +38,7 @@ export function Resume() {
   return (
     <Section
       id="resume"
-      index="07"
+      index="10"
       eyebrow="Official Curriculum Vitae"
       title="Verified Academic &amp; Professional Résumé"
       className="zone-orbit"

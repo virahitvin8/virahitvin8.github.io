@@ -266,3 +266,21 @@ body.admin-mode [data-editable]:hover {
   outline-color: #c9a84c;
   background-color: rgba(201, 168, 76, 0.08);
 }
+
+/* Figma-grade micro-interactions and morph transitions */
+.figma-card {
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-card-border);
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.figma-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-primary);
+  box-shadow: 0 12px 30px -4px rgba(16, 185, 129, 0.15);
+}
+
+.canva-morph {
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+

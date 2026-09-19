@@ -46,7 +46,7 @@ export function generateCopilotResponse(query: string): {
   if (q.includes("csir") || q.includes("ngri") || q.includes("watershed") || q.includes("dem") || q.includes("gis") || q.includes("terrain")) {
     return {
       text: `At the prestigious **CSIR – National Geophysical Research Institute (NGRI), Hyderabad**, Akshit completed intensive national research training on *"Applications of Remote Sensing & GIS in Earth Surface Processes"*:\n\n• Performed 30m SRTM DEM pit-filling, D8 flow accumulation routing, and Strahler stream order extraction.\n• Modeled watershed boundaries across 450+ sq km to analyze hydrological controls on drainage.\n• Integrated optical and radar lineament analysis with Electrical Resistivity Tomography (ERT) for subsurface fractured aquifer recharge zoning.`,
-      action: { label: "Explore Telemetry Lab", type: "telemetry" },
+      action: { label: "View CSIR-NGRI Project", type: "projects" },
     }
   }
 
@@ -54,7 +54,7 @@ export function generateCopilotResponse(query: string): {
   if (q.includes("drone") || q.includes("uav") || q.includes("ndvi") || q.includes("spectral") || q.includes("precision")) {
     return {
       text: `In Precision Agriculture & UAV Technology:\n\n• Trained as a **Drone Technology Intern** at AgriTech Innovations (Apr 2023).\n• Operated autonomous UAV multi-rotor systems at 80m AGL capturing calibrated multispectral data (G, R, RedEdge, NIR).\n• Computed vegetation indices (**NDVI, NDRE, SAVI**) in Pix4D and QGIS for early crop nitrogen deficiency detection 12 days prior to visual symptoms.`,
-      action: { label: "Open Multispectral Simulator", type: "telemetry" },
+      action: { label: "View UAV Drone Project", type: "projects" },
     }
   }
 

@@ -15,15 +15,12 @@ import {
 } from "./icons"
 
 const LINKS = [
-  ["telemetry", "Telemetry Lab"],
   ["about", "About"],
   ["linkedin", "LinkedIn"],
   ["deck", "Pitch Deck"],
   ["research", "Publication"],
-  ["workflow", "AI Pipeline"],
   ["trajectory", "Trajectory"],
   ["projects", "Projects"],
-  ["notes", "Field Notes"],
   ["skills", "Skills"],
   ["certifications", "Credentials"],
   ["resume", "Résumé"],

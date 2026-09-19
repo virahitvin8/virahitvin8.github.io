@@ -61,7 +61,7 @@ export function Projects() {
   return (
     <Section
       id="projects"
-      index="04"
+      index="07"
       eyebrow="Portfolio of Practical Work"
       title="Projects: From Soil to Orbit"
       className="zone-terrain"

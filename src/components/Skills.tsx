@@ -45,7 +45,7 @@ export function Skills() {
   return (
     <Section
       id="skills"
-      index="05"
+      index="08"
       eyebrow="Core Competencies"
       title="Technical &amp; Agronomic Toolkit"
       className="zone-terrain"

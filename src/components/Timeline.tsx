@@ -48,7 +48,7 @@ export function TrajectoryTimeline() {
   return (
     <Section
       id="trajectory"
-      index="03"
+      index="06"
       eyebrow="Academic & Professional Continuum"
       title="Altitude Trajectory: From Soil to Orbit"
       className="zone-aerial"

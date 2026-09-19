@@ -209,7 +209,7 @@ export function LinkedInShowcase() {
                     return (
                       <div
                         key={i}
-                        className="rounded-xl border border-hair bg-card-bg p-3 shadow-2xs transition hover:border-primary/40"
+                        className="rounded-xl border border-hair bg-card-bg p-3 shadow-2xs transition figma-card"
                       >
                         <div className="flex items-center justify-between text-xs">
                           <div className="flex items-center gap-2 font-semibold text-ink">
@@ -247,7 +247,7 @@ export function LinkedInShowcase() {
                   </div>
 
                   {/* Recommendation Card */}
-                  <div className="min-h-[140px] rounded-xl border border-hair bg-card-bg p-5 shadow-2xs relative">
+                  <div className="min-h-[140px] rounded-xl border border-hair bg-card-bg p-5 shadow-2xs relative figma-card">
                     <span className="absolute top-3 right-4 font-serif text-3xl text-faint select-none">
                       &ldquo;
                     </span>

@@ -92,15 +92,12 @@ export function CommandPalette() {
     // 1. Navigation items
     const navSections = [
       { id: "top", title: "Hero & Trajectory Overview", subtitle: "Top of portfolio", icon: Compass },
-      { id: "telemetry", title: "Geospatial & Agro-Telemetry Lab", subtitle: "Multispectral band simulator & radar", icon: RadarIcon },
       { id: "about", title: "About Academic Journey", subtitle: "Agronomy to space telemetry", icon: Sprout },
       { id: "linkedin", title: "LinkedIn Professional Showcase", subtitle: "Verified endorsements & recommendations", icon: Check },
       { id: "deck", title: "Canva & PowerPoint Presentation Deck", subtitle: "Interactive pitch deck with morph transitions", icon: Sparkle },
       { id: "research", title: "Published Research (Agri Express)", subtitle: "HCN in Sorghum biochemistry", icon: Sparkle },
-      { id: "workflow", title: "Autonomous Multi-Agent Pipeline", subtitle: "CrewAI & Langflow inspired precision agriculture graph", icon: Layers },
       { id: "trajectory", title: "Altitude Trajectory (Education & Experience)", subtitle: "0m Soil to 705km Orbit", icon: Satellite },
       { id: "projects", title: "Practical Work & Projects", subtitle: "Filterable bento showcase", icon: Layers },
-      { id: "notes", title: "AppFlowy Field Notes & Protocols", subtitle: "Technical field documentation & code formulas", icon: FilePdf },
       { id: "skills", title: "Skills Matrix & Software Tools", subtitle: "ArcGIS, QGIS, NDVI, UAV, MATLAB", icon: Shield },
       { id: "certifications", title: "Verified Credentials & Certifications", subtitle: "CSIR-NGRI, ANGRAU, ITM", icon: Check },
       { id: "resume", title: "Official Résumé & CV", subtitle: "PDF view & download", icon: FilePdf },

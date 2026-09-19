@@ -287,7 +287,7 @@ export function PresentationDeck() {
 
             <div
               key={slide.id}
-              className="w-full max-w-5xl animate-in fade-in zoom-in-95 duration-500"
+              className="w-full max-w-5xl canva-morph animate-in fade-in zoom-in-95 duration-500"
             >
               <div className="grid gap-8 lg:grid-cols-12 items-center">
                 {/* Left Text Content (7 cols) */}
@@ -325,7 +325,7 @@ export function PresentationDeck() {
 
                 {/* Right Metric Card (4 cols) */}
                 <div className="lg:col-span-4 flex flex-col items-center justify-center">
-                  <div className="w-full rounded-3xl border border-hair bg-card-bg/80 p-6 text-center shadow-xl backdrop-blur-xl transition hover:border-primary/40">
+                  <div className="w-full rounded-3xl border border-hair bg-card-bg/80 p-6 text-center shadow-xl backdrop-blur-xl figma-card">
                     <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-tr from-emerald-500/20 to-teal-500/20 text-primary border border-primary/20 shadow-inner">
                       <Icon width={28} height={28} />
                     </div>
