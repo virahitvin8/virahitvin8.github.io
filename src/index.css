@@ -7,29 +7,29 @@
    DUAL-THEME ENGINE — SOIL AGRONOMY TO SATELLITE TELEMETRY
    ═══════════════════════════════════════════════════════════ */
 :root {
-  --color-void: #fbfbfa;
+  --color-void: #fbfcf9;
   --color-abyss: #ffffff;
-  --color-primary: #0d2b1f;
-  --color-primary-mid: #16402e;
-  --color-primary-light: #2d6a4f;
-  --color-gold: #c9a84c;
-  --color-gold-light: #8e6d24;
-  --color-sage: #2d6a4f;
-  --color-sage-light: #1b4d36;
-  --color-neon: #1b6348;
-  --color-ink: #0c261c;
-  --color-mist: #334e40;
-  --color-faint: #5a7566;
-  --color-hair: rgba(13, 43, 31, 0.12);
-  --color-card-bg: rgba(255, 255, 255, 0.94);
-  --color-card-border: rgba(13, 43, 31, 0.12);
-  --color-panel-bg: rgba(255, 255, 255, 0.88);
-  --color-aero: #0e6b7f;
-  --color-orbit: #104f6e;
+  --color-primary: #15803d;
+  --color-primary-mid: #166534;
+  --color-primary-light: #22c55e;
+  --color-gold: #b45309;
+  --color-gold-light: #d97706;
+  --color-sage: #15803d;
+  --color-sage-light: #22c55e;
+  --color-neon: #16a34a;
+  --color-ink: #14251d;
+  --color-mist: #3f5549;
+  --color-faint: #62776b;
+  --color-hair: rgba(21, 128, 61, 0.1);
+  --color-card-bg: rgba(255, 255, 255, 0.88);
+  --color-card-border: rgba(21, 128, 61, 0.1);
+  --color-panel-bg: rgba(251, 252, 249, 0.92);
+  --color-aero: #0284c7;
+  --color-orbit: #0369a1;
 
-  --neon-soft: rgba(45, 106, 79, 0.25);
-  --gold-soft: rgba(201, 168, 76, 0.35);
-  --glow-accent: rgba(45, 106, 79, 0.2);
+  --neon-soft: rgba(34, 197, 94, 0.18);
+  --gold-soft: rgba(245, 158, 11, 0.22);
+  --glow-accent: rgba(34, 197, 94, 0.16);
   color-scheme: light;
 }
 
@@ -161,28 +161,28 @@ body {
 
 /* Altitude-based background progression classes */
 .zone-ground {
-  background: linear-gradient(180deg, var(--color-void) 0%, rgba(13, 43, 31, 0.03) 100%);
+  background: linear-gradient(180deg, #fbfcf9 0%, #f5f8f3 100%);
 }
 .dark .zone-ground {
   background: linear-gradient(180deg, #060a08 0%, #09120c 100%);
 }
 
 .zone-aerial {
-  background: linear-gradient(180deg, rgba(13, 43, 31, 0.03) 0%, rgba(14, 107, 127, 0.04) 100%);
+  background: linear-gradient(180deg, #f5f8f3 0%, #f0f7f7 100%);
 }
 .dark .zone-aerial {
   background: linear-gradient(180deg, #09120c 0%, #0c1811 100%);
 }
 
 .zone-terrain {
-  background: linear-gradient(180deg, rgba(14, 107, 127, 0.04) 0%, rgba(16, 79, 110, 0.05) 100%);
+  background: linear-gradient(180deg, #f0f7f7 0%, #f3f6f9 100%);
 }
 .dark .zone-terrain {
   background: linear-gradient(180deg, #0c1811 0%, #0e1c1b 100%);
 }
 
 .zone-orbit {
-  background: linear-gradient(180deg, rgba(16, 79, 110, 0.05) 0%, rgba(201, 168, 76, 0.04) 100%);
+  background: linear-gradient(180deg, #f3f6f9 0%, #faf8f3 100%);
 }
 .dark .zone-orbit {
   background: linear-gradient(180deg, #0e1c1b 0%, #0b1720 100%);
@@ -271,13 +271,13 @@ body.admin-mode [data-editable]:hover {
 .figma-card {
   background: var(--color-card-bg);
   border: 1px solid var(--color-card-border);
-  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 24px -2px rgba(21, 128, 61, 0.05), 0 1px 3px rgba(0, 0, 0, 0.02);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
 }
 .figma-card:hover {
-  transform: translateY(-2px);
-  border-color: var(--color-primary);
-  box-shadow: 0 12px 30px -4px rgba(16, 185, 129, 0.15);
+  transform: translateY(-3px);
+  border-color: rgba(21, 128, 61, 0.3);
+  box-shadow: 0 16px 36px -6px rgba(21, 128, 61, 0.1), 0 4px 10px -2px rgba(0, 0, 0, 0.03);
 }
 
 .canva-morph {

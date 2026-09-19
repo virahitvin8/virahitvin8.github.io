@@ -210,12 +210,12 @@ export function PortfolioProvider({ children }: { children: ReactNode }) {
   const [toast, setToast] = useState<string | null>(null)
   const toastTimer = useRef<number | undefined>(undefined)
 
-  // Theme state with localStorage and OS preference sync
+  // Theme state with localStorage and OS preference sync (defaults to soothing light theme)
   const [theme, setTheme] = useState<"dark" | "light">(() => {
-    if (typeof window === "undefined") return "dark"
+    if (typeof window === "undefined") return "light"
     const saved = localStorage.getItem("theme")
     if (saved === "light" || saved === "dark") return saved
-    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "dark"
+    return "light"
   })
 
   // Sound feedback state

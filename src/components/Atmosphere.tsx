@@ -57,48 +57,48 @@ export function Atmosphere() {
     <>
       {/* Background Altitude Ambience */}
       <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden transition-colors duration-1000">
-        {/* Soft Organic Aura 1 */}
+        {/* Soft Organic Aura 1: Soothing Botanical Sage */}
         <div
-          className="absolute -left-1/4 top-[-10%] h-[70vh] w-[70vh] rounded-full opacity-40 blur-[130px] transition-all duration-1000"
+          className="absolute -left-1/4 top-[-10%] h-[75vh] w-[75vh] rounded-full opacity-60 blur-[140px] transition-all duration-1000"
           style={{
             background:
               progress < 50
-                ? "radial-gradient(circle, rgba(45,106,79,0.18), transparent 70%)"
-                : "radial-gradient(circle, rgba(14,107,127,0.16), transparent 70%)",
+                ? "radial-gradient(circle, rgba(34,197,94,0.14), transparent 70%)"
+                : "radial-gradient(circle, rgba(14,165,233,0.12), transparent 70%)",
           }}
         />
 
-        {/* Soft Aura 2 */}
+        {/* Soft Aura 2: Gentle Warm Sunlight */}
         <div
-          className="absolute -right-1/4 top-[25%] h-[60vh] w-[60vh] rounded-full opacity-35 blur-[120px] transition-all duration-1000"
+          className="absolute -right-1/4 top-[20%] h-[65vh] w-[65vh] rounded-full opacity-55 blur-[130px] transition-all duration-1000"
           style={{
             background:
               progress < 40
-                ? "radial-gradient(circle, rgba(201,168,76,0.18), transparent 70%)"
+                ? "radial-gradient(circle, rgba(245,158,11,0.12), transparent 70%)"
                 : progress < 75
-                ? "radial-gradient(circle, rgba(45,106,79,0.15), transparent 70%)"
-                : "radial-gradient(circle, rgba(24,100,171,0.14), transparent 70%)",
+                ? "radial-gradient(circle, rgba(34,197,94,0.11), transparent 70%)"
+                : "radial-gradient(circle, rgba(56,189,248,0.11), transparent 70%)",
           }}
         />
 
-        {/* Soft Aura 3 */}
+        {/* Soft Aura 3: Tranquil Azure Sky */}
         <div
-          className="absolute bottom-[-10%] left-1/3 h-[55vh] w-[55vh] rounded-full opacity-30 blur-[140px] transition-all duration-1000"
+          className="absolute bottom-[-10%] left-1/3 h-[60vh] w-[60vh] rounded-full opacity-50 blur-[150px] transition-all duration-1000"
           style={{
             background:
               progress > 60
-                ? "radial-gradient(circle, rgba(16,79,110,0.14), transparent 70%)"
-                : "radial-gradient(circle, rgba(82,183,136,0.12), transparent 70%)",
+                ? "radial-gradient(circle, rgba(2,132,199,0.12), transparent 70%)"
+                : "radial-gradient(circle, rgba(74,222,128,0.10), transparent 70%)",
           }}
         />
 
         {/* Subtle geometric agricultural grid to satellite raster pattern */}
         <div
-          className="absolute inset-0 opacity-[0.035]"
+          className="absolute inset-0 opacity-[0.025]"
           style={{
             backgroundImage:
-              "linear-gradient(to right, rgba(13,43,31,0.3) 1px, transparent 1px), linear-gradient(to bottom, rgba(13,43,31,0.3) 1px, transparent 1px)",
-            backgroundSize: "40px 40px",
+              "linear-gradient(to right, rgba(21,128,61,0.3) 1px, transparent 1px), linear-gradient(to bottom, rgba(21,128,61,0.3) 1px, transparent 1px)",
+            backgroundSize: "44px 44px",
           }}
         />
       </div>
@@ -109,13 +109,13 @@ export function Atmosphere() {
           className="h-full bg-gradient-to-r from-emerald-600 via-teal-500 to-sky-600 transition-[width] duration-150"
           style={{
             width: `${progress}%`,
-            boxShadow: "0 0 10px rgba(45,106,79,0.3)",
+            boxShadow: "0 0 10px rgba(34,197,94,0.35)",
           }}
         />
       </div>
 
-      {/* Interactive Floating Flight / Altitude Gauge HUD */}
-      <div className="fixed bottom-6 right-6 z-[8000] hidden items-center gap-3 rounded-full border border-hair bg-card-bg px-4 py-2 shadow-lg backdrop-blur-xl transition-all duration-300 hover:scale-105 hover:border-primary/40 sm:flex">
+      {/* Interactive Floating Flight / Altitude Gauge HUD — anchored to bottom-left */}
+      <div className="fixed bottom-6 left-6 z-[8000] hidden items-center gap-3 rounded-full border border-hair bg-card-bg px-4 py-2 shadow-md backdrop-blur-xl transition-all duration-300 hover:scale-105 hover:border-primary/40 sm:flex">
         <span className="flex h-7 w-7 items-center justify-center rounded-full bg-primary/10 text-sm">
           {stage.icon}
         </span>
