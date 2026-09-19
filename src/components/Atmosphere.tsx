@@ -115,7 +115,7 @@ export function Atmosphere() {
       </div>
 
       {/* Interactive Floating Flight / Altitude Gauge HUD */}
-      <div className="fixed bottom-6 right-6 z-[8000] hidden items-center gap-3 rounded-full border border-primary/15 bg-white/90 px-4 py-2 shadow-lg backdrop-blur-md transition-all duration-300 hover:scale-105 hover:shadow-xl sm:flex">
+      <div className="fixed bottom-6 right-6 z-[8000] hidden items-center gap-3 rounded-full border border-hair bg-card-bg px-4 py-2 shadow-lg backdrop-blur-xl transition-all duration-300 hover:scale-105 hover:border-primary/40 sm:flex">
         <span className="flex h-7 w-7 items-center justify-center rounded-full bg-primary/10 text-sm">
           {stage.icon}
         </span>
@@ -128,7 +128,7 @@ export function Atmosphere() {
               {stage.badge}
             </span>
           </div>
-          <span className="font-mono text-[10px] text-mist/80">
+          <span className="font-mono text-[10px] text-faint">
             {stage.domain}
           </span>
         </div>

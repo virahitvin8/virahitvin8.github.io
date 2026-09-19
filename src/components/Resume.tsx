@@ -1,6 +1,6 @@
 import { usePortfolio } from "../content/PortfolioContext"
 import { Section } from "./Section"
-import { Download, Upload, FilePdf } from "./icons"
+import { Download, Upload, FilePdf, ArrowUpRight } from "./icons"
 
 export function Resume() {
   const { data, isAdmin, editing, updateData, showToast } = usePortfolio()
@@ -45,18 +45,18 @@ export function Resume() {
     >
       <div className="grid gap-6 lg:grid-cols-[1fr_1.6fr]">
         {/* Info + actions */}
-        <div className="reveal flex flex-col justify-between rounded-2xl border border-primary/12 bg-white/95 p-6 shadow-sm">
+        <div className="reveal flex flex-col justify-between rounded-3xl border border-primary/20 bg-card-bg p-6 sm:p-7 shadow-xs backdrop-blur-md">
           <div>
             <div className="flex items-center gap-2 text-primary font-mono text-xs font-bold uppercase tracking-wider mb-3">
-              <FilePdf width={16} height={16} className="text-emerald-700" />
-              <span>Current Document</span>
+              <FilePdf width={16} height={16} className="text-emerald-500" />
+              <span>Verified Official Document</span>
             </div>
             <p className="break-all font-mono text-sm font-bold text-primary">{resumeName}</p>
-            <p className="mt-1 text-xs text-mist">
+            <p className="mt-1 font-mono text-xs text-mist">
               Verified Version &bull; Last updated {resumeUpdated}
             </p>
 
-            <div className="mt-4 rounded-xl border border-primary/10 bg-primary/[0.02] p-3 text-xs text-mist leading-relaxed">
+            <div className="mt-4 rounded-2xl border border-hair bg-primary/[0.03] p-4 text-xs text-mist leading-relaxed">
               Complete documentation of B.Sc (Hons) Agriculture coursework, M.Sc Remote Sensing &amp; GIS curriculum, CSIR-NGRI research training, and field credentials.
             </div>
           </div>
@@ -73,15 +73,15 @@ export function Resume() {
               href={cvUrl}
               target="_blank"
               rel="noreferrer"
-              className="flex items-center justify-center gap-2 rounded-full border border-primary/25 bg-white px-6 py-2.5 text-xs font-semibold text-primary shadow-2xs transition hover:bg-primary/5"
+              className="flex items-center justify-center gap-2 rounded-full border border-hair bg-card-bg px-6 py-2.5 text-xs font-semibold text-primary shadow-2xs transition hover:bg-primary/5"
             >
-              Open in New Window
+              <ArrowUpRight width={14} height={14} /> Open in New Tab
             </a>
 
             {canEdit && (
               <button
                 onClick={uploadResume}
-                className="flex items-center justify-center gap-2 rounded-full border border-dashed border-gold px-6 py-2.5 text-xs font-bold text-gold-light transition hover:bg-gold/10"
+                className="flex items-center justify-center gap-2 rounded-full border border-dashed border-gold px-6 py-2.5 text-xs font-bold text-gold transition hover:bg-gold/10"
               >
                 <Upload width={15} height={15} /> Upload new résumé (Admin)
               </button>
@@ -90,7 +90,7 @@ export function Resume() {
         </div>
 
         {/* Embedded preview */}
-        <div className="reveal overflow-hidden rounded-2xl border border-primary/15 bg-white shadow-sm">
+        <div className="reveal overflow-hidden rounded-3xl border border-primary/20 bg-card-bg shadow-sm">
           <object
             data={`${cvUrl}#toolbar=0&view=FitH`}
             type="application/pdf"

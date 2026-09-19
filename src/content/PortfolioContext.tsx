@@ -160,6 +160,14 @@ interface PortfolioContextValue {
   isAdmin: boolean
   editing: boolean
   toast: string | null
+  theme: "dark" | "light"
+  toggleTheme: () => void
+  soundEnabled: boolean
+  toggleSound: () => void
+  selectedProject: any | null
+  setSelectedProject: (p: any | null) => void
+  commandPaletteOpen: boolean
+  setCommandPaletteOpen: (open: boolean) => void
   setField: (path: string, value: any) => void
   getField: (path: string) => any
   updateData: (updater: (draft: PortfolioData) => PortfolioData) => void
@@ -201,6 +209,56 @@ export function PortfolioProvider({ children }: { children: ReactNode }) {
   const [editing, setEditing] = useState(false)
   const [toast, setToast] = useState<string | null>(null)
   const toastTimer = useRef<number | undefined>(undefined)
+
+  // Theme state with localStorage and OS preference sync
+  const [theme, setTheme] = useState<"dark" | "light">(() => {
+    if (typeof window === "undefined") return "dark"
+    const saved = localStorage.getItem("theme")
+    if (saved === "light" || saved === "dark") return saved
+    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "dark"
+  })
+
+  // Sound feedback state
+  const [soundEnabled, setSoundEnabled] = useState<boolean>(() => {
+    if (typeof window === "undefined") return false
+    return localStorage.getItem("portfolio_sound") === "1"
+  })
+
+  // Interactive Project Modal & Command Palette states
+  const [selectedProject, setSelectedProject] = useState<any | null>(null)
+  const [commandPaletteOpen, setCommandPaletteOpen] = useState(false)
+
+  // Apply theme class to <html>
+  useEffect(() => {
+    const root = document.documentElement
+    if (theme === "dark") {
+      root.classList.add("dark")
+    } else {
+      root.classList.remove("dark")
+    }
+    localStorage.setItem("theme", theme)
+  }, [theme])
+
+  const toggleTheme = useCallback(() => {
+    setTheme((t) => (t === "dark" ? "light" : "dark"))
+  }, [])
+
+  const toggleSound = useCallback(() => {
+    setSoundEnabled((prev) => {
+      const next = !prev
+      localStorage.setItem("portfolio_sound", next ? "1" : "0")
+      return next
+    })
+  }, [])
+
+  // Lock body scroll when Project Modal is open
+  useEffect(() => {
+    if (selectedProject) {
+      document.body.classList.add("modal-open")
+    } else {
+      document.body.classList.remove("modal-open")
+    }
+  }, [selectedProject])
 
   // Persist only what the owner actually changed, so defaults stay live.
   useEffect(() => {
@@ -330,6 +388,14 @@ export function PortfolioProvider({ children }: { children: ReactNode }) {
       isAdmin,
       editing,
       toast,
+      theme,
+      toggleTheme,
+      soundEnabled,
+      toggleSound,
+      selectedProject,
+      setSelectedProject,
+      commandPaletteOpen,
+      setCommandPaletteOpen,
       setField,
       getField,
       updateData,
@@ -347,6 +413,12 @@ export function PortfolioProvider({ children }: { children: ReactNode }) {
       isAdmin,
       editing,
       toast,
+      theme,
+      toggleTheme,
+      soundEnabled,
+      toggleSound,
+      selectedProject,
+      commandPaletteOpen,
       setField,
       getField,
       updateData,

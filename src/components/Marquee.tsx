@@ -14,7 +14,7 @@ const WORDS = [
 export function Marquee() {
   const row = [...WORDS, ...WORDS]
   return (
-    <div className="relative overflow-hidden border-y border-primary/10 bg-white/70 py-3 shadow-xs backdrop-blur-xs">
+    <div className="relative overflow-hidden border-y border-hair bg-card-bg/80 py-3 shadow-xs backdrop-blur-md">
       <div className="flex w-max animate-[marquee-scroll_45s_linear_infinite] gap-8 whitespace-nowrap">
         {row.map((w, i) => (
           <span
